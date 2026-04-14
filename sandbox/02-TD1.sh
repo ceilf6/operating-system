@@ -1,0 +1,164 @@
+# 1
+dirPath=$(pwd)/test-files/02/dir1/dir2
+mkdir $dirPath
+## mkdir: /Users/a86198/Desktop/Lab/operating-system-app/sandbox/test-files/02/dir1: No such file or directory
+## mkdir 默认无法”透层“，当父层级不存在时会报错
+mkdir -p $dirPath
+## -p 选项配置之后就可以了
+
+# 2
+echo "
+=== 2"
+filePath=$dirPath/file1.txt
+touch $filePath
+ls -l $filePath
+## -rw-r--r--
+## 拥有者可读可写，组用户可读，其他用户可读
+
+## 移除所有权限
+chmod 000 $filePath 
+# 无法读取文件'/Users/a86198/Desktop/Lab/operating-system-app/sandbox/test-files/02/dir1/dir2/file1.txt' (NoPermissions (FileSystemError): 出现未知错误。有关详细信息，请参阅日志。)
+ls -l $filePath
+
+## 修改 2 执行 1
+chmod 030 $filePath
+ls -l $filePath
+
+chmod o+x $filePath
+ls -l $filePath
+
+chmod a+rw $filePath
+# chmod ugo+rw $filePath
+ls -l $filePath
+
+# 3
+echo "
+=== 3"
+cp $filePath $dirPath/file-copy.txt
+ls -l $dirPath
+
+mv $dirPath/file-copy.txt $dirPath/file-moved.txt
+ls -l $dirPath
+
+## 删除/重命名操作是看目录的权限
+ls -ld $dirPath
+chmod o+r-w $dirPath
+ls -ld $dirPath
+
+input=''
+while [ "$input" != 'stop' ] ; do
+    echo "$input" >> $filePath
+    echo "输入 'stop' 停止写入"
+    read input
+done
+
+## 查看文件内容
+cat $filePath
+
+more $filePath
+
+sed -n '1,3p' $filePath
+
+ln -s $filePath $dirPath/file-link.txt
+
+ls -l $dirPath/file-link.txt # l ->
+
+# 4
+echo "
+=== 4"
+wc -l $filePath   # 行数
+wc -w $filePath   # 单词数
+wc -m $filePath   # 字符数
+
+## 头 2 行
+head -n 2 $filePath
+
+## sed
+### 第 3 行
+sed -n '3p' $filePath
+awk 'NR==3' $filePath
+head -3 $filePath | tail -1
+
+### 第 2 到 5 行
+sed -n '2,5p' $filePath
+awk 'NR>=2 && NR<=5' $filePath
+head -5 $filePath | tail -4
+# 2,3,4,5 -> 5-2+1 = 4
+
+### $ 是打印的最后一行
+sed -n '$p' $filePath
+awk 'END{print}' $filePath
+
+## 管道化配合读取第 2 行到 5 行的单词数
+sed -n '2,5p' $filePath | wc -w
+
+touch $dirPath/debut.txt
+sed -n '1,3p' $filePath > $dirPath/debut.txt
+
+touch $dirPath/fin.txt
+tail -n 3 $filePath > $dirPath/fin.txt
+
+touch $dirPath/sum.txt
+cat debut fin > $dirPath/sum.txt
+
+# 5
+echo "
+=== 5"
+echo " 价格 1 "
+
+echo " 价格 $1 "
+
+echo " 价格 $(cat "$filePath") "
+read fileV < $filePath
+
+## 入参是文件名，得到文件中拿价格
+read fileV < $1
+echo " 价格 $fileV "
+
+# 6
+## 判断参数个数是否为1
+if [ $# -eq 1 ];then
+    read fileV < $1
+else
+    echo "Le script nécessite un argument"
+fi
+
+## 进一步做兜底，判断文件是否存在
+if [ $# -eq 1 ];then
+    if [ -r $1 ];then
+    # 等价于 if test -r $1;then
+        read fileV < $1
+    else
+        echo "Le fichier n'existe pas"
+    fi
+else
+    echo "Le script nécessite un argument"
+fi
+
+# 7
+for c in $(ls *.tarif)
+do
+    read fileV < $c
+    echo "国家 $c 的价格是：$fileV"
+done
+
+# 8
+## 做 case 转换
+case $1 in
+    Mon)
+        jour="Lundi";;
+    Tue)
+        jour="Mardi";;
+    # ...
+esac
+
+case $2 in
+    Jan)
+        mois="Janvier";;
+    Feb)
+        mois="Février";;
+    # ...
+esac
+
+echo $jour $3 $mois
+# 其余不变的拼回去即可

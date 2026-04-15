@@ -1,6 +1,14 @@
-> 来自 [Lab](https://github.com/ceilf6/Lab) 的指针记录，方便及时回溯
+# 通知栏
+- 目录
+  - [base-files](./base-files)下是课件等资料及翻译
+  - [sandbox](./sandbox)下存放了各个课件以及TD中有代表性的脚本，其中由于部分题目答案不是很满意，于是进行了重构
+  - [notes](./notes)下是个人笔记
+  > 三个目录下面在不同课时通过前缀区分进行一一对应
 
 - [CN-LO03_Silde_Cours_3&4](./base-files/06_CN-LO03_Silde_Cours_3&4.pdf) 只翻了 课3 ，课4 可以看 [Cours4_中文翻译](./base-files/07_LO03_Linux_2026_Cours4_中文翻译.md)
+
+# 链接
+> 来自 [Lab](https://github.com/ceilf6/Lab) 的指针记录，方便及时回溯
 
 - [通过递归实现 Shell tree 命令 - local 存储传下的缩进数等、防止污染; basename 拿到文件名; ""防止空白折叠](https://github.com/ceilf6/Lab/commit/31e33f331961345ca1f075dfedd0916954578be8)
 

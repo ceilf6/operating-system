@@ -14,3 +14,15 @@ do
         fi
     done
 done < "$1"
+
+echo "
+=== for i in \$(cat "\$1")"
+for i in $(cat "$1")
+do
+    res=$(bash ./08-palindrome.sh "$i")
+    # 判断的应该是接收到的标准输出，而不是返回码
+    if [ "$res" = "是回文字符串" ]
+    then
+        echo "$i"
+    fi
+done

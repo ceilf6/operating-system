@@ -1,5 +1,135 @@
 # 正则表达式
 
+正则表达式是国际标准，跨越语言
+
+正则表达式是一个规则，用于验证字符串。
+
+## 基础
+
+1. 字面量匹配
+
+规则中直接书写字面量字符
+
+例如 abc 那么匹配串中必须出现 abc
+
+1. 特殊字符
+
+```
+. 能匹配除换行符之外的所有字符
+
+^ 匹配字符串的**开始**
+
+$ 字符串的末尾
+```
+
+1. 转义符
+
+```
+\n 换行符
+
+\r 回车符
+
+\t 制表符
+
+\s 任意空白符：空格、制表、换行
+\S 非空白符：除了空白符外的任意字符
+	（大写是小写的补集）
+
+\b 单词边界：空格、换行、开头、结尾
+\B 非单词边界
+
+\d 数字字符：等于 [0-9]
+\D 非数字字符
+
+\w 字母、数字、下划线：等于 [A-Za-z0-9_]
+\W 非：[^A-Za-z0-9_]
+
+\u Unicode字符
+```
+
+转义符\ 可以将特殊字符转义
+
+1. 字符集
+
+编码范围
+
+```
+**[**字符范围**]**
+```
+
+匹配中文： `[\u4e00-\u9FA5]`
+
+1. 量词
+
+**前面的规则出现的次数**
+
+```
+* 任意次数
+
++ 至少1次
+
+? 0或1次
+
+{n} 匹配n个
+
+{n,} 匹配>=n个
+
+{n,m} 匹配n-m个
+```
+
+1. 或者 `|` 一个竖
+
+## JS中的应用
+
+js中，正则表达式表现为一个对象，该**对象**是通过**构造函数RegExp**
+
+### 创建正则对象
+
+1. 字面量模式
+2. 构造函数模式
+
+### 正则实例成员
+
+- global
+- ignoreCase
+- multiline
+- source
+- test方法：验证某个字符串是否满足规则
+- exec方法：execute，执行匹配，得到匹配结果。
+
+> 正则表达式，默认情况下，适用贪婪模式
+在量词后，加上?，表示进入非贪婪模式
+> 
+
+### 字符串对象中的正则方法
+
+- split
+- replace
+- search
+- match
+
+## 进阶
+
+### 捕获组
+
+用小括号包裹的部分叫做捕获组，捕获组会出现在匹配结果中
+
+捕获组可以命名，叫做具名捕获组
+
+非捕获组
+
+### 反向引用
+
+在正则表达式中，使用某个捕获组，`\\捕获组编号`
+
+### 正向断言(预查)
+
+检查某个字符后面的字符是否满足某个规则，该规则不成为匹配结果，并且不称为捕获组
+
+### 负向断言(预查)
+
+检查某个字符后面的字符是否不满足某个规则，该规则不成为匹配结果，并且不称为捕获组
+
 # 正则表达式
 
 匹配模式，用于匹配符合特定规则的字符串
@@ -223,6 +353,8 @@ egrep 还提供很多额外功能
 grep '^\(.*\):.*:\1$' fich
 ```
 
+str1::str1
+
 **\( \)：分组**
 
 > ERE / JS / Python 的正则直接用 ( ) 表示分组，但是 grep 是 BRE 需要用 \( \)
@@ -233,4 +365,261 @@ grep '^\(.*\):.*:\1$' fich
 表示：
 
 > 必须再次出现“第 1 组刚才匹配到的内容”
->
+> 
+
+# sed命令
+
+stream editor
+
+[sed](https://www.notion.so/sed-3420f8d8d1fd80f7a4c6df01a2e4a54c?pvs=21) 
+
+sed的命令默认从标准输入读取内容，也可应用于文件；处理结果会输出到标准输出
+
+sed的核心功能是查找字符串或正则表达式的实例，并将其替换为另一个字符串或正则表达式。它**不会修改被处理的原文件**，仅将结果输出到标准输出
+
+## 语法
+
+可将sed命令写入单独的文件，称为「程序文件」
+
+语法格式：
+
+- sed -e 'sed命令' 待处理文件
+- 当只有一条命令时，-e选项可省略
+- sed -f 程序文件待处理文件
+
+## 替换
+
+```bash
+sed 's/str1/str2/' fileName
+```
+
+将 str1 ⇒ str2
+
+- 如果想要实现行内所有匹配项都全局替换
+    
+    加个 g global
+    
+    ```bash
+    sed 's/str1/str2/g' fileName
+    ```
+    
+
+## 指令文件
+
+将在命令行书写的在文件中书写
+
+例如在命令行中
+
+```bash
+sed -e 's/u/U/g' -e 's/a/A/g' fich
+```
+
+转入在 prog 文件中书写
+
+```bash
+s/u/U/g
+s/a/A/g
+```
+
+然后到时候执行
+
+```bash
+sed -f prog fich
+```
+
+即可
+
+## 配置
+
+配合在 01-04 中的 sed 行号配置和标志位可以实现
+
+- 仅替换第2行
+    
+    ```bash
+    sed '2s/str1/str2/' fileName
+    ```
+    
+- 替换第 2 到 5 行
+    
+    ```bash
+    sed '2,5s/str1/str2/' fileName
+    ```
+    
+- 忽略大小写：用标志位 i
+    
+    ```bash
+    sed '2,5s/str1/str2/i' fileName
+    ```
+    
+- 仅显示被修改的行
+    
+    ```bash
+    sed '2,5s/str1/str2/p' fileName
+    ```
+    
+
+```bash
+sed '地址行号/匹配条件/命令' fileName
+```
+
+### 删除
+
+从 s 替换 => d delete
+
+```bash
+# 删除最后一行
+sed '$d' fileName
+```
+
+包含正则规则，和 替换 一样用 / / 包裹
+
+```bash
+# 删除空行
+sed '/^$/d' fileName
+```
+
+## 显示
+
+p print
+
+前面 -n 防止默认输出
+
+```bash
+sed '/^str1/p' fileName
+```
+
+## 插入
+
+i insert
+
+```bash
+sed '4i\str1' fileName
+```
+
+在第 4 行前插入 str1
+
+## 追加
+
+a add
+
+```bash
+sed '4a\str1' fileName
+```
+
+在第 4 行后追加 str1
+
+> 像原先匹配是 / 要加入的就是 \
+> 
+
+再如
+
+- 替换第 4 行所有内容为 str2
+    
+    ```bash
+    sed '4c\str2' fileName
+    ```
+    
+- 替换包含 str1 的行为 str2
+    
+    ```bash
+    sed '/str1/c\str2' fileName
+    ```
+    
+
+- 直接修改原文件
+    
+    ```bash
+    sed -i 's/str1/str2/g' fileName
+    ```
+    
+- 匹配从 str1 到 str2 的范围
+    
+    ```bash
+    sed '/str1/,/str2/d' fileName
+    ```
+    
+- 每隔 1 行显示（显示奇数行）
+    
+    ```bash
+    sed -n '1~2p' fileName
+    ```
+    
+
+## 配合正则表达式
+
+- 显示以 str1 开头的行
+    
+    ```bash
+    sed '/^str1/p' fileName
+    ```
+    
+- 在每行开头添加 str1:
+    
+    ```bash
+    sed 's/^/str1:/' fileName
+    ```
+    
+    > 将旧的匹配到的 ^ 也就是开头，替换为新的 str1:
+    > 
+- 将 str1 用 ( ) 包裹
+    
+    ```bash
+    sed 's/str1/(&)/' fileName
+    ```
+    
+    > **&** 表示替换时，放入**本次匹配的内容**
+    > 
+
+![image.png](attachment:e8c002ee-c9a2-4d34-be99-8cf202192d58:image.png)
+
+![image.png](attachment:e00fa7f8-e8f3-47fc-a045-30197cb25c07:image.png)
+
+![image.png](attachment:dcca4355-8190-4fe8-9f8b-b658afcdf481:image.png)
+
+![image.png](attachment:c1203b43-4d52-485f-808e-1f18c09bc1eb:image.png)
+
+## 文件读写
+
+本质就是
+
+```bash
+sed '规则r file2' file1
+```
+
+按照规则将 file1 =>插入到 file2
+
+- 在 file1 的每行后面插入 file2 的内容
+    
+    ```bash
+    sed 'r file2' file1
+    ```
+    
+- 仅在 file1 的第 1 行后插入 file2 的内容
+    
+    ```bash
+    sed '1r file2' file1
+    ```
+    
+- 在 file1 最后一行后插入
+    
+    ```bash
+    sed '$r file2' file1
+    ```
+    
+- 在 file1 包含 str1 的行后插入 file2 的内容
+    
+    ```bash
+    sed '/str1/r file2' file1
+    ```
+    
+- 将 file1 的 2 到 5 行写入 file2
+    
+    ```bash
+    sed -n '2,5w file2' file1
+    ```
+    
+- 2 到最后一行
+    
+    ```bash
+    sed -n '2,$w file2' file1
+    ```

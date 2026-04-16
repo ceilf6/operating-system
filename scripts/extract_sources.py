@@ -31,6 +31,10 @@ SUPPORTED_SUFFIXES = {
     ".txt",
 }
 
+EXCLUDED_GLOBS = (
+    "sandbox/test-files/**",
+)
+
 
 def run_command(command: list[str], check: bool = True) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
@@ -198,7 +202,14 @@ def write_extracted_text(asset_id: str, text: str) -> str | None:
 def should_include(path: Path) -> bool:
     if path.name.startswith("."):
         return False
+    if path.is_symlink():
+        return False
+    if not path.exists():
+        return False
     if path.is_dir():
+        return False
+    relative_path = str(path.relative_to(ROOT))
+    if any(path.match(pattern) or relative_path.startswith(pattern.rstrip("**")) for pattern in EXCLUDED_GLOBS):
         return False
     if path.suffix.lower() in SUPPORTED_SUFFIXES:
         return True

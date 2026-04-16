@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>操作系统学习网站</title>
+  <script>
+    (function () {
+      var location = window.location;
+      var redirectPath =
+        location.protocol +
+        "//" +
+        location.hostname +
+        (location.port ? ":" + location.port : "") +
+        "/operating-system/?/" +
+        location.pathname
+          .replace(/^\/operating-system\//, "")
+          .replace(/&/g, "~and~") +
+        (location.search ? "&" + location.search.slice(1).replace(/&/g, "~and~") : "") +
+        location.hash;
+
+      location.replace(redirectPath);
+    })();
+  </script>
+</head>
+
+<body></body>
+
+</html>

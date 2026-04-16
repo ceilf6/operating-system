@@ -14,7 +14,7 @@ import { TdIndexPage } from "../pages/TdIndexPage";
 
 export function SiteRouter() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route element={<SiteShell />}>
           <Route index element={<HomePage />} />

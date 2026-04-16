@@ -7,6 +7,20 @@
   <title>操作系统学习网站</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="description" content="围绕 Linux/Unix 实操与操作系统理论整理的操作系统学习网站。" />
+  <script>
+    (function (location) {
+      if (location.search[1] === "/") {
+        var decoded = location.search
+          .slice(1)
+          .split("&")
+          .map(function (segment) {
+            return segment.replace(/~and~/g, "&");
+          })
+          .join("?");
+        window.history.replaceState(null, "", location.pathname.slice(0, -1) + decoded + location.hash);
+      }
+    })(window.location);
+  </script>
 </head>
 
 <body>

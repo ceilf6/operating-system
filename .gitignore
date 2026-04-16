@@ -14,3 +14,6 @@ coverage/
 vite.config.js
 vite.config.d.ts
 src/content/generated/extracted/
+
+base-files/project
+base-files/from-teacher

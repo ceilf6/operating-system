@@ -43,6 +43,9 @@ echo "\$((v1Default)) $((v1Default))" # 3
 - a**b：乘方ab
 - a*b、a/b和a%b：乘法、整数除法、取余
 
+> 注意得在 $(( )) 算数上下文中
+> 
+
 ```bash
 # 运算符
 arg2=2
@@ -222,4 +225,120 @@ done
 # i: 3
 # i: 4
 # i: 5
+```
+
+# 目录文件摘要函数
+
+```bash
+#!/usr/bin/env bash
+
+set -u
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SUMMARY_ROOT="$SCRIPT_DIR/test-files/mock-summary"
+
+summarize_directory() {
+  local target_dir="$1"
+  local file_count=0
+  local subdir_count=0
+  local recursive_file_count=0
+  local entry
+
+  if [ ! -d "$target_dir" ]; then
+    echo "目录不存在: $target_dir"
+    return 1
+  fi
+
+  for entry in "$target_dir"/*; do
+    [ -e "$entry" ] || continue
+
+    if [ -f "$entry" ]; then
+      file_count=$((file_count + 1))
+    elif [ -d "$entry" ]; then
+      subdir_count=$((subdir_count + 1))
+    fi
+  done
+
+  recursive_file_count=$(find "$target_dir" -type f | wc -l | tr -d ' ')
+
+  echo "目录摘要: $target_dir"
+  echo "当前层级普通文件数: $file_count"
+  echo "当前层级子目录数: $subdir_count"
+  echo "递归普通文件总数: $recursive_file_count"
+  echo
+}
+
+summarize_directory "$SUMMARY_ROOT/alpha"
+summarize_directory "$SUMMARY_ROOT/beta"
+summarize_directory "$SUMMARY_ROOT/empty"
+
+```
+
+# 日志错误统计
+
+```bash
+#!/usr/bin/env bash
+
+set -u
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LOG_DIR="$SCRIPT_DIR/test-files/mock-logs"
+
+shopt -s nullglob
+log_files=("$LOG_DIR"/*.log)
+
+if [ ${#log_files[@]} -eq 0 ]; then
+  echo "未找到日志文件: $LOG_DIR"
+  exit 1
+fi
+
+total_error_count=0
+
+echo "开始扫描日志目录: $LOG_DIR"
+
+for log_file in "${log_files[@]}"; do
+  file_error_count=0
+
+  while IFS= read -r line; do
+    case "$line" in
+      *ERROR*)
+        file_error_count=$((file_error_count + 1))
+        total_error_count=$((total_error_count + 1))
+        ;;
+    esac
+  done < "$log_file"
+
+  echo "$(basename "$log_file"): ERROR 行数 = $file_error_count"
+done
+
+echo "总 ERROR 行数 = $total_error_count"
+
+```
+
+# 重要目录磁盘使用情况
+
+```bash
+#!/usr/bin/env bash
+
+set -u
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+important_dirs=(
+  "$PROJECT_ROOT/base-files"
+  "$PROJECT_ROOT/notes"
+  "$PROJECT_ROOT/sandbox"
+)
+
+echo "检查重要目录磁盘使用情况"
+
+for dir_path in "${important_dirs[@]}"; do
+  if [ -d "$dir_path" ]; then
+    usage=$(du -sh "$dir_path" 2>/dev/null | awk '{print $1}')
+    echo "$(basename "$dir_path"): $usage ($dir_path)"
+  else
+    echo "目录不存在: $dir_path"
+  fi
+done
 ```

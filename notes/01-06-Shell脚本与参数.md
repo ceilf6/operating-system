@@ -121,6 +121,8 @@ echo "vFromUser $vFromUser"
 
 ### 常量
 
+readonly
+
 ```bash
 declare -r 变量名=值[变量名=值... ]
 ```
@@ -161,6 +163,11 @@ echo "2 $2" # 222
 echo "\$# $#" # 2 个数
 echo "\$* $*" # 111:222
 echo "\$@ $@" # 111 222
+
+for i in "$@"
+do
+
+done
 ```
 
 ## 偏移参数

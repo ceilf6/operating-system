@@ -10,7 +10,7 @@ export function SiteShell() {
       <div className="mx-auto flex w-full max-w-[1680px] gap-8 px-4 pb-16 pt-6 md:px-6 xl:px-8">
         <aside className="hidden w-64 shrink-0 xl:block">
           <div className="glass-card sticky top-24 rounded-[28px] p-5">
-            <div className="eyebrow">Study Rail</div>
+            <div className="eyebrow">学习导航</div>
             <h2 className="page-title mt-4 text-2xl text-[color:var(--ink-1)]">
               操作系统学习导航
             </h2>
@@ -37,7 +37,7 @@ export function SiteShell() {
                   建议顺序
                 </div>
                 <p className="mt-2 text-sm leading-7">
-                  先学第 1-9 章实操，再学第 10-12 章理论，最后回到复习页和项目页做综合巩固。
+                  先学第 1-9 章实操，再学第 10-12 章理论，最后回到复习页和题单页做综合巩固。
                 </p>
               </div>
             </div>

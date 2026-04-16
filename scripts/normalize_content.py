@@ -17,6 +17,8 @@ CHAPTERS_DIR = GENERATED_DIR / "chapters"
 GLOSSARY_PATH = GENERATED_DIR / "glossary.json"
 SANDBOXES_PATH = GENERATED_DIR / "sandboxes.json"
 COVERAGE_PATH = GENERATED_DIR / "coverage-links.json"
+NOTES_PATH = GENERATED_DIR / "notes.json"
+TD_PAGES_PATH = GENERATED_DIR / "td-pages.json"
 
 HIDDEN_SOURCE_PATTERNS = [
     "README.md",
@@ -126,6 +128,62 @@ def match_assets(manifest: list[dict[str, Any]], patterns: list[str]) -> list[di
 
 def is_student_visible_source(path: str) -> bool:
     return not any(fnmatch.fnmatch(path, pattern) for pattern in HIDDEN_SOURCE_PATTERNS)
+
+
+def route_slug(value: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
+    return slug or "item"
+
+
+def summarize_text(text: str, fallback: str = "", limit: int = 140) -> str:
+    cleaned = strip_markdown(text)
+    summary = cleaned or fallback
+    return summary[:limit].strip()
+
+
+def sort_slugs_by_chapter(chapter_slugs: set[str] | list[str]) -> list[str]:
+    order = {chapter["slug"]: int(chapter["number"]) for chapter in CHAPTER_DEFS}
+    return sorted(set(chapter_slugs), key=lambda slug: order.get(slug, 999))
+
+
+def render_cards_from_patterns(
+    manifest: list[dict[str, Any]],
+    patterns: list[str],
+    keywords: list[str],
+    *,
+    allowed_kinds: set[str] | None = None,
+) -> list[dict[str, Any]]:
+    cards: list[dict[str, Any]] = []
+    for asset in match_assets(manifest, patterns):
+        if not is_student_visible_source(asset["path"]):
+            continue
+        if allowed_kinds is not None and asset["kind"] not in allowed_kinds:
+            continue
+        cards.append(render_source_card(asset, keywords))
+    return cards
+
+
+def note_title_from_path(path: str) -> str:
+    title_overrides = {
+        "notes/02-TD1.md": "TD1 目录、权限与文件操作",
+        "notes/04-TD2.md": "TD2 Shell 读取、判断与循环",
+        "notes/08-TD3.md": "TD3 正则、which、tree 与字典匹配",
+        "notes/09-TD4.md": "TD4 文本统计与分组题",
+        "notes/10.md": "GPL、自由软件与开源",
+        "notes/11.md": "文件树、链接与层次结构",
+        "notes/12-01.md": "syslog、logrotate 与 rsyslog",
+        "notes/12-02.md": "挂载、swap、归档与网络配置",
+        "notes/13-TD5.md": "TD5 用户与系统管理脚本",
+        "notes/13-TD6.md": "TD6 日志轮转、告警与远程转发",
+        "notes/15.md": "操作系统导论与体系结构",
+        "notes/16.md": "TD7-TD8 服务与系统管理",
+        "notes/17.md": "TD SE 2026 分页、同步与调度",
+    }
+    if path in title_overrides:
+        return title_overrides[path]
+    stem = Path(path).stem
+    stem = re.sub(r"^\d+(?:[-_]\d+)?[-_]*", "", stem)
+    return stem.replace("-", " ").replace("_", " ") or Path(path).stem
 
 
 SANDBOX_SPECS = [
@@ -256,6 +314,204 @@ GLOSSARY = [
     {"id": "semaphore", "term": "信号量", "definition": "用于互斥与同步的计数型并发原语。", "chapterSlug": "sync-deadlock-scheduling"},
     {"id": "deadlock", "term": "死锁", "definition": "进程相互等待资源而无法继续推进的状态。", "chapterSlug": "sync-deadlock-scheduling"},
     {"id": "banker", "term": "银行家算法", "definition": "通过安全性检查避免系统进入不安全状态的死锁避免算法。", "chapterSlug": "sync-deadlock-scheduling"},
+]
+
+
+NOTE_RELATION_RULES = [
+    {
+        "patterns": ["notes/01-02-*.md", "notes/01-03-*.md"],
+        "basePatterns": ["base-files/01_*"],
+        "sandboxPatterns": ["sandbox/01-03-*"],
+        "relatedTdSlugs": [],
+    },
+    {
+        "patterns": ["notes/01-04-*.md", "notes/11.md"],
+        "basePatterns": ["base-files/02_*", "base-files/11_*", "base-files/12-02_*"],
+        "sandboxPatterns": ["sandbox/01-04-*", "sandbox/02-TD1.sh"],
+        "relatedTdSlugs": ["td1-files-and-permissions"],
+    },
+    {
+        "patterns": ["notes/01-05-*.md", "notes/01-06-*.md", "notes/01-07-*.md", "notes/01-08-*.md"],
+        "basePatterns": ["base-files/04_*", "base-files/06-*", "base-files/06_CN-*", "base-files/07_*"],
+        "sandboxPatterns": ["sandbox/01-05-*", "sandbox/01-06-*", "sandbox/01-07-*", "sandbox/01-08-*", "sandbox/04-*"],
+        "relatedTdSlugs": ["td2-shell-reading-and-control"],
+    },
+    {
+        "patterns": ["notes/02-TD1.md"],
+        "basePatterns": ["base-files/02_*"],
+        "sandboxPatterns": ["sandbox/02-TD1.sh", "sandbox/01-04-*"],
+        "relatedTdSlugs": ["td1-files-and-permissions"],
+    },
+    {
+        "patterns": ["notes/04-TD2.md"],
+        "basePatterns": ["base-files/04_*"],
+        "sandboxPatterns": ["sandbox/04-*"],
+        "relatedTdSlugs": ["td2-shell-reading-and-control"],
+    },
+    {
+        "patterns": ["notes/06-*.md"],
+        "basePatterns": ["base-files/06-*", "base-files/06_CN-*", "base-files/08_*"],
+        "sandboxPatterns": ["sandbox/06-*", "sandbox/08-*"],
+        "relatedTdSlugs": ["td3-regexp-and-awk"],
+    },
+    {
+        "patterns": ["notes/07-*.md"],
+        "basePatterns": ["base-files/07_*", "base-files/08_*", "base-files/09_*"],
+        "sandboxPatterns": ["sandbox/08-*", "sandbox/09-*", "sandbox/09_*"],
+        "relatedTdSlugs": ["td3-regexp-and-awk", "td4-text-processing-report"],
+    },
+    {
+        "patterns": ["notes/08-TD3.md"],
+        "basePatterns": ["base-files/08_*"],
+        "sandboxPatterns": ["sandbox/08-*"],
+        "relatedTdSlugs": ["td3-regexp-and-awk"],
+    },
+    {
+        "patterns": ["notes/09-TD4.md"],
+        "basePatterns": ["base-files/09_*"],
+        "sandboxPatterns": ["sandbox/09-*", "sandbox/09_*"],
+        "relatedTdSlugs": ["td4-text-processing-report"],
+    },
+    {
+        "patterns": ["notes/10.md"],
+        "basePatterns": ["base-files/10_*"],
+        "sandboxPatterns": [],
+        "relatedTdSlugs": [],
+    },
+    {
+        "patterns": ["notes/12-01.md"],
+        "basePatterns": ["base-files/12-01_*", "base-files/13_TD5-TD6*", "base-files/13_TDs*"],
+        "sandboxPatterns": [],
+        "relatedTdSlugs": ["td6-logs-and-rsyslog"],
+    },
+    {
+        "patterns": ["notes/12-02.md"],
+        "basePatterns": ["base-files/12-02_*", "base-files/16_*"],
+        "sandboxPatterns": [],
+        "relatedTdSlugs": ["td7-td8-system-admin"],
+    },
+    {
+        "patterns": ["notes/13-TD5.md"],
+        "basePatterns": ["base-files/13_LO03_*", "base-files/13_Admin_*"],
+        "sandboxPatterns": ["sandbox/13.sh", "sandbox/13_Admin_*"],
+        "relatedTdSlugs": ["td5-user-admin"],
+    },
+    {
+        "patterns": ["notes/13-TD6.md"],
+        "basePatterns": ["base-files/13_TD5-TD6*", "base-files/13_TDs*", "base-files/14_*"],
+        "sandboxPatterns": [],
+        "relatedTdSlugs": ["td6-logs-and-rsyslog"],
+    },
+    {
+        "patterns": ["notes/15.md"],
+        "basePatterns": ["base-files/15_*"],
+        "sandboxPatterns": [],
+        "relatedTdSlugs": ["td-se-2026"],
+    },
+    {
+        "patterns": ["notes/16.md"],
+        "basePatterns": ["base-files/14_*", "base-files/16_*"],
+        "sandboxPatterns": [],
+        "relatedTdSlugs": ["td7-td8-system-admin"],
+    },
+    {
+        "patterns": ["notes/17.md"],
+        "basePatterns": ["base-files/17_*"],
+        "sandboxPatterns": [],
+        "relatedTdSlugs": ["td-se-2026"],
+    },
+]
+
+
+TD_DEFS = [
+    {
+        "slug": "td1-files-and-permissions",
+        "title": "TD1 目录、权限与文件操作",
+        "chapterSlug": "filesystem-permissions",
+        "summary": "围绕目录创建、权限位、文件操作、重定向和链接建立最基础的 Unix 手感。",
+        "notePatterns": ["notes/02-TD1.md"],
+        "basePatterns": ["base-files/02_*"],
+        "scriptPatterns": ["sandbox/02-TD1.sh", "sandbox/01-04-*"],
+        "sandboxIds": ["permissions-map"],
+        "keywords": ["TD1", "mkdir", "chmod", "ln", "wc", "head", "tail"],
+    },
+    {
+        "slug": "td2-shell-reading-and-control",
+        "title": "TD2 Shell 读取、判断与循环",
+        "chapterSlug": "shell-control",
+        "summary": "把逐行读取、IFS、case、临时文件、find 和基本脚本结构真正跑起来。",
+        "notePatterns": ["notes/04-TD2.md"],
+        "basePatterns": ["base-files/04_*"],
+        "scriptPatterns": ["sandbox/04-*"],
+        "sandboxIds": ["shell-flow", "redirection-lab"],
+        "keywords": ["TD2", "while read", "IFS", "case", "find", "tmp"],
+    },
+    {
+        "slug": "td3-regexp-and-awk",
+        "title": "TD3 正则、which、tree 与字典匹配",
+        "chapterSlug": "text-processing",
+        "summary": "通过回文、which、tree 和正则字典匹配题，把 grep/sed/awk 的思维方式真正串起来。",
+        "notePatterns": ["notes/08-TD3.md"],
+        "basePatterns": ["base-files/08_*"],
+        "scriptPatterns": ["sandbox/08-*"],
+        "sandboxIds": ["regex-playground"],
+        "keywords": ["TD3", "regexp", "which", "tree", "palindrome", "dico"],
+    },
+    {
+        "slug": "td4-text-processing-report",
+        "title": "TD4 文本统计与分组题",
+        "chapterSlug": "text-processing",
+        "summary": "这一页集中处理 wc、平均值、词频、反转和分组统计，适合刷脚本题时来回对照。",
+        "notePatterns": ["notes/09-TD4.md"],
+        "basePatterns": ["base-files/09_*"],
+        "scriptPatterns": ["sandbox/09-*", "sandbox/09_*"],
+        "sandboxIds": ["regex-playground"],
+        "keywords": ["TD4", "wc", "word count", "group", "reverse", "average"],
+    },
+    {
+        "slug": "td5-user-admin",
+        "title": "TD5 用户与系统管理脚本",
+        "chapterSlug": "user-automation",
+        "summary": "批量账户脚本的重点不是把命令背下来，而是把输入清洗、参数校验和系统命令边界处理好。",
+        "notePatterns": ["notes/13-TD5.md"],
+        "basePatterns": ["base-files/13_LO03_*", "base-files/13_Admin_*"],
+        "scriptPatterns": ["sandbox/13.sh", "sandbox/13_Admin_*"],
+        "sandboxIds": ["shell-flow"],
+        "keywords": ["TD5", "useradd", "userdel", "tr", "admin", "listing"],
+    },
+    {
+        "slug": "td6-logs-and-rsyslog",
+        "title": "TD6 日志轮转、告警与远程转发",
+        "chapterSlug": "logs-rsyslog",
+        "summary": "一页把 syslog 规则解释、logrotate、实时告警和远程日志转发练习并排放好，便于做题时快速切换。",
+        "notePatterns": ["notes/13-TD6.md"],
+        "basePatterns": ["base-files/13_TD5-TD6*", "base-files/13_TDs*", "base-files/14_*"],
+        "scriptPatterns": [],
+        "sandboxIds": ["syslog-rule-matcher"],
+        "keywords": ["TD6", "syslog", "rsyslog", "logrotate", "alert", "remote"],
+    },
+    {
+        "slug": "td7-td8-system-admin",
+        "title": "TD7-TD8 服务与系统管理",
+        "chapterSlug": "filesystem-admin",
+        "summary": "服务控制、计划任务、归档压缩、链接、磁盘空间与分区挂载放在同一页，更接近真实运维操作节奏。",
+        "notePatterns": ["notes/16.md"],
+        "basePatterns": ["base-files/14_*", "base-files/16_*"],
+        "scriptPatterns": [],
+        "sandboxIds": ["permissions-map"],
+        "keywords": ["TD7", "TD8", "cron", "tar", "mount", "service"],
+    },
+    {
+        "slug": "td-se-2026",
+        "title": "TD SE 2026 分页、同步与调度",
+        "chapterSlug": "sync-deadlock-scheduling",
+        "summary": "地址转换、页面置换、死锁、安全状态和调度题统一放在这一页，适合考前集中推演。",
+        "notePatterns": ["notes/17.md"],
+        "basePatterns": ["base-files/17_*"],
+        "scriptPatterns": [],
+        "sandboxIds": ["page-replacement", "resource-graph", "scheduler-timeline", "syncfs-decision"],
+        "keywords": ["TD SE", "page replacement", "deadlock", "banker", "scheduler"],
+    },
 ]
 
 
@@ -649,6 +905,138 @@ def fallback_slug_for_path(path: str) -> str:
     return "course-overview"
 
 
+def resolve_note_relation(path: str) -> dict[str, Any]:
+    for rule in NOTE_RELATION_RULES:
+        if any(fnmatch.fnmatch(path, pattern) for pattern in rule["patterns"]):
+            return rule
+    return {"basePatterns": [], "sandboxPatterns": [], "relatedTdSlugs": []}
+
+
+def build_note_pages(
+    manifest: list[dict[str, Any]],
+    coverage_links: list[dict[str, Any]],
+    chapters: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    chapter_map = {chapter["slug"]: chapter for chapter in chapters}
+    chapter_links_by_source: dict[str, set[str]] = defaultdict(set)
+    for link in coverage_links:
+        chapter_links_by_source[link["sourceId"]].add(link["chapterSlug"])
+
+    note_pages: list[dict[str, Any]] = []
+    for asset in manifest:
+        if not asset["path"].startswith("notes/") or not is_student_visible_source(asset["path"]):
+            continue
+
+        relation = resolve_note_relation(asset["path"])
+        chapter_slugs = sort_slugs_by_chapter(
+            chapter_links_by_source.get(asset["id"], {fallback_slug_for_path(asset["path"])})
+        )
+        related_sandbox_ids = sorted(
+            {
+                sandbox_id
+                for slug in chapter_slugs
+                for sandbox_id in chapter_map.get(slug, {}).get("sandboxIds", [])
+            }
+        )
+        note_text = asset_text(asset)
+        note_pages.append(
+            {
+                "id": asset["id"],
+                "sourceId": asset["id"],
+                "slug": route_slug(Path(asset["path"]).stem),
+                "path": asset["path"],
+                "title": note_title_from_path(asset["path"]),
+                "summary": summarize_text(note_text, asset.get("excerpt", "")),
+                "content": note_text,
+                "chapterSlugs": chapter_slugs,
+                "primaryChapterSlug": chapter_slugs[0] if chapter_slugs else fallback_slug_for_path(asset["path"]),
+                "relatedTdSlugs": relation["relatedTdSlugs"],
+                "relatedSandboxIds": related_sandbox_ids,
+                "baseMaterials": render_cards_from_patterns(
+                    manifest,
+                    relation["basePatterns"],
+                    [note_title_from_path(asset["path"])],
+                    allowed_kinds={"note", "pdf", "docx", "pptx", "project"},
+                ),
+                "scriptMaterials": render_cards_from_patterns(
+                    manifest,
+                    relation["sandboxPatterns"],
+                    [note_title_from_path(asset["path"])],
+                    allowed_kinds={"sandbox"},
+                ),
+                "keywords": sorted(
+                    {
+                        note_title_from_path(asset["path"]),
+                        asset["path"],
+                        *chapter_slugs,
+                        *relation["relatedTdSlugs"],
+                    }
+                ),
+            }
+        )
+
+    note_pages.sort(key=lambda item: item["path"])
+    return note_pages
+
+
+def build_td_pages(manifest: list[dict[str, Any]], note_pages: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    note_pages_by_path = {note["path"]: note for note in note_pages}
+    td_pages: list[dict[str, Any]] = []
+
+    for index, td_def in enumerate(TD_DEFS, start=1):
+        matched_note_entries = [
+            note_pages_by_path[path]
+            for path in note_pages_by_path
+            if any(fnmatch.fnmatch(path, pattern) for pattern in td_def["notePatterns"])
+        ]
+        matched_note_entries.sort(key=lambda item: item["path"])
+        question_materials = render_cards_from_patterns(
+            manifest,
+            td_def["basePatterns"],
+            td_def["keywords"],
+            allowed_kinds={"note", "pdf", "docx", "pptx", "project"},
+        )
+        script_materials = render_cards_from_patterns(
+            manifest,
+            td_def["scriptPatterns"],
+            td_def["keywords"],
+            allowed_kinds={"sandbox"},
+        )
+        td_pages.append(
+            {
+                "id": td_def["slug"],
+                "slug": td_def["slug"],
+                "number": f"{index:02d}",
+                "title": td_def["title"],
+                "summary": td_def["summary"],
+                "chapterSlug": td_def["chapterSlug"],
+                "sandboxIds": td_def["sandboxIds"],
+                "keywords": td_def["keywords"],
+                "sourceIds": sorted(
+                    {
+                        *(item["sourceId"] for item in question_materials),
+                        *(item["sourceId"] for item in script_materials),
+                        *(item["sourceId"] for item in matched_note_entries),
+                    }
+                ),
+                "noteEntries": [
+                    {
+                        "slug": note["slug"],
+                        "title": note["title"],
+                        "summary": note["summary"],
+                        "content": note["content"],
+                        "path": note["path"],
+                    }
+                    for note in matched_note_entries
+                ],
+                "questionMaterials": question_materials,
+                "scriptMaterials": script_materials,
+            }
+        )
+
+    return td_pages
+
+
 def build_chapters(manifest: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     manifest_by_id = {asset["id"]: asset for asset in manifest}
     coverage_links: list[dict[str, Any]] = []
@@ -790,11 +1178,15 @@ def main() -> None:
 
     manifest = load_json(MANIFEST_PATH)
     chapters, coverage_links = build_chapters(manifest)
+    note_pages = build_note_pages(manifest, coverage_links, chapters)
+    td_pages = build_td_pages(manifest, note_pages)
     update_manifest_coverage(manifest, coverage_links)
 
     for chapter in chapters:
         write_json(CHAPTERS_DIR / f"{chapter['slug']}.json", chapter)
 
+    write_json(NOTES_PATH, note_pages)
+    write_json(TD_PAGES_PATH, td_pages)
     write_json(GLOSSARY_PATH, GLOSSARY)
     write_json(SANDBOXES_PATH, SANDBOX_SPECS)
     write_json(COVERAGE_PATH, coverage_links)

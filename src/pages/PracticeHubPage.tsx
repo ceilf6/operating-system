@@ -5,11 +5,21 @@ export function PracticeHubPage() {
   return (
     <div className="space-y-8">
       <section className="glass-card rounded-[40px] p-6 md:p-8">
-        <div className="eyebrow">Practice Hub</div>
-        <h1 className="page-title mt-4 text-5xl text-[color:var(--ink-1)]">实践与教学沙箱</h1>
-        <p className="mt-5 max-w-3xl text-[1.02rem] leading-8 text-[color:var(--ink-2)]">
-          每个沙箱都只模拟课程概念，不伪装成真实系统。重点是帮助你看见输入、状态变化、算法决策和边界。
-        </p>
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <div className="eyebrow">实践中心</div>
+            <h1 className="page-title mt-4 text-5xl text-[color:var(--ink-1)]">实践与教学沙箱</h1>
+            <p className="mt-5 max-w-3xl text-[1.02rem] leading-8 text-[color:var(--ink-2)]">
+              每个沙箱都只模拟课程概念，不伪装成真实系统。重点是帮助你看见输入、状态变化、算法决策和边界。
+            </p>
+          </div>
+          <Link
+            to="/tds"
+            className="rounded-full border border-[rgba(15,31,49,0.12)] bg-white/75 px-5 py-3 text-sm text-[color:var(--ink-1)] transition hover:bg-white"
+          >
+            按题单进入 →
+          </Link>
+        </div>
       </section>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {sandboxSpecs.map((sandbox) => (

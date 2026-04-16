@@ -1,6 +1,6 @@
-import { ArrowRight, Compass, Layers3, MonitorCog, Route, Sigma } from "lucide-react";
+import { ArrowRight, BookOpenText, Compass, Layers3, MonitorCog, Route, Sigma } from "lucide-react";
 import { Link } from "react-router-dom";
-import { chapters, getStats, sandboxSpecs } from "../lib/content";
+import { chapters, getStats, notePages, sandboxSpecs, tdPages } from "../lib/content";
 
 const trackDescriptions = [
   {
@@ -24,12 +24,12 @@ export function HomePage() {
       <section className="glass-card overflow-hidden rounded-[40px] p-6 md:p-8 xl:p-10">
         <div className="grid gap-10 xl:grid-cols-[1.2fr_0.8fr]">
           <div>
-            <div className="eyebrow">Machine Room Blueprint × Study Atlas</div>
+            <div className="eyebrow">机房蓝图 × 学习地图</div>
             <h1 className="page-title mt-6 max-w-4xl text-5xl leading-tight text-[color:var(--ink-1)] md:text-6xl">
               给正在学操作系统的你，一张能一路学到项目实战的课程地图。
             </h1>
             <p className="mt-6 max-w-3xl text-[1.06rem] leading-9 text-[color:var(--ink-2)]">
-              内容按章节、练习、术语和沙箱组织。先把 Linux 命令、文件系统和系统管理跑通，再进入进程、内存、同步与调度，最后回到 SyncFS 综合实践闭环。
+              内容按章节、笔记、题单、术语和交互实验组织。先把 Linux 命令、文件系统和系统管理跑通，再进入进程、内存、同步与调度，最后回到 SyncFS 综合实践闭环。
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -103,10 +103,63 @@ export function HomePage() {
         })}
       </section>
 
+      <section className="grid gap-4 xl:grid-cols-2">
+        <Link
+          to="/notes"
+          className="glass-card rounded-[32px] p-6 transition hover:-translate-y-0.5 hover:border-[rgba(52,106,144,0.25)]"
+        >
+          <div className="flex items-center gap-3 text-sm text-[color:var(--signal-blue)]">
+            <BookOpenText className="h-5 w-5" />
+            按笔记逐份读
+          </div>
+          <h2 className="page-title mt-5 text-3xl text-[color:var(--ink-1)]">
+            {stats.noteCount} 份笔记独立展开
+          </h2>
+          <p className="mt-4 text-[0.98rem] leading-8 text-[color:var(--ink-2)]">
+            每份课堂笔记都有单独页面，适合顺着中文整理把概念吃透，再回看配套讲义和练习脚本。
+          </p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {notePages.slice(0, 4).map((note) => (
+              <span
+                key={note.slug}
+                className="rounded-full border border-[rgba(15,31,49,0.1)] bg-white/75 px-3 py-1 text-xs tracking-[0.18em] text-[color:var(--ink-2)]"
+              >
+                {note.title}
+              </span>
+            ))}
+          </div>
+        </Link>
+        <Link
+          to="/tds"
+          className="glass-card rounded-[32px] p-6 transition hover:-translate-y-0.5 hover:border-[rgba(192,109,44,0.24)]"
+        >
+          <div className="flex items-center gap-3 text-sm text-[color:var(--signal-orange)]">
+            <Layers3 className="h-5 w-5" />
+            按 TD 集中做题
+          </div>
+          <h2 className="page-title mt-5 text-3xl text-[color:var(--ink-1)]">
+            {stats.tdCount} 个 TD 页面一页到底
+          </h2>
+          <p className="mt-4 text-[0.98rem] leading-8 text-[color:var(--ink-2)]">
+            每个 TD 都把题目原文、对应笔记和配套脚本并排放好，做题时不用自己找对应关系。
+          </p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {tdPages.slice(0, 4).map((td) => (
+              <span
+                key={td.slug}
+                className="rounded-full border border-[rgba(192,109,44,0.14)] bg-[rgba(255,245,236,0.82)] px-3 py-1 text-xs tracking-[0.18em] text-[color:var(--signal-orange)]"
+              >
+                {td.title}
+              </span>
+            ))}
+          </div>
+        </Link>
+      </section>
+
       <section className="glass-card rounded-[40px] p-6 md:p-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="eyebrow">Chapter Atlas</div>
+            <div className="eyebrow">章节地图</div>
             <h2 className="page-title mt-4 text-4xl text-[color:var(--ink-1)]">课程章节地图</h2>
           </div>
           <Link to="/review" className="text-sm text-[color:var(--signal-blue)]">
@@ -141,7 +194,7 @@ export function HomePage() {
       <section className="glass-card rounded-[40px] p-6 md:p-8">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <div className="eyebrow">Interactive Labs</div>
+            <div className="eyebrow">交互实验</div>
             <h2 className="page-title mt-4 text-4xl text-[color:var(--ink-1)]">沙箱与推演</h2>
           </div>
           <Link to="/practice" className="text-sm text-[color:var(--signal-blue)]">

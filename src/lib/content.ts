@@ -1,8 +1,10 @@
 import coverageLinks from "../content/generated/coverage-links.json";
 import glossary from "../content/generated/glossary.json";
 import manifest from "../content/generated/source-manifest.json";
+import notePagesJson from "../content/generated/notes.json";
 import sandboxes from "../content/generated/sandboxes.json";
 import searchIndex from "../content/generated/search-index.json";
+import tdPagesJson from "../content/generated/td-pages.json";
 
 export type SourceKind = "note" | "pdf" | "docx" | "pptx" | "sandbox" | "project" | "media";
 
@@ -88,6 +90,44 @@ export interface GlossaryEntry {
   chapterSlug: string;
 }
 
+export interface NotePage {
+  id: string;
+  sourceId: string;
+  slug: string;
+  path: string;
+  title: string;
+  summary: string;
+  content: string;
+  chapterSlugs: string[];
+  primaryChapterSlug: string;
+  relatedTdSlugs: string[];
+  relatedSandboxIds: string[];
+  baseMaterials: SourceCard[];
+  scriptMaterials: SourceCard[];
+  keywords: string[];
+}
+
+export interface TdPage {
+  id: string;
+  slug: string;
+  number: string;
+  title: string;
+  summary: string;
+  chapterSlug: string;
+  sandboxIds: string[];
+  keywords: string[];
+  sourceIds: string[];
+  noteEntries: Array<{
+    slug: string;
+    title: string;
+    summary: string;
+    content: string;
+    path: string;
+  }>;
+  questionMaterials: SourceCard[];
+  scriptMaterials: SourceCard[];
+}
+
 export interface SandboxSpec {
   id: string;
   slug: string;
@@ -105,7 +145,7 @@ export interface SearchRecord {
   title: string;
   excerpt: string;
   chapterSlug?: string | null;
-  kind: "section" | "glossary" | "sandbox";
+  kind: "section" | "glossary" | "sandbox" | "note" | "td";
   keywords: string[];
 }
 
@@ -119,9 +159,11 @@ export const chapters = Object.values(chapterModules)
 
 export const sourceManifest = manifest as SourceAsset[];
 export const glossaryEntries = glossary as GlossaryEntry[];
+export const notePages = notePagesJson as NotePage[];
 export const sandboxSpecs = sandboxes as SandboxSpec[];
 export const sourceCoverageLinks = coverageLinks as CoverageLink[];
 export const searchRecords = searchIndex as SearchRecord[];
+export const tdPages = tdPagesJson as TdPage[];
 
 export function getChapterBySlug(slug: string | undefined) {
   return chapters.find((chapter) => chapter.slug === slug);
@@ -129,6 +171,14 @@ export function getChapterBySlug(slug: string | undefined) {
 
 export function getSandboxBySlug(slug: string | undefined) {
   return sandboxSpecs.find((sandbox) => sandbox.slug === slug);
+}
+
+export function getNotePageBySlug(slug: string | undefined) {
+  return notePages.find((note) => note.slug === slug);
+}
+
+export function getTdPageBySlug(slug: string | undefined) {
+  return tdPages.find((td) => td.slug === slug);
 }
 
 export function getSourcesByIds(ids: string[]) {
@@ -145,14 +195,24 @@ export function getCoverageLinksForChapter(chapterSlug: string) {
   return sourceCoverageLinks.filter((link) => link.chapterSlug === chapterSlug);
 }
 
+export function getNotePagesForChapter(chapterSlug: string) {
+  return notePages.filter((note) => note.chapterSlugs.includes(chapterSlug));
+}
+
+export function getTdPagesForChapter(chapterSlug: string) {
+  return tdPages.filter((td) => td.chapterSlug === chapterSlug);
+}
+
 export function getStats() {
   const zhCount = sourceManifest.filter((asset) => asset.language === "zh").length;
   const mixedCount = sourceManifest.filter((asset) => asset.language === "mixed").length;
 
   return {
     chapterCount: chapters.length,
+    noteCount: notePages.length,
     sourceCount: sourceManifest.length,
     sandboxCount: sandboxSpecs.length,
+    tdCount: tdPages.length,
     glossaryCount: glossaryEntries.length,
     zhCount,
     mixedCount,

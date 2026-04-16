@@ -1039,6 +1039,570 @@
     ]
   },
   {
+    "id": "note::notes-01-02-md-d7aa8120",
+    "route": "/notes/01-02",
+    "title": "发行版",
+    "excerpt": "发行版不等同于操作系统，很多发行版共享一个Linux内核，只是在软件选择、默认配置和图形界面上有所差异 一切皆文件 是一种范式 操作系统的所有功能均可通过普通文件进行访问：外设、进程、内存等 市面上的Linux系统 Ubuntu：它是由Canonical公司免费发行、面向普通大众",
+    "chapterSlug": "linux-cli",
+    "kind": "note",
+    "keywords": [
+      "linux-cli",
+      "notes/01-02-发行版.md",
+      "发行版",
+      "linux-cli"
+    ]
+  },
+  {
+    "id": "note::notes-01-03-shell-md-3f3d265e",
+    "route": "/notes/01-03-shell",
+    "title": "Shell与命令行",
+    "excerpt": "Shell Shell既是命令解释器，也是脚本语言 命令解释器：充当用户与操作系统之间的交互接口 解释器：用户输入命令，先经过语法检查、然后被运行 Linux中存在多种 Shell 解释器: bash Bourne again shell C shell Korn shell Z",
+    "chapterSlug": "linux-cli",
+    "kind": "note",
+    "keywords": [
+      "Shell与命令行",
+      "linux-cli",
+      "notes/01-03-Shell与命令行.md",
+      "linux-cli"
+    ]
+  },
+  {
+    "id": "note::notes-01-04-md-a032fd59",
+    "route": "/notes/01-04",
+    "title": "文件系统",
+    "excerpt": "文件管理、权限管理、挂载方式、备份 文件系统是存储介质（硬盘、软盘、光盘等）上组织和存储目录树结构的一种方式 每个专有操作系统都有自己的文件组织方式 可以在同一块硬盘的不同分区中并存多个文件系统 Linux有自己的文件系统，如 ext2, ext3, ext4 ，同时也能管理其他",
+    "chapterSlug": "filesystem-permissions",
+    "kind": "note",
+    "keywords": [
+      "filesystem-permissions",
+      "notes/01-04-文件系统.md",
+      "td1-files-and-permissions",
+      "文件系统",
+      "filesystem-permissions",
+      "td1-files-and-permissions"
+    ]
+  },
+  {
+    "id": "note::notes-01-05-md-13297274",
+    "route": "/notes/01-05",
+    "title": "重定向、管道与错误处理",
+    "excerpt": "在Shell环境中，几乎所有命令都遵循「 标准输入 → 标准输出 → 标准错误 」这一模型： 链式处理（装饰器模式） 使用 、 、<、<<可以将输入输出重定向到文件或从文件读入； 使用管道符号|可以把一条命令的输出实时作为下一条命令的输入； 使用2 这样的写法可以将错误信息单独收",
+    "chapterSlug": "shell-control",
+    "kind": "note",
+    "keywords": [
+      "notes/01-05-重定向、管道与错误处理.md",
+      "shell-control",
+      "td2-shell-reading-and-control",
+      "重定向、管道与错误处理",
+      "shell-control",
+      "td2-shell-reading-and-control"
+    ]
+  },
+  {
+    "id": "note::notes-01-06-shell-md-f9e33a49",
+    "route": "/notes/01-06-shell",
+    "title": "Shell脚本与参数",
+    "excerpt": "写入一个脚本文件就可以将重复进行复用、分享 通过位置参数（$0、$1、$ 、$@、等）实现「同一个脚本，处理不同数据」； 借助变量、环境变量和只读变量，将一次性实验脚本逐步演化为可维护的工具脚本。 “脚本（script）”指可由Shell执行的文件，包含Unix外部命令、内部命令",
+    "chapterSlug": "shell-control",
+    "kind": "note",
+    "keywords": [
+      "Shell脚本与参数",
+      "notes/01-06-Shell脚本与参数.md",
+      "shell-control",
+      "td2-shell-reading-and-control",
+      "shell-control",
+      "td2-shell-reading-and-control"
+    ]
+  },
+  {
+    "id": "note::notes-01-07-md-24a7178b",
+    "route": "/notes/01-07",
+    "title": "流程控制",
+    "excerpt": "使用if、case根据条件分支执行不同命令序列； 使用for、while、until等循环结构实现重复性任务； 通过test命令和逻辑运算符，对文件属性、字符串和数值进行条件判断 test test 是 Shell 的测试命令，用来判断条件是否成立 判断是否为普通文件 判断是否为",
+    "chapterSlug": "shell-control",
+    "kind": "note",
+    "keywords": [
+      "notes/01-07-流程控制.md",
+      "shell-control",
+      "td2-shell-reading-and-control",
+      "流程控制",
+      "shell-control",
+      "td2-shell-reading-and-control"
+    ]
+  },
+  {
+    "id": "note::notes-01-08-shell-md-18beb3ef",
+    "route": "/notes/01-08-shell",
+    "title": "Shell拓展、函数、数组",
+    "excerpt": "类型约束 为变量加上了一个整数属性，会影响赋值时的处理方式 因为 Shell 默认是将变量当成字符串处理的 在声明为整数时，会自动计算 内部命令 要获取算术表达式的值，可使用语法：$ 算术表达式 示例：echo $ 7 3 命令替换和参数替换可以出现在 或$ 中，只要结果能解释为",
+    "chapterSlug": "shell-control",
+    "kind": "note",
+    "keywords": [
+      "Shell拓展、函数、数组",
+      "notes/01-08-Shell拓展、函数、数组.md",
+      "shell-control",
+      "td2-shell-reading-and-control",
+      "shell-control",
+      "td2-shell-reading-and-control"
+    ]
+  },
+  {
+    "id": "note::notes-02-td1-md-4e53108c",
+    "route": "/notes/02-td1",
+    "title": "TD1 目录、权限与文件操作",
+    "excerpt": "以 sandbox 中 02 ...sh 为准 mkdir 默认无法”透层“，当父层级不存在时会报错 p 选项配置之后就可以了",
+    "chapterSlug": "filesystem-permissions",
+    "kind": "note",
+    "keywords": [
+      "TD1 目录、权限与文件操作",
+      "filesystem-permissions",
+      "notes/02-TD1.md",
+      "td1-files-and-permissions",
+      "filesystem-permissions",
+      "td1-files-and-permissions"
+    ]
+  },
+  {
+    "id": "note::notes-04-td2-md-d030a92e",
+    "route": "/notes/04-td2",
+    "title": "TD2 Shell 读取、判断与循环",
+    "excerpt": "以 sandbox 中 04 ...sh 为准 1 逐行读取文件 通过 n 防止最后一行没有换行被漏掉 IFS 划分 通过 set 分割一个个参数然后用 获取参数个数 或 read存储到数组中用 arr @ 法1. set 法2. read 2 IFS= 和 r 确保读出来是原始",
+    "chapterSlug": "shell-control",
+    "kind": "note",
+    "keywords": [
+      "TD2 Shell 读取、判断与循环",
+      "notes/04-TD2.md",
+      "shell-control",
+      "td2-shell-reading-and-control",
+      "shell-control",
+      "td2-shell-reading-and-control"
+    ]
+  },
+  {
+    "id": "note::notes-06-grep-sed-md-a3515484",
+    "route": "/notes/06-grep-sed",
+    "title": "正则、Grep、sed",
+    "excerpt": "正则表达式 正则表达式是国际标准，跨越语言 正则表达式是一个规则，用于验证字符串。 基础 1. 字面量匹配 规则中直接书写字面量字符 例如 abc 那么匹配串中必须出现 abc 1. 特殊字符 1. 转义符 转义符\\ 可以将特殊字符转义 1. 字符集 编码范围 匹配中文： 1.",
+    "chapterSlug": "text-processing",
+    "kind": "note",
+    "keywords": [
+      "notes/06-正则、Grep、sed.md",
+      "td3-regexp-and-awk",
+      "text-processing",
+      "正则、Grep、sed",
+      "text-processing",
+      "td3-regexp-and-awk"
+    ]
+  },
+  {
+    "id": "note::notes-07-awk-md-38948e0e",
+    "route": "/notes/07-awk",
+    "title": "awk",
+    "excerpt": "awk 中使用正则判断 且 awk 默认是扩展正则，不需要像 grep 一样写反引号 \\ awk 中不能用回溯引用 \\1 awk 的字符串拼接是直接空格连接变量 数组下标是从 1 开始 “ “ 才是字符串，不能是 ‘ ‘ Shell 中的变量无法 awk 中无法直接用，得通过 v",
+    "chapterSlug": "text-processing",
+    "kind": "note",
+    "keywords": [
+      "awk",
+      "notes/07-awk.md",
+      "td3-regexp-and-awk",
+      "td4-text-processing-report",
+      "text-processing",
+      "text-processing",
+      "td3-regexp-and-awk",
+      "td4-text-processing-report"
+    ]
+  },
+  {
+    "id": "note::notes-08-td3-md-2db2c1da",
+    "route": "/notes/08-td3",
+    "title": "TD3 正则、which、tree 与字典匹配",
+    "excerpt": "以 sandbox 中 08 ...sh 为准",
+    "chapterSlug": "text-processing",
+    "kind": "note",
+    "keywords": [
+      "TD3 正则、which、tree 与字典匹配",
+      "notes/08-TD3.md",
+      "td3-regexp-and-awk",
+      "text-processing",
+      "text-processing",
+      "td3-regexp-and-awk"
+    ]
+  },
+  {
+    "id": "note::notes-09-td4-md-7b1bd18f",
+    "route": "/notes/09-td4",
+    "title": "TD4 文本统计与分组题",
+    "excerpt": "以 sandbox 中 09 ...sh 为准 wc c 可以直接拿到字节数 可以通过 得到字符串长度",
+    "chapterSlug": "text-processing",
+    "kind": "note",
+    "keywords": [
+      "TD4 文本统计与分组题",
+      "notes/09-TD4.md",
+      "td4-text-processing-report",
+      "text-processing",
+      "text-processing",
+      "td4-text-processing-report"
+    ]
+  },
+  {
+    "id": "note::notes-10-md-8b87c73f",
+    "route": "/notes/10",
+    "title": "GPL、自由软件与开源",
+    "excerpt": "TD 1.1 练习 1：什么是 GPL 许可证？ 答案： GPL（GNU 通用公共许可证）是由自由软件基金会（Free Software Foundation）创建的一种自由软件许可证。它保障： 1. 为任何用途使用软件的自由。 2. 研究软件源代码并对其进行修改的自由。 3.",
+    "chapterSlug": "free-software",
+    "kind": "note",
+    "keywords": [
+      "GPL、自由软件与开源",
+      "free-software",
+      "notes/10.md",
+      "free-software"
+    ]
+  },
+  {
+    "id": "note::notes-11-md-cc80b5f5",
+    "route": "/notes/11",
+    "title": "文件树、链接与层次结构",
+    "excerpt": "文件系统 文件树结构 了解文件系统中文件和目录的分布规则是必要的，以便： 制定备份方案； 管理安全性； 在排障时高效操作； 安装那些不以软件包形式提供的软件； 等等。 根目录是 。 UNIX 系统定义了多种类型的文件：普通物理文件、目录、链接（符号链接或硬链接）、虚拟文件（仅存在",
+    "chapterSlug": "filesystem-permissions",
+    "kind": "note",
+    "keywords": [
+      "filesystem-permissions",
+      "notes/11.md",
+      "td1-files-and-permissions",
+      "文件树、链接与层次结构",
+      "filesystem-permissions",
+      "td1-files-and-permissions"
+    ]
+  },
+  {
+    "id": "note::notes-12-01-md-81ea98db",
+    "route": "/notes/12-01",
+    "title": "syslog、logrotate 与 rsyslog",
+    "excerpt": "事件日志服务 系统事件：syslog UNIX 系统用于收集系统或应用程序产生事件的机制非常高效。 Unix 使用一种统一的 syslog 系统，这一系统开发于 20 世纪 80 年代。 系统事件的记录由两个程序（ 守护进程 ）管理： 仅 负责监听来自 内核 的消息。 负责大部分",
+    "chapterSlug": "logs-rsyslog",
+    "kind": "note",
+    "keywords": [
+      "logs-rsyslog",
+      "notes/12-01.md",
+      "syslog、logrotate 与 rsyslog",
+      "td6-logs-and-rsyslog",
+      "logs-rsyslog",
+      "td6-logs-and-rsyslog"
+    ]
+  },
+  {
+    "id": "note::notes-12-02-md-79f464d5",
+    "route": "/notes/12-02",
+    "title": "挂载、swap、归档与网络配置",
+    "excerpt": "文件管理系统 Unix 下的文件 在 Unix 中，一个文件： 总是由一个名称标识； 拥有唯一的 inode（保存与文件有关的部分信息）； 具有以下操作能力： 打开； 关闭； 读取（查看）； 写入（修改）。 一个文件可以是： 普通文件（有时也称为“普通/正常”文件）； 目录； 符",
+    "chapterSlug": "filesystem-admin",
+    "kind": "note",
+    "keywords": [
+      "filesystem-admin",
+      "notes/12-02.md",
+      "td7-td8-system-admin",
+      "挂载、swap、归档与网络配置",
+      "filesystem-admin",
+      "td7-td8-system-admin"
+    ]
+  },
+  {
+    "id": "note::notes-13-td5-md-fae9e1ae",
+    "route": "/notes/13-td5",
+    "title": "TD5 用户与系统管理脚本",
+    "excerpt": "以 sandbox/13 ...sh 为准 tr tr 命令用于字符处理 按照 from 到 to 的规则，逐个字符处理 例如 大小写转换 useradd",
+    "chapterSlug": "user-automation",
+    "kind": "note",
+    "keywords": [
+      "TD5 用户与系统管理脚本",
+      "notes/13-TD5.md",
+      "td5-user-admin",
+      "user-automation",
+      "user-automation",
+      "td5-user-admin"
+    ]
+  },
+  {
+    "id": "note::notes-13-td6-md-d8fa0eea",
+    "route": "/notes/13-td6",
+    "title": "TD6 日志轮转、告警与远程转发",
+    "excerpt": "练习 1 解释 中的以下几行： 对应含义： 1. 来自 mail facility、优先级为 notice 及更高 的消息，会被写入 文件。 2. 来自 所有 facility 、优先级为 emerg 及更高 的消息，会被发送到主机 。 3. 来自 mail 和 uucp fac",
+    "chapterSlug": "logs-rsyslog",
+    "kind": "note",
+    "keywords": [
+      "TD6 日志轮转、告警与远程转发",
+      "logs-rsyslog",
+      "notes/13-TD6.md",
+      "td6-logs-and-rsyslog",
+      "logs-rsyslog",
+      "td6-logs-and-rsyslog"
+    ]
+  },
+  {
+    "id": "note::notes-15-md-615702dd",
+    "route": "/notes/15",
+    "title": "操作系统导论与体系结构",
+    "excerpt": "第 1 页：操作系统体系结构与理论 原题： Architecture et théorie des systèmes d’exploitation 中文： 操作系统体系结构与理论 第 2 页：课程计划 操作系统导论 体系结构与内存管理 进程管理与调度 进程错误检测与死锁 资源管理",
+    "chapterSlug": "os-intro",
+    "kind": "note",
+    "keywords": [
+      "memory-paging",
+      "notes/15.md",
+      "os-intro",
+      "sync-deadlock-scheduling",
+      "td-se-2026",
+      "操作系统导论与体系结构",
+      "os-intro",
+      "memory-paging",
+      "sync-deadlock-scheduling",
+      "td-se-2026"
+    ]
+  },
+  {
+    "id": "note::notes-16-md-56059bca",
+    "route": "/notes/16",
+    "title": "TD7-TD8 服务与系统管理",
+    "excerpt": "自动识别系统中开机自启动的服务 要识别你的 Unix 系统中会自动启动的服务： 或者： 禁用某个服务，使其不再自动启动： 或者： 确定系统当前的运行级别： 将运行级别切换到最小使用模式（单用户模式）： 掌握关闭和重启 Unix 系统的命令： 计划在 15 分钟后关闭系统： 取消已",
+    "chapterSlug": "logs-rsyslog",
+    "kind": "note",
+    "keywords": [
+      "TD7-TD8 服务与系统管理",
+      "filesystem-admin",
+      "logs-rsyslog",
+      "notes/16.md",
+      "td7-td8-system-admin",
+      "logs-rsyslog",
+      "filesystem-admin",
+      "td7-td8-system-admin"
+    ]
+  },
+  {
+    "id": "note::notes-17-md-23ec2de9",
+    "route": "/notes/17",
+    "title": "TD SE 2026 分页、同步与调度",
+    "excerpt": "操作系统理论（习题课） 1. 地址（Adresse） 假设一个 分页虚拟内存地址 需要 20 位 ，其组织方式如下： 页号（page） ：第 19 位到第 12 位 页内偏移（offset） ：第 11 位到第 0 位 1. 这个虚拟内存的大小是多少？请分别用 字数（mots）",
+    "chapterSlug": "memory-paging",
+    "kind": "note",
+    "keywords": [
+      "TD SE 2026 分页、同步与调度",
+      "memory-paging",
+      "notes/17.md",
+      "sync-deadlock-scheduling",
+      "td-se-2026",
+      "memory-paging",
+      "sync-deadlock-scheduling",
+      "td-se-2026"
+    ]
+  },
+  {
+    "id": "td::td1-files-and-permissions",
+    "route": "/tds/td1-files-and-permissions",
+    "title": "TD1 目录、权限与文件操作",
+    "excerpt": "围绕目录创建、权限位、文件操作、重定向和链接建立最基础的 Unix 手感。",
+    "chapterSlug": "filesystem-permissions",
+    "kind": "td",
+    "keywords": [
+      "TD1",
+      "mkdir",
+      "chmod",
+      "ln",
+      "wc",
+      "head",
+      "tail",
+      "base-files-02-lo03-linux-td1-2026-correction-pdf-350734e4",
+      "base-files-02-lo03-linux-td1-2026-pdf-83a43a44",
+      "base-files-02-lo03-linux-td1-pdf-e77feb22",
+      "base-files-02-td1-md-3b35db44",
+      "notes-02-td1-md-4e53108c",
+      "sandbox-01-04-sh-030bf090",
+      "sandbox-01-04-sh-3eab350b",
+      "sandbox-01-04-sh-3f515aee",
+      "sandbox-01-04-sh-b6bc5414",
+      "sandbox-01-04-sh-fdffb4a5",
+      "sandbox-02-td1-sh-76996d92",
+      "permissions-map"
+    ]
+  },
+  {
+    "id": "td::td2-shell-reading-and-control",
+    "route": "/tds/td2-shell-reading-and-control",
+    "title": "TD2 Shell 读取、判断与循环",
+    "excerpt": "把逐行读取、IFS、case、临时文件、find 和基本脚本结构真正跑起来。",
+    "chapterSlug": "shell-control",
+    "kind": "td",
+    "keywords": [
+      "TD2",
+      "while read",
+      "IFS",
+      "case",
+      "find",
+      "tmp",
+      "base-files-04-lo03-linux-td2-2026-correction-pdf-458039a0",
+      "base-files-04-lo03-linux-td2-2026-pdf-57ceb643",
+      "base-files-04-lo03-linux-td2-md-4c3fbb98",
+      "notes-04-td2-md-d030a92e",
+      "sandbox-04-01-wc-sh-6d51107d",
+      "sandbox-04-04-est-numerique-sh-6de04871",
+      "sandbox-04-05-calculette-sh-019209cf",
+      "sandbox-04-07-preaddlasttime-sh-ec2877e1",
+      "sandbox-04-09-sup-sh-c4e9471c",
+      "sandbox-04-td2-sh-24f7f28a",
+      "shell-flow",
+      "redirection-lab"
+    ]
+  },
+  {
+    "id": "td::td3-regexp-and-awk",
+    "route": "/tds/td3-regexp-and-awk",
+    "title": "TD3 正则、which、tree 与字典匹配",
+    "excerpt": "通过回文、which、tree 和正则字典匹配题，把 grep/sed/awk 的思维方式真正串起来。",
+    "chapterSlug": "text-processing",
+    "kind": "td",
+    "keywords": [
+      "TD3",
+      "regexp",
+      "which",
+      "tree",
+      "palindrome",
+      "dico",
+      "base-files-08-lo03-linux-td3-2026-correction-pdf-24099538",
+      "base-files-08-lo03-linux-td3-2026-pdf-9fed7c0c",
+      "base-files-08-lo03-td3-linux-md-3cb146d1",
+      "notes-08-td3-md-2db2c1da",
+      "sandbox-08-05-set-sh-1d90c6de",
+      "sandbox-08-dico-sh-e6e5ca91",
+      "sandbox-08-palindrome-sh-3865ed7e",
+      "sandbox-08-palindrome4file-sh-a5d9cf11",
+      "sandbox-08-tree-sh-c7f89521",
+      "sandbox-08-which-sh-92217d21",
+      "regex-playground"
+    ]
+  },
+  {
+    "id": "td::td4-text-processing-report",
+    "route": "/tds/td4-text-processing-report",
+    "title": "TD4 文本统计与分组题",
+    "excerpt": "这一页集中处理 wc、平均值、词频、反转和分组统计，适合刷脚本题时来回对照。",
+    "chapterSlug": "text-processing",
+    "kind": "td",
+    "keywords": [
+      "TD4",
+      "wc",
+      "word count",
+      "group",
+      "reverse",
+      "average",
+      "base-files-09-lo03-linux-td4-1-2026-pdf-d4311f4e",
+      "base-files-09-lo03-linux-td4-2-2026-pdf-6b9812d5",
+      "base-files-09-lo03-td4-linux-md-0b29177c",
+      "base-files-09-lo03-td4-linux-md-187aed1d",
+      "notes-09-td4-md-7b1bd18f",
+      "sandbox-09-01-count-sh-a1e58925",
+      "sandbox-09-03-counteachword-sh-e2613975",
+      "sandbox-09-04-rev-sh-bb6f57b9",
+      "sandbox-09-05-group-sh-ee6a50d4",
+      "sandbox-09-2-01-sh-a8fa441f",
+      "sandbox-09-2-02-sh-4f80be95",
+      "sandbox-09-2-03-sh-a83ce872",
+      "sandbox-09-2-04-sh-bb102c52",
+      "sandbox-09-2-05-sh-16efd06d",
+      "sandbox-09-2-06-sh-937cba41",
+      "sandbox-09-wc-sh-54fc000f",
+      "regex-playground"
+    ]
+  },
+  {
+    "id": "td::td5-user-admin",
+    "route": "/tds/td5-user-admin",
+    "title": "TD5 用户与系统管理脚本",
+    "excerpt": "批量账户脚本的重点不是把命令背下来，而是把输入清洗、参数校验和系统命令边界处理好。",
+    "chapterSlug": "user-automation",
+    "kind": "td",
+    "keywords": [
+      "TD5",
+      "useradd",
+      "userdel",
+      "tr",
+      "admin",
+      "listing",
+      "base-files-13-admin-td5-txt-d567c2ce",
+      "base-files-13-lo03-linux-td5-2026-pdf-c214a27c",
+      "base-files-13-lo03-td5-linux-md-5f70b8e3",
+      "notes-13-td5-md-fae9e1ae",
+      "sandbox-13-admin-td5-sh-074d6b9e",
+      "sandbox-13-sh-ce02c9a0",
+      "shell-flow"
+    ]
+  },
+  {
+    "id": "td::td6-logs-and-rsyslog",
+    "route": "/tds/td6-logs-and-rsyslog",
+    "title": "TD6 日志轮转、告警与远程转发",
+    "excerpt": "一页把 syslog 规则解释、logrotate、实时告警和远程日志转发练习并排放好，便于做题时快速切换。",
+    "chapterSlug": "logs-rsyslog",
+    "kind": "td",
+    "keywords": [
+      "TD6",
+      "syslog",
+      "rsyslog",
+      "logrotate",
+      "alert",
+      "remote",
+      "base-files-13-td5-td6-md-b13b0e61",
+      "base-files-13-td5-td6-pdf-139514b6",
+      "base-files-13-tds-31-et-32-avec-correction-md-41e012cd",
+      "base-files-13-tds-31-et-32-avec-correction-pptx-e68c79e3",
+      "base-files-14-td-fri-1-md-8a8ebd67",
+      "base-files-14-td-fri-1-pdf-c699a325",
+      "notes-13-td6-md-d8fa0eea",
+      "syslog-rule-matcher"
+    ]
+  },
+  {
+    "id": "td::td7-td8-system-admin",
+    "route": "/tds/td7-td8-system-admin",
+    "title": "TD7-TD8 服务与系统管理",
+    "excerpt": "服务控制、计划任务、归档压缩、链接、磁盘空间与分区挂载放在同一页，更接近真实运维操作节奏。",
+    "chapterSlug": "filesystem-admin",
+    "kind": "td",
+    "keywords": [
+      "TD7",
+      "TD8",
+      "cron",
+      "tar",
+      "mount",
+      "service",
+      "base-files-14-td-fri-1-md-8a8ebd67",
+      "base-files-14-td-fri-1-pdf-c699a325",
+      "base-files-16-td7-td8-md-5308c3d1",
+      "base-files-16-td7-td8-pdf-46a44a7f",
+      "notes-16-md-56059bca",
+      "permissions-map"
+    ]
+  },
+  {
+    "id": "td::td-se-2026",
+    "route": "/tds/td-se-2026",
+    "title": "TD SE 2026 分页、同步与调度",
+    "excerpt": "地址转换、页面置换、死锁、安全状态和调度题统一放在这一页，适合考前集中推演。",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "kind": "td",
+    "keywords": [
+      "TD SE",
+      "page replacement",
+      "deadlock",
+      "banker",
+      "scheduler",
+      "base-files-17-lo03-td-se-2026-md-e76e95bf",
+      "base-files-17-lo03-td-se-2026-pdf-225fdd66",
+      "notes-17-md-23ec2de9",
+      "page-replacement",
+      "resource-graph",
+      "scheduler-timeline",
+      "syncfs-decision"
+    ]
+  },
+  {
     "id": "sandbox::shell-flow",
     "route": "/practice/shell-flow",
     "title": "Shell 命令流模拟",

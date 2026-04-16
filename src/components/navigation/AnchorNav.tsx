@@ -7,7 +7,7 @@ interface AnchorNavProps {
 export function AnchorNav({ sections }: AnchorNavProps) {
   return (
     <div className="glass-card sticky top-24 rounded-[28px] p-5">
-      <div className="eyebrow">Section Anchors</div>
+      <div className="eyebrow">章节目录</div>
       <h3 className="page-title mt-4 text-xl text-[color:var(--ink-1)]">章节锚点</h3>
       <div className="mt-4 space-y-3">
         {sections.map((section) => (

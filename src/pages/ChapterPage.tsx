@@ -1,11 +1,13 @@
 import { Link, useParams } from "react-router-dom";
 import { AnchorNav } from "../components/navigation/AnchorNav";
 import { SectionPanel } from "../components/content/SectionPanel";
-import { getChapterBySlug } from "../lib/content";
+import { getChapterBySlug, getNotePagesForChapter, getTdPagesForChapter } from "../lib/content";
 
 export function ChapterPage() {
   const { chapterSlug } = useParams();
   const chapter = getChapterBySlug(chapterSlug);
+  const relatedNotes = chapter ? getNotePagesForChapter(chapter.slug) : [];
+  const relatedTds = chapter ? getTdPagesForChapter(chapter.slug) : [];
 
   if (!chapter) {
     return (
@@ -39,12 +41,53 @@ export function ChapterPage() {
           </div>
         </section>
 
+        {relatedNotes.length || relatedTds.length ? (
+          <section className="grid gap-4 xl:grid-cols-2">
+            <article className="glass-card rounded-[32px] p-6">
+              <div className="eyebrow">对应笔记</div>
+              <h2 className="page-title mt-4 text-3xl text-[color:var(--ink-1)]">本章相关笔记</h2>
+              <div className="mt-5 space-y-3">
+                {relatedNotes.map((note) => (
+                  <Link
+                    key={note.slug}
+                    to={`/notes/${note.slug}`}
+                    className="block rounded-[22px] border border-[rgba(15,31,49,0.1)] bg-white/75 px-4 py-4 text-sm leading-7 text-[color:var(--ink-1)] transition hover:bg-white"
+                  >
+                    {note.title}
+                  </Link>
+                ))}
+              </div>
+            </article>
+            <article className="glass-card rounded-[32px] p-6">
+              <div className="eyebrow">对应题单</div>
+              <h2 className="page-title mt-4 text-3xl text-[color:var(--ink-1)]">本章对应题单</h2>
+              <div className="mt-5 space-y-3">
+                {relatedTds.length ? (
+                  relatedTds.map((td) => (
+                    <Link
+                      key={td.slug}
+                      to={`/tds/${td.slug}`}
+                      className="block rounded-[22px] border border-[rgba(192,109,44,0.14)] bg-[rgba(255,245,236,0.82)] px-4 py-4 text-sm leading-7 text-[color:var(--ink-1)] transition hover:bg-white"
+                    >
+                      {td.number}. {td.title}
+                    </Link>
+                  ))
+                ) : (
+                  <div className="rounded-[22px] border border-dashed border-[rgba(15,31,49,0.14)] px-4 py-4 text-sm leading-7 text-[color:var(--ink-2)]">
+                    当前这一章没有单独 TD 页，适合直接顺着章节和笔记阅读。
+                  </div>
+                )}
+              </div>
+            </article>
+          </section>
+        ) : null}
+
         {chapter.sections.map((section) => (
           <SectionPanel key={section.id} section={section} />
         ))}
 
         <section className="glass-card rounded-[32px] p-6">
-          <div className="eyebrow">Next Moves</div>
+          <div className="eyebrow">继续学习</div>
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             {chapter.previousSlug ? (
               <Link

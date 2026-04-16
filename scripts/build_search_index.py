@@ -25,7 +25,9 @@ def clean_text(value: str) -> str:
 
 def build_index() -> list[dict[str, Any]]:
     glossary = load_json(GENERATED_DIR / "glossary.json")
+    note_pages = load_json(GENERATED_DIR / "notes.json")
     sandboxes = load_json(GENERATED_DIR / "sandboxes.json")
+    td_pages = load_json(GENERATED_DIR / "td-pages.json")
     records: list[dict[str, Any]] = []
 
     for chapter_file in sorted(CHAPTERS_DIR.glob("*.json")):
@@ -69,6 +71,32 @@ def build_index() -> list[dict[str, Any]]:
                 "chapterSlug": entry["chapterSlug"],
                 "kind": "glossary",
                 "keywords": [entry["term"], entry["chapterSlug"]],
+            }
+        )
+
+    for note in note_pages:
+        records.append(
+            {
+                "id": f"note::{note['id']}",
+                "route": f"/notes/{note['slug']}",
+                "title": note["title"],
+                "excerpt": note["summary"],
+                "chapterSlug": note["primaryChapterSlug"],
+                "kind": "note",
+                "keywords": note["keywords"] + note["chapterSlugs"] + note["relatedTdSlugs"],
+            }
+        )
+
+    for td in td_pages:
+        records.append(
+            {
+                "id": f"td::{td['id']}",
+                "route": f"/tds/{td['slug']}",
+                "title": td["title"],
+                "excerpt": td["summary"],
+                "chapterSlug": td["chapterSlug"],
+                "kind": "td",
+                "keywords": td["keywords"] + td["sourceIds"] + td["sandboxIds"],
             }
         )
 

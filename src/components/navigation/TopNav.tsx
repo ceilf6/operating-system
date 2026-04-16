@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 
 const links = [
   { to: "/", label: "总览" },
+  { to: "/notes", label: "笔记" },
+  { to: "/tds", label: "题单" },
   { to: "/practice", label: "实践" },
   { to: "/glossary", label: "术语" },
   { to: "/review", label: "复习" },
@@ -19,7 +21,7 @@ export function TopNav() {
             <TerminalSquare className="h-5 w-5" />
           </div>
           <div>
-            <div className="eyebrow">Operating Systems Atlas</div>
+            <div className="eyebrow">课程导航</div>
             <p className="page-title mt-2 text-xl font-semibold text-[color:var(--ink-1)]">
               操作系统学习网站
             </p>

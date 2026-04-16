@@ -10,6 +10,10 @@ function kindLabel(kind: SearchRecord["kind"]) {
       return "章节";
     case "glossary":
       return "术语";
+    case "note":
+      return "笔记";
+    case "td":
+      return "题单";
     default:
       return "沙箱";
   }
@@ -26,10 +30,10 @@ export function SearchPage() {
       <SearchPanel query={query} onQueryChange={setQuery} kind={kind} onKindChange={setKind} />
       <section className="space-y-4">
         <div className="glass-card rounded-[32px] p-6">
-          <div className="eyebrow">Concept Finder</div>
+          <div className="eyebrow">快速定位</div>
           <h1 className="page-title mt-4 text-4xl text-[color:var(--ink-1)]">搜索结果</h1>
           <p className="mt-3 text-sm leading-7 text-[color:var(--ink-2)]">
-            输入概念、命令或算法名字，直接跳到对应章节、术语或沙箱。当前在 {chapters.length} 个章节里命中 {results.length} 条结果。
+            输入概念、命令或算法名字，直接跳到对应章节、笔记、题单、术语或交互实验。当前在 {chapters.length} 个章节里命中 {results.length} 条结果。
           </p>
         </div>
         {results.map((record) => (

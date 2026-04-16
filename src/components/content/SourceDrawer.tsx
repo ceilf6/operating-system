@@ -26,9 +26,9 @@ function kindLabel(kind: SourceCard["kind"]) {
     case "pdf":
     case "docx":
     case "pptx":
-      return { label: "原讲义节选", icon: FileText };
+      return { label: "配套讲义", icon: FileText };
     default:
-      return { label: "笔记与讲义", icon: FileCode2 };
+      return { label: "补充材料", icon: FileCode2 };
   }
 }
 
@@ -54,7 +54,7 @@ export function SourceDrawer({ item }: SourceDrawerProps) {
           ) : null}
         </div>
         <span className="rounded-full border border-[rgba(15,31,49,0.08)] px-3 py-1 text-xs text-[color:var(--ink-2)] transition group-open:bg-[color:var(--ink-0)] group-open:text-white">
-          查看节选
+          展开内容
         </span>
       </summary>
       <div className="mt-6 rounded-[24px] border border-[rgba(15,31,49,0.08)] bg-[rgba(246,238,224,0.55)] p-5">

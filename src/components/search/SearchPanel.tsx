@@ -8,7 +8,14 @@ interface SearchPanelProps {
   onKindChange: (value: SearchRecord["kind"] | "all") => void;
 }
 
-const filters: Array<SearchRecord["kind"] | "all"> = ["all", "section", "glossary", "sandbox"];
+const filters: Array<SearchRecord["kind"] | "all"> = [
+  "all",
+  "section",
+  "note",
+  "td",
+  "glossary",
+  "sandbox",
+];
 
 function filterLabel(item: SearchRecord["kind"] | "all") {
   switch (item) {
@@ -16,6 +23,10 @@ function filterLabel(item: SearchRecord["kind"] | "all") {
       return "章节";
     case "glossary":
       return "术语";
+    case "note":
+      return "笔记";
+    case "td":
+      return "题单";
     case "sandbox":
       return "沙箱";
     default:
@@ -31,7 +42,7 @@ export function SearchPanel({
 }: SearchPanelProps) {
   return (
     <div className="glass-card rounded-[28px] p-5">
-      <div className="eyebrow">Quick Jump</div>
+      <div className="eyebrow">快速跳转</div>
       <h2 className="page-title mt-4 text-3xl text-[color:var(--ink-1)]">站内搜索</h2>
       <div className="mt-5 space-y-4">
         <label className="block">

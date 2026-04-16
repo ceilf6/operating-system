@@ -26,7 +26,7 @@ export function HomePage() {
           <div>
             <div className="eyebrow">Machine Room Blueprint × Study Atlas</div>
             <h1 className="page-title mt-6 max-w-4xl text-5xl leading-tight text-[color:var(--ink-1)] md:text-6xl">
-              给正在学操作系统的你，一张能一路学到项目实战的中文课程地图。
+              给正在学操作系统的你，一张能一路学到项目实战的课程地图。
             </h1>
             <p className="mt-6 max-w-3xl text-[1.06rem] leading-9 text-[color:var(--ink-2)]">
               内容按章节、练习、术语和沙箱组织。先把 Linux 命令、文件系统和系统管理跑通，再进入进程、内存、同步与调度，最后回到 SyncFS 综合实践闭环。

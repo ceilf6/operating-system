@@ -22,7 +22,7 @@ export function TopNav() {
           <div>
             <div className="eyebrow">Operating Systems Atlas</div>
             <p className="page-title mt-2 text-xl font-semibold text-[color:var(--ink-1)]">
-              中文操作系统课程网站
+              操作系统学习网站
             </p>
           </div>
         </NavLink>

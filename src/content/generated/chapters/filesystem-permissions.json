@@ -1,0 +1,284 @@
+{
+  "slug": "filesystem-permissions",
+  "number": "03",
+  "track": "Linux/Unix 实操线",
+  "title": "文件系统、路径、权限与链接",
+  "summary": "把 Linux 的“万物皆文件”落到目录树、路径、权限、链接与文件操作的具体模型上。",
+  "searchKeywords": [
+    "文件系统",
+    "权限",
+    "inode",
+    "路径",
+    "链接"
+  ],
+  "sourceIds": [
+    "base-files-02-lo03-linux-td1-2026-correction-pdf-350734e4",
+    "base-files-02-lo03-linux-td1-2026-pdf-83a43a44",
+    "base-files-02-lo03-linux-td1-pdf-e77feb22",
+    "base-files-02-td1-md-3b35db44",
+    "base-files-11-cours-mars-2026-2-md-e078412c",
+    "base-files-11-cours-mars-2026-2-pdf-8b955ba4",
+    "base-files-12-02-cours-6-et-7-avril-amir-hajjam-md-acac9d37",
+    "base-files-12-02-cours-6-et-7-avril-amir-hajjam-pdf-84805bde",
+    "notes-01-04-md-a032fd59",
+    "notes-02-td1-md-4e53108c",
+    "notes-11-md-cc80b5f5",
+    "sandbox-01-04-sh-030bf090",
+    "sandbox-01-04-sh-3eab350b",
+    "sandbox-01-04-sh-3f515aee",
+    "sandbox-01-04-sh-b6bc5414",
+    "sandbox-01-04-sh-fdffb4a5",
+    "sandbox-02-td1-sh-76996d92"
+  ],
+  "sandboxIds": [
+    "permissions-map"
+  ],
+  "sections": [
+    {
+      "id": "tree-and-types",
+      "title": "目录树、文件类型与路径模型",
+      "anchor": "tree-and-types",
+      "sourceIds": [
+        "notes-01-04-md-a032fd59",
+        "notes-02-td1-md-4e53108c",
+        "notes-11-md-cc80b5f5",
+        "base-files-02-lo03-linux-td1-2026-pdf-83a43a44",
+        "base-files-02-lo03-linux-td1-2026-correction-pdf-350734e4",
+        "base-files-02-lo03-linux-td1-pdf-e77feb22",
+        "base-files-02-td1-md-3b35db44",
+        "base-files-11-cours-mars-2026-2-pdf-8b955ba4",
+        "base-files-11-cours-mars-2026-2-md-e078412c",
+        "base-files-12-02-cours-6-et-7-avril-amir-hajjam-pdf-84805bde",
+        "base-files-12-02-cours-6-et-7-avril-amir-hajjam-md-acac9d37",
+        "sandbox-01-04-sh-3eab350b",
+        "sandbox-01-04-sh-fdffb4a5",
+        "sandbox-01-04-sh-b6bc5414",
+        "sandbox-01-04-sh-3f515aee",
+        "sandbox-01-04-sh-030bf090",
+        "sandbox-02-td1-sh-76996d92"
+      ],
+      "glossaryIds": [
+        "inode",
+        "fhs",
+        "hard-link",
+        "soft-link"
+      ],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "从根目录、FHS、设备文件和绝对/相对路径入手，建立统一目录树的认知框架。"
+        },
+        {
+          "type": "key-points",
+          "items": [
+            "Linux 把硬盘、设备、虚拟文件系统都整合进一棵统一的目录树。",
+            "常见目录如 `/bin`、`/etc`、`/proc`、`/var` 的职责不同。",
+            "路径、挂载与设备文件决定了“你访问的到底是什么”。"
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "易错点",
+          "content": "把目录当成“容器概念”而忽视它在 Unix 中本身也是文件。"
+        },
+        {
+          "type": "diagram-list",
+          "items": [
+            "根目录分层图、绝对路径与相对路径对照图。"
+          ]
+        },
+        {
+          "type": "exercise-list",
+          "items": [
+            {
+              "id": "tree-and-types-exercise-1",
+              "prompt": "解释 `/proc/filesystems`、`/dev/null` 和 `/home` 在文件系统认知中的不同角色。",
+              "answer": "",
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "notes-01-04-md-a032fd59",
+              "title": "01-04-文件系统",
+              "path": "notes/01-04-文件系统.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 01-04-文件系统\n\n文件管理、权限管理、挂载方式、备份\n\n文件系统是存储介质（硬盘、软盘、光盘等）上组织和存储目录树结构的一种方式\n\n每个专有操作系统都有自己的文件组织方式\n\n可以在同一块硬盘的不同分区中并存多个文件系统\n\nLinux有自己的文件系统，如 ext2, ext3, ext4 ，同时也能管理其他文件系统，支持的列表可以在\n\n```tsx\n/proc/filesystem\n```\n\n中查看\n\n在 Unix 体系中，对用户而言一切皆文件，无论物理位置如何，所有文件系统都必须整合进 **Linux 系统唯一的逻辑目录树中**\n\n#### 目录文件\n\n在 NodeJS 中学过的：目录本质就是文件\n\n作为容器文件，包含对其他文件的引用，是目录树的骨架，用于对文件进行分类管理\n\n#### 设备文件\n\n位于 /dev 目录下面，是系统为设备提供的访问入口。挂载操作会将这些特殊文件与它们的挂载点目录建立对应关系。例如：\n\n- /dev/sda：访问和加载第一块IDE硬盘\n- /dev/tty：终端设备\n- /dev/null：一个“黑洞”设备，写进去的数据会被丢弃\n- /dev/random：随机数设备\n\n本质是内核给设备提供的**访问入口**，就像“函数式编程”的思想\n\n程序对设备文件的读写操作本质就是在和硬件或者内核驱动打交道\n\n#### 类型\n\n1. 字符设备文件，以流式读取\n    - 终端\n    - 串口\n    - /dev/null\n2. 块设备文件，块式读取\n    - 硬盘\n    - U盘\n    - 分区\n\n```tsx\nls -l /dev\n```\n\n拿到的一系列文件，看最左边是 c 的就是字符(chr)\n是 b 的就是块设备(block)\n\n```tsx\ncrw-rw-rw- 1 root root 1, 3 ... /dev/null\nbrw-rw---- 1 root disk 8, 0 ... /dev/sda\n```\n\n同一个命令如 cat 对 dev 中的文件实际操作都是不一样的\n\n#### 文件目录\n\n/bin 二进制可执行文件\n\n> CLI 工具，像 npm 拉下来的包的CLI工具就是在 node_modules/.bin/ 下面，npx 本质就是进入该目录进行执行\n> \n\n/dev 设备文件\n\n/home 用户个人主目录\n\n/mnt 临时挂载点目录\n\n/proc 直接访问内核参数\n\n/root 超级用户的个人主目录\n\n/var 频繁变动的文件，如日志、邮件、打印队列\n\n在 Linux 中，整个目录树从 / 开始，称之为 root 或根目录，根目录下面包含所有基础系统目录\n\n![image.png](attachment:eed2a0d8-3c27-4ac8-9335-56b2f6a2c924:image.png)",
+              "excerpt": "文件管理、权限管理、挂载方式、备份 文件系统是存储介质（硬盘、软盘、光盘等）上组织和存储目录树结构的一种方式 每个专有操作系统都有自己的文件组织方式 可以在同一块硬盘的不同分区中并存多个文件系统 Linux有自己的文件系统，如 ext2, ext3, ext4 ，同时也能管理其他文件系统，支持的列表可以在 ```tsx /proc/filesystem ``` 中查看 在 Unix 体系中，对用户而言一切皆文件，无论物理位置如何，所有文件系统都必须整合进 **Linux 系统唯一的逻辑目录树中** # 文件类型 ## 普通文件 内容保存在磁盘中 - 文本"
+            },
+            {
+              "sourceId": "notes-02-td1-md-4e53108c",
+              "title": "02-TD1",
+              "path": "notes/02-TD1.md",
+              "kind": "note",
+              "language": "mixed",
+              "content": "#### 删除/重命名操作是看目录的权限\n\nls -ld $dirPath\nchmod o+r-w $dirPath\nls -ld $dirPath\n\ninput=''\nwhile [ \"$input\" != 'stop' ] ; do\n    echo \"$input\" >> $filePath\n    echo \"输入 'stop' 停止写入\"\n    read input\ndone",
+              "excerpt": "> 以 sandbox 中 02-...sh 为准 mkdir 默认无法”透层“，当父层级不存在时会报错 -p 选项配置之后就可以了 ```bash mkdir $(pwd)/test-files/dir1/dir2 # mkdir: /Users/a86198/Desktop/Lab/operating-system-app/sandbox/test-files/dir1: No such file or directory # mkdir 默认无法”透层“，当父层级不存在时会报错 mkdir -p $(pwd)/test-files/dir1/dir"
+            },
+            {
+              "sourceId": "notes-11-md-cc80b5f5",
+              "title": "11",
+              "path": "notes/11.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 文件树结构\n\n了解文件系统中文件和目录的分布规则是必要的，以便：\n\n- 制定备份方案；\n- 管理安全性；\n- 在排障时高效操作；\n- 安装那些不以软件包形式提供的软件；\n- 等等。\n\n根目录是 `/`。\n\nUNIX 系统定义了多种类型的文件：普通物理文件、目录、链接（符号链接或硬链接）、虚拟文件（仅存在于内存中，并包含系统信息）、设备文件。\n\n**FHS**（Filesystem Hierarchy Standard，**文件系统层次结构标准**）为 Unix 系统中的文件系统组织提出了标准化方案。\n\n#### 文件树结构（常见目录）\n\n- `/bin`：主要命令\n- `/dev`：设备文件\n- `/etc`：配置文件与启动脚本\n    \n    像公司可能会通过 /etc/host 重定向限制你的访问\n    \n- `/sbin`：主要系统命令\n- `/home`：用户目录与项目目录\n- `/mnt`：临时挂载点（cdrom、floppy 等）\n- `/proc`：特殊进程——内核状态\n- `/tmp`：临时文件\n- `/usr/bin`：非核心用户命令\n- `/usr/include`：编译器头文件\n- `/usr/lib`：静态库与共享库\n- `/usr/local`：本地安装软件，对应于 `/usr`\n- `/usr/sbin`：非核心系统命令\n- `/usr/share`：可在多个系统之间共享的文件\n- `/usr/share/man`：手册页（也可能是 `/usr/man`）\n- `/var`：与本机相关的文件（系统与应用）\n- `/var/spool`：邮件、打印机、周期性任务等的存放区\n\n#### 示例\n\n- **从系统中任意位置访问 `/home` 目录的绝对路径是什么？**\n    \n    绝对路径是 `/home`\n    \n- **使用 `pwd` 命令显示当前目录，并记下输出路径。**\n    \n    命令：`pwd`\n    \n    示例输出：`/home/username`\n    \n- **切换到 `/etc` 目录并列出其中的文件。**\n    \n    `cd /etc`\n    \n- **不使用绝对路径，返回你的个人主目录。**\n    \n    命令：`cd ~` 或直接 `cd`\n    \n- **在你的主目录中创建一个名为 `test_dir` 的目录。**\n    \n    `mkdir ~/test_dir`\n    \n- **在该目录中创建三个文件：`file1.txt`、`file2.txt`、`file3.txt`。**\n    \n    ```bash\n    cd ~/test_dir\n    touch file1.txt file2.txt file3.txt\n    ```\n    \n- **将 `file2.txt` 重命名为 `renamed_file.txt`。**\n    \n    **`mv** file2.txt renamed_file.txt`\n    \n- **删除 `file3.txt` 和目录 `test_dir`。**\n    \n    ```bash\n    rm file3.txt\n    cd ..\n    rmdir test_dir\n    ```\n\n#### 示例（权限）\n\n- **在你的主目录中创建文件 `example.txt`。**\n    \n    `touch ~/example.txt`\n    \n- **使用 `ls -l` 查看它当前的权限。**\n    \n    `ls -l ~/example.txt`\n    \n    示例输出：`-rw-r--r--`\n    \n- **为该文件设置如下权限：**\n    - 用户：读、写、执行\n    - 组：只读\n    - 其他用户：无权限\n    \n    命令：`chmod 740 ~/example.txt`\n    \n- **检查新的权限。**\n    \n    `ls -l ~/example.txt`\n    \n    示例输出：`-rwxr-----`\n    \n- **尝试以另一个用户身份访问该文件，并记录结果。**\n    \n    结果：`Permission denied`（权限被拒绝）\n    \n\n---\n\n#### Unix 用户\n\n一个 Unix 用户由以下属性描述：\n\n- 登录名（login）\n- 密码\n- 唯一的数字标识符（UID）\n    \n    user ID\n    \n- 主组（**G**ID）\n    \n    group\n    \n- 注释信息（称为 gecos）\n- 用户主目录（home directory）\n- 默认命令解释器（shell）\n\n系统通过 UID 识别用户。**`root` 用户的 UID 为 0**。正是这一特性赋予它对系统的完全访问权限。\n\n这些信息都以文本格式存储在 **`/etc/passwd`** 文件中，各字段之间用 `:` 分隔。\n\n例如：\n\n```bash\ncat /etc/passwd\n```\n\n```bash\nroot:*:0:0:System Administrator:/var/root:/bin/sh\n```\n\n```\nutseus:x:500:500:cours lo03:/home/utseus:/bin/bash\n```",
+              "excerpt": "## 文件系统 ### 文件树结构 了解文件系统中文件和目录的分布规则是必要的，以便： - 制定备份方案； - 管理安全性； - 在排障时高效操作； - 安装那些不以软件包形式提供的软件； - 等等。 根目录是 `/`。 UNIX 系统定义了多种类型的文件：普通物理文件、目录、链接（符号链接或硬链接）、虚拟文件（仅存在于内存中，并包含系统信息）、设备文件。 **FHS**（Filesystem Hierarchy Standard，**文件系统层次结构标准**）为 Unix 系统中的文件系统组织提出了标准化方案。 ### 文件树结构（常见目录） - `/"
+            },
+            {
+              "sourceId": "base-files-02-lo03-linux-td1-2026-pdf-83a43a44",
+              "title": "02_LO03-Linux-TD1_2026",
+              "path": "base-files/02_LO03-Linux-TD1_2026.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nLO03\n                                                               TD n°1 Linux\n\n\n\n\n                                                               Créer un fichier debut formé des 3 premières\n1. L’ARBORESENCE                                                lignes de totomobile et un fichier fin formé des 3\n                                                                dernières lignes\n                                                               Créer un fichier extremes constitué de la\n   Dans quel répertoire vous trouvez vous ?\n                                                                concaténation des fichiers début et fin\n   Créer un répertoire $HOME/tp1\n   Vérifier qu’il a bien été créé                         5. LES QUOTES\n   Créer le répertoire $HOME/tp1/rep\n   Détruire le répertoire tp1 et détruire le répertoire\n    rep                                                        Ecrire le script shell qui affiche :\n   Pensez vous qu’il soit possible de créer le                Le prix du baril de brut se situe autour de 1$ US\n    répertoire tp1/rep en une seule fois.                      Modifier le script précédent pour que le prix\n                                                                corresponde au premier argument du script\n                                                                Modifier le script précédent pour que le prix\n2. LES DROITS                                                   corresponde au contenu d’un fichier « tarif » que\n                                                                vous aurez crée préalablement.\n                                                               Modifier le script précédent pour que le nom du\n   Créer un fichier avec la commande touch. Quels              fichier contenant le tarif soit l’argument passé en\n    droits à ce fichier ?                                       ligne de commande\n   Retirer les droits d’écriture pour le propriétaire.\n   Ajouter les droits de modification et d’exécution      6. LES STRUCTURES CONDITIONNELLES\n    pour le groupe avec la notation octale\n   Ajouter les droits d’exécution pour les autres\n    avec la notation symbolique.                               Modifier le script précédent pour qu’il affiche un\n   Donner les droits d’écriture et de lecture à tout le        message d’erreur si le nom du fichier (où se\n    monde.                                                      trouve le tarif) n’est pas spécifié\n                                                               Modifier le script précédent pour qu’il vérifie\n3. MANIPULATION DES FICHIERS                                    l’existence du fichier passé en paramètre et\n                                                                affiche un message d’erreur si le fichier n’existe\n                                                                pas\n   Copier le fichier .bashrc dans le répertoire\n    $HOME/rep1                                             7. LES STRUCTURES ITERATIVES\n   Donner le nom totomobile au fichier .bashrc du\n    répertoire $HOME/rep1                                      Modifier le script précédent pour qu’il affiche\n   Modifier les protections du fichier totomobile              les tarifs du brut pour divers pays, chaque tarif\n    pour que les autres utilisateurs puissent le lire,          étant stocké dans un fichier <pays>.tarif (ex,\n    mais pas le détruire                                        koweit.tarif, irak.tarif,….)\n   Trouver deux commandes permettant de\n    visualiser le fichier totomobile                       8. LE CASE\n   Faire un lien symbolique du fichier totocar vers          En supposant que la date de votre machine est\n    le fichier totomobile                                      donnée sous le format américain (Mon Mar 29\n   Visualiser le lien symbolique                               10:08 :17 2004), écrire un script qui affiche la\n   Effacer totocar                                            date sous le format (Lundi 29 Mars 2004 à\n                                                               10 :05 :17). La date et l’heure sont données par la\n4. LES REDIRECTIONS                                            commande « date ». Si la date de votre machine\n                                                               est en déjà en français, le travail sera le même,\n   Combien le fichier totomobile comporte t-il de\n                                                               car le format de la date de votre machine n’est\n    lignes ? de mots ? de caractères ?\n                                                               pas identique à celui demandé.\n   Afficher la 3ème ligne, les 2 dernières et les\n    lignes 2 à 5 du fichier totomobile\n   Combien de mots y a t’il entre les lignes 2 et 5 ?\n                                                                                                                 1",
+              "excerpt": "## Page 1 LO03 TD n°1 Linux  Créer un fichier debut formé des 3 premières 1. L’ARBORESENCE lignes de totomobile et un fichier fin formé des 3 dernières lignes  Créer un fichier extremes constitué de la  Dans quel répertoire vous trouvez vous ? concaténation des fichiers début "
+            },
+            {
+              "sourceId": "base-files-02-lo03-linux-td1-2026-correction-pdf-350734e4",
+              "title": "02_LO03-Linux-TD1_2026_Correction",
+              "path": "base-files/02_LO03-Linux-TD1_2026_Correction.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 2\n\nLO03\n                                                             TD n°1 Linux\n\n\n\n\n4. LES REDIRECTIONS                                          echo Le prix du baril de brut se situe autour de\n                                                             $1$ US\n\n   Combien le fichier totomobile comporte t-il de\n    lignes ? de mots ? de caractères ?                        Modifier le script précédent pour que le prix\n                                                              corresponde au contenu d’un fichier « tarif » que\n       wc totomobile                                          vous aurez crée préalablement.\n       wc –l totomobile\n       wc –w totomobile                                       #! /bin/bash\n       wc –c totomobile                                       # Mon premier script\n                                                              read prix < tarif\n   Afficher la 3ème ligne, les 2 dernières et les            echo Le prix du baril de brut se situe autour de\n    lignes 2 à 5 du fichier totomobile                        $prix$ US\n\n       head -3 totomobile | tail -1                          Modifier le script précédent pour que le nom du\n       tail -2 totomobile                                     fichier contenant le tarif soit l’argument passé en\n       head -5 totomobile | tail -4                           ligne de commande\n\n   Combien de mots y a t’il entre les lignes 2 et 5 ?        #! /bin/bash\n                                                              # Mon premier script\n       head -5 totomobile | tail -4 | wc -w                   read prix < $1\n                                                              echo Le prix du baril de brut se situe autour de\n   Créer un fichier debut formé des 3 premières              $prix$ US\n    lignes de totomobile et un fichier fin formé des 3\n    dernières lignes\n\n       head -3 totomobile > debut                        6. LES STRUCTURES CONDITIONNELLES\n       tail -3 totomobile > fin\n\n   Créer un fichier extremes constitué de la                Modifier le script précédent pour qu’il affiche un\n    concaténation des fichiers début et fin                   message d’erreur si le nom du fichier (où se\n                                                              trouve le tarif) n’est pas spécifié\n       cat debut fin > extremes\n                                                              #! /bin/bash\n                                                              # Mon premier script\n5. LES QUOTES                                                 if [ $# -eq 1 ] ; then\n                                                                  read prix < $1\n                                                                  echo Le prix du baril de brut se situe autour\n   Ecrire le script shell qui affiche :                          de $prix$ US\n    Le prix du baril de brut se situe autour de 1$ US         else\n                                                                  echo Le script nécessite un argument\n    #! /bin/bash                                              fi\n    # Mon premier script\n    echo Le prix du baril de brut se situe autour de\n    1$ US                                                    Modifier le script précédent pour qu’il vérifie\n                                                              l’existence du fichier passé en paramètre et\n   Modifier le script précédent pour que le prix             affiche un message d’erreur si le fichier n’existe\n    corresponde au premier argument du script                 pas\n\n    #! /bin/bash                                              #! /bin/bash\n    # Mon premier script\n                                                                                                               2\n\n#### Page 3\n\nLO03\n                                                          TD n°1 Linux\n\n\n\n\n    # Mon premier script\n    if [ $# -eq 1 ] ; then                                   case $2 in\n        if [ -r $1 ] ; then                                         Jan) mois=Janvier ;;\n                 read prix < $1                                     Feb) mois=Fevrier ;;\n                 echo Le prix du baril de brut se situe             Mar) mois=Mars ;;\n                 autour de $prix$ US                                Nov) mois=Novembre ;;\n        else                                                        Dec) mois=Decembre ;;\n                 echo Le fichier $1 est non accessible       esac\n        fi                                                   echo $jour $3 $mois $6 à $4\n    else\n        echo Le script nécessite un argument\n    fi\n\n\n7. LES STRUCTURES ITERATIVES\n\n   Modifier le script précédent pour qu’il affiche\n    les tarifs du brut pour divers pays, chaque tarif\n    étant stocké dans un fichier <pays>.tarif (ex,\n    koweit.tarif, irak.tarif,….)\n\n    #! /bin/bash\n    # Mon premier script\n    for i in $(ls *.tarif)\n    do\n       pays=$(echo $i | cut –d’.’ –f1)\n       echo Le prix du baril de brut de $pays se situe\n       autour de $prix$ US\n    done\n\n\n8. LE CASE\n\n   En supposant que la date de votre machine est\n    donnée sous le format américain (Mon Mar 29\n     10:08 :17 2004), écrire un script qui affiche la\n    date sous le format (Lundi 29 Mars 2004 à\n    10 :05 :17). La date et l’heure sont données par la\n    commande « date ». Si la date de votre machine\n    est en déjà en français, le travail sera le même,\n    car le format de la date de votre machine n’est\n    pas identique à celui demandé.\n\n       case $1 in\n              Mon) jour=Lundi ;;\n              Tue) jour=Mardi ;;\n              Wed) jour=Mercredi ;;\n              Sun) jour=Dimanche ;;\n       esac\n\n                                                                                            3",
+              "excerpt": "## Page 1 LO03 TD n°1 Linux  Ajouter les droits d’exécution pour les autres 1. L’ARBORESENCE avec la notation symbolique. chmod o+x toto  Dans quel répertoire vous trouvez vous ?  Donner les droits d’écriture et de lecture à tout le pwd monde.  Créer un répertoire $HOME/tp1 c"
+            },
+            {
+              "sourceId": "base-files-02-lo03-linux-td1-pdf-e77feb22",
+              "title": "02_LO03_Linux_TD1_中文翻译",
+              "path": "base-files/02_LO03_Linux_TD1_中文翻译.pdf",
+              "kind": "pdf",
+              "language": "zh",
+              "content": "#### Page 1\n\nLO03\n              Linux 第 1 次习题课（TD n°1）中文翻译\n\n                             根据原始文件翻译整理\n\n\n1. 目录结构\n   你当前位于哪个目录？\n   创建目录 $HOME/tp1。\n   目是否已成功建。\n   创建目录 $HOME/tp1/rep。\n   删除目录 tp1，并删除目录 rep。\n   你认为是否可以一次性创建目录 tp1/rep？\n\n\n\n2. 权限\n   使用 touch 命令创建一个文件。这个文件具有什么权限？\n   移除文件所有者的限。\n   使用八进制表示法为用户组添加修改权限和执行权限。\n   使用符号表示法为其他用户添加执行权限。\n   为所有用户授予读权限和写权限。\n\n\n\n3. 文件操作\n   将文件 .bashrc 复制到目录 $HOME/rep1 中。\n   把目录 $HOME/rep1 中的 .bashrc 文件重命名为 totomobile。\n   修改 totomobile 文件的权限，使其他用户可以读取它，但不能删除它。\n   找出两条可以查看 totomobile 文件内容的命令。\n   创建一个名为 totocar 的符号链接，使其指向 totomobile 文件。\n   查看该符号链接。\n   删除 totocar。\n\n\n\n4. 重定向\n   totomobile 文件共有多少行？多少个单词？多少个字符？\n   显示 totomobile 文件的第 3 行、最后 2 行，以及第 2 行到第 5 行。\n   第 2 行到第 5 行之间共有多少个单词？\n   创建一个名为 debut 的文件，由 totomobile 的前 3 行组成；再创建一个名为 fin 的文件，由其最后\n    3 行组成。\n   创建一个名为 extremes 的文件，它由文件 debut 与 fin 接而成。",
+              "excerpt": "## Page 1 LO03 Linux 第 1 次习题课（TD n°1）中文翻译 根据原始文件翻译整理 1. 目录结构  你当前位于哪个目录？  创建目录 $HOME/tp1。  目是否已成功建。  创建目录 $HOME/tp1/rep。  删除目录 tp1，并删除目录 rep。  你认为是否可以一次性创建目录 tp1/rep？ 2. 权限  使用 touch 命令创建一个文件。这个文件具有什么权限？  移除文件所有者的限。  使用八进制表示法为用户组添加修改权限和执行权限。  使用符号表示法为其他用户添加执行权限。  为所有用户"
+            },
+            {
+              "sourceId": "base-files-02-td1-md-3b35db44",
+              "title": "02_TD1",
+              "path": "base-files/02_TD1.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### LO03 – TD n°1 Linux（UTT）解析\n\n> 这份讲义/“PPT”（实际是 1 页的 TD 练习单）是 UTT 的 **LO03 Linux** 课程 **TD1**。内容覆盖 Linux 命令行与 Shell 的基础：目录/文件操作、权限、重定向、引号与参数、条件/循环/case 脚本结构。  \n> 参考文件：LO03 TD n°1 Linux（第 1 页） [oai_citation:0‡LO03-Linux-TD1_2026.pdf](sediment://file_0000000031a871fdb37371d8287ff7fd)\n\n---\n\n#### 题目要点\n\n- “你现在在哪个目录？”：理解**当前工作目录**\n- 创建 `$HOME/tp1`、`$HOME/tp1/rep`：练习创建目录\n- 验证是否创建成功：练习查看目录\n- 删除 `tp1` 和 `rep`：练习删除目录（含递归/空目录差别）\n- 能否“一次创建 tp1/rep”：练习 `mkdir -p`\n\n#### 对应命令（典型解法）\n\n- 查看当前目录：\n  - `pwd`\n- 创建目录：\n  - `mkdir -p \"$HOME/tp1\"`\n  - `mkdir -p \"$HOME/tp1/rep\"`\n- 验证创建：\n  - `ls -l \"$HOME\"`\n  - `ls -l \"$HOME/tp1\"`\n- 删除目录：\n  - 删除空目录：`rmdir \"$HOME/tp1/rep\"`\n  - 递归删除（危险命令，小心路径）：`rm -r \"$HOME/tp1\"`\n- 一次性创建多级目录：\n  - `mkdir -p \"$HOME/tp1/rep\"`\n\n#### 易错点\n\n- `rmdir` 只能删**空目录**\n- `rm -r` 会递归删除，路径写错会误删\n\n---\n\n#### 易错点\n\n- 八进制 `chmod 674` 是“覆盖式设定”，不是“增量”\n- 给所有人 rw 不等于可删除：删除权限在**目录**上（见第 3 部分）\n\n---",
+              "excerpt": "# LO03 – TD n°1 Linux（UTT）解析 > 这份讲义/“PPT”（实际是 1 页的 TD 练习单）是 UTT 的 **LO03 Linux** 课程 **TD1**。内容覆盖 Linux 命令行与 Shell 的基础：目录/文件操作、权限、重定向、引号与参数、条件/循环/case 脚本结构。 > 参考文件：LO03 TD n°1 Linux（第 1 页） [oai_citation:0‡LO03-Linux-TD1_2026.pdf](sediment://file_0000000031a871fdb37371d8287ff7fd) -"
+            },
+            {
+              "sourceId": "base-files-11-cours-mars-2026-2-pdf-8b955ba4",
+              "title": "11_Cours-Mars-2026-2",
+              "path": "base-files/11_Cours-Mars-2026-2.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 3\n\nArborescence des fichiers\n/bin           principales commandes\n/dev           fichiers pour périphériques\n/etc           fichiers de configuration et scripts de boot\n/sbin          principales commandes système\n/home          répertoires des utilisateurs et projets\n/mnt           points de montage temporaires (cdrom, floppy, etc.)\n/proc          processus spéciaux – état du noyau\n/tmp           fichiers temporaires\n/usr/bin       commandes utilisateurs non essentielles\n/usr/include   fichier entêtes pour compilateurs\n/usr/lib       librairies statiques et partagées\n/usr/local     idem /usrpour les logiciels locaux\n/usr/sbin      commandes système non essentielles\n/usr/share     fichiers pouvant être partagés entre systèmes\n/usr/share/man pages du manuel (peut être /usr/man)\n/var           fichiers spécifiques à la machine (système et applications)\n/var/spool     espace pour mail, imprimantes, jobs périodiques\n\n#### Page 7\n\nUtilisateurs Unix\nLes attributs qui caractérisent un utilisateur Unix sont :\n    - un nom de connexion (login) ;\n    - un mot de passe ;\n    - un identifiant numérique unique (UID) ;\n    - un groupe primaire (GID) ;\n    - un commentaire (appelé gecos);\n    - le répertoire principal de l'utilisateur (home directory) ;\n    - un interpréteur de commandes (shell) par défaut.\n\nUn utilisateur est identifié par le système par son UID. L'utilisateur root a pour UID 0.\n         C'est cette caractéristique qui lui confère un accès complet au système.\n\nL'ensemble de ces éléments est stocké dans le fichier /etc/passwd au format texte. Les\nchamps sont séparés par le caractère « : ».\nPar exemple :\n\n         utseus:x:500:500:cours lo03:/home/utseus:/bin/bash\n\n#### Page 10\n\nFormat /etc/passwd\n\nChamp 5 : gecos\n   Identité en clair de l’utilisateur.\n   Les systèmes BSD y ont stockés d’autres informations comme le numéro de\n   téléphone, le numéro de bureau etc.\n   La commande chfn (change finger) permet de modifier ce champs.\n\nChamp 6 : homedir\n   Répertoire par défaut.\n\nChamp 7 : shell\n   Shell par défaut.\n   Si le champ est vide, on prend /bin/sh par défaut.\n   Le shell déterminera les fichiers de configuration à installer chez l’utilisateur.\n   La commande chsh\n\n#### Page 13\n\nLes comptes fictifs\n\nLes utilisateurs fictifs sont essentiellement des propriétaires de fichiers.\n   root:x:0:0:root:/root:/bin/bash\n   bin:x:1:1:bin:/bin:\n   daemon:x:2:2:daemon:/sbin:\n   adm:x:3:4:adm:/var/adm:\n   lp:x:4:7:lp:/var/spool/lpd:\n   sync:x:5:0:sync:/sbin:/bin/sync\n   shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown\n   halt:x:7:0:halt:/sbin:/sbin/halt\n   mail:x:8:12:mail:/var/spool/mail:\n   news:x:9:13:news:/var/spool/news:\n\nPar exemple bin est le propriétaire de la plupart des exécutables :\n    -rwxr-xr-x 1 bin bin 40960 Aug 9 1994 stty*\n    -rws--x--x 1 root bin 24576 Aug 9 1994 su*\n    -rwxr-xr-x 1 bin bin 24576 Aug 9 1994 sum*\n\n#### Page 18\n\nGestion des utilisateurs et groupes\nü Identifiez les comptes utilisateurs suivants dans le fichier /etc/passwd : Root, un compte système (par\n  exemple, daemon) et un compte utilisateur ordinaire (username:x:UID:GID:comment:home_directory:shell)\n     ü Compte root : UID = 0, GID = 0.\n     ü Compte système daemon : UID = 1, GID = 1.\n     ü Compte utilisateur ordinaire : UID ≥ 1000 (par exemple, user:x:1001:1001::/home/user:/bin/bash).\n\nü Quelle est la signification du caractère x dans la colonne du mot de passe ?\n     ü Le caractère x signifie que le mot de passe est stocké dans le fichier /etc/shadow pour des raisons de sécurité\nü Créez un utilisateur nommé testuser avec son répertoire personnel.\n     ü sudo useradd -m testuser\nü Ajoutez une description au compte utilisateur testuser indiquant “Utilisateur de test”.\n     ü sudo usermod -c \"Utilisateur de test\" testuser\nü Changez le shell par défaut de testuser en /bin/zsh.\n     ü sudo usermod -s /bin/zsh testuser\nü Supprimez l’utilisateur testuser et son répertoire personnel.\n     ü sudo userdel -r testuser\nü Configurez une date d’expiration pour le compte guest\n     ü sudo chage -E 2024-12-31 guest",
+              "excerpt": "## Page 1 Le système de fichiers ## Page 2 Arborescence des fichiers La connaissance des règles de distribution des fichiers et répertoires dans le système des fichiers est nécessaire pour : - déterminer un plan de sauvegarde ; - gérer la sécurité ; - agir efficacement lors de la"
+            },
+            {
+              "sourceId": "base-files-11-cours-mars-2026-2-md-e078412c",
+              "title": "11_Cours-Mars-2026-2_中文翻译",
+              "path": "base-files/11_Cours-Mars-2026-2_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 文件树结构\n\n了解文件系统中文件和目录的分布规则是必要的，以便：\n\n- 制定备份方案；\n- 管理安全性；\n- 在排障时高效操作；\n- 安装那些不以软件包形式提供的软件；\n- 等等。\n\n根目录是 `/`。\n\nUNIX 系统定义了多种类型的文件：普通物理文件、目录、链接（符号链接或硬链接）、虚拟文件（仅存在于内存中，并包含系统信息）、设备文件。\n\n**FHS**（Filesystem Hierarchy Standard，**文件系统层次结构标准**）为 Unix 系统中的文件系统组织提出了标准化方案。\n\n#### 文件树结构（常见目录）\n\n- `/bin`：主要命令\n- `/dev`：设备文件\n- `/etc`：配置文件与启动脚本\n    \n    像公司可能会通过 /etc/host 重定向限制你的访问\n    \n- `/sbin`：主要系统命令\n- `/home`：用户目录与项目目录\n- `/mnt`：临时挂载点（cdrom、floppy 等）\n- `/proc`：特殊进程——内核状态\n- `/tmp`：临时文件\n- `/usr/bin`：非核心用户命令\n- `/usr/include`：编译器头文件\n- `/usr/lib`：静态库与共享库\n- `/usr/local`：本地安装软件，对应于 `/usr`\n- `/usr/sbin`：非核心系统命令\n- `/usr/share`：可在多个系统之间共享的文件\n- `/usr/share/man`：手册页（也可能是 `/usr/man`）\n- `/var`：与本机相关的文件（系统与应用）\n- `/var/spool`：邮件、打印机、周期性任务等的存放区\n\n#### 示例\n\n- **从系统中任意位置访问 `/home` 目录的绝对路径是什么？**\n    \n    绝对路径是 `/home`\n    \n- **使用 `pwd` 命令显示当前目录，并记下输出路径。**\n    \n    命令：`pwd`\n    \n    示例输出：`/home/username`\n    \n- **切换到 `/etc` 目录并列出其中的文件。**\n    \n    `cd /etc`\n    \n- **不使用绝对路径，返回你的个人主目录。**\n    \n    命令：`cd ~` 或直接 `cd`\n    \n- **在你的主目录中创建一个名为 `test_dir` 的目录。**\n    \n    `mkdir ~/test_dir`\n    \n- **在该目录中创建三个文件：`file1.txt`、`file2.txt`、`file3.txt`。**\n    \n    ```bash\n    cd ~/test_dir\n    touch file1.txt file2.txt file3.txt\n    ```\n    \n- **将 `file2.txt` 重命名为 `renamed_file.txt`。**\n    \n    **`mv** file2.txt renamed_file.txt`\n    \n- **删除 `file3.txt` 和目录 `test_dir`。**\n    \n    ```bash\n    rm file3.txt\n    cd ..\n    rmdir test_dir\n    ```\n\n#### 示例（权限）\n\n- **在你的主目录中创建文件 `example.txt`。**\n    \n    `touch ~/example.txt`\n    \n- **使用 `ls -l` 查看它当前的权限。**\n    \n    `ls -l ~/example.txt`\n    \n    示例输出：`-rw-r--r--`\n    \n- **为该文件设置如下权限：**\n    - 用户：读、写、执行\n    - 组：只读\n    - 其他用户：无权限\n    \n    命令：`chmod 740 ~/example.txt`\n    \n- **检查新的权限。**\n    \n    `ls -l ~/example.txt`\n    \n    示例输出：`-rwxr-----`\n    \n- **尝试以另一个用户身份访问该文件，并记录结果。**\n    \n    结果：`Permission denied`（权限被拒绝）\n    \n\n---\n\n#### Unix 用户\n\n一个 Unix 用户由以下属性描述：\n\n- 登录名（login）\n- 密码\n- 唯一的数字标识符（UID）\n    \n    user ID\n    \n- 主组（**G**ID）\n    \n    group\n    \n- 注释信息（称为 gecos）\n- 用户主目录（home directory）\n- 默认命令解释器（shell）\n\n系统通过 UID 识别用户。**`root` 用户的 UID 为 0**。正是这一特性赋予它对系统的完全访问权限。\n\n这些信息都以文本格式存储在 **`/etc/passwd`** 文件中，各字段之间用 `:` 分隔。\n\n例如：\n\n```bash\ncat /etc/passwd\n```\n\n```bash\nroot:*:0:0:System Administrator:/var/root:/bin/sh\n```\n\n```\nutseus:x:500:500:cours lo03:/home/utseus:/bin/bash\n```",
+              "excerpt": "## 文件系统 ### 文件树结构 了解文件系统中文件和目录的分布规则是必要的，以便： - 制定备份方案； - 管理安全性； - 在排障时高效操作； - 安装那些不以软件包形式提供的软件； - 等等。 根目录是 `/`。 UNIX 系统定义了多种类型的文件：普通物理文件、目录、链接（符号链接或硬链接）、虚拟文件（仅存在于内存中，并包含系统信息）、设备文件。 **FHS**（Filesystem Hierarchy Standard，**文件系统层次结构标准**）为 Unix 系统中的文件系统组织提出了标准化方案。 ### 文件树结构（常见目录） - `/"
+            },
+            {
+              "sourceId": "base-files-12-02-cours-6-et-7-avril-amir-hajjam-pdf-84805bde",
+              "title": "12-02_Cours 6 et 7 avril - Amir Hajjam",
+              "path": "base-files/12-02_Cours 6 et 7 avril - Amir Hajjam.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 2\n\nLes systèmes de gestion de fichiers\n\n✓ Sous Unix un fichier est :\n   - toujours désigné par un nom.\n   - possède un unique inode (certaines informations concernant le fichier).\n   - possède les fonctionnalités suivantes :\n        • ouverture.\n        • fermeture.\n        • lecture (consultation).\n        • écriture (modification).\n\n✓ Un fichier peut être :\n   - ordinaire (on utilise parfois le terme \"normal\") (-)\n   - un répertoire (d)\n   - un lien symbolique (l)\n   - un pseudo-fichier :\n       • accès caractère par caractère (c)\n       • dispositif de communication (p)\n       • accès par bloc (b)\n\n#### Page 5\n\nCréer un système de fichiers\n\n\n✓ Partitionnement et formatage du disque dur :\n   - Formatage « bas niveau » (physique, en usine)\n   - Partitionnement (à l'installation de l'OS)\n        • fips, fdisk, PartitionMagic (DOS)\n        • fdisk, parted (linux)\n        • à l'installation de Linux (menu caractère, menu graphique)\n   - « Formatage » « haut niveau » (logique, dépends de l'OS et du FileSystem cible)\n        • format (Windows : créé un filesystem FAT ou NTFS)\n        • mkfs (Unix : créé un filesystem Ext2, Ext3, FAT, ...)\n           exemple :     mkfs t ext2 /dev/hda1\n\n                         mkfs t vfat /dev/fd0\n     - Système de fichiers journalisés : plus robuste aux pannes secteurs\n\n#### Page 7\n\nCréer un système de fichiers\n\nExemple de création d'une partition (hda9) et d'un système de fichiers :\n  # fdisk /dev/hda\n  [ Utiliser la commande \"p\" pour afficher la table des partitions, \"n\"\n    pour créer une partition et \"w\" pour écrire les modifications\n    sur le disque. Un redémarrage peut s'avérer nécessaire. ]\n  # mkfs -t ext3 /dev/hda9\n  .../...\n  # mount -t ext3 /dev/hda9 /opt\n  # echo /dev/hda9 /opt ext3 defaults 1 2 >> /etc/fstab\n\nExemple de création d'un système de fichiers dans un « fichier image » :\n  # dd if=/dev/zero of=/var/local/myfs bs=1024 count=102400\n  .../... if=fichier entrée – of=fichier sortie – bs=nb octets lire/ecrire – count=nb blocs à copier\n  # mkfs -t ext3 /var/local/myfs\n  [ Une confirmation est demandée car \"/var/local/myfs\" n'est pas\n    un fichier spécial de type bloc. ]\n  .../...\n  # mkdir /mnt/tmp\n  # mount -o loop -t ext3 /var/local/myfs /mnt/tmp\n  # echo /dev/hda9 /opt ext3 loop 1 2 >> /etc/fstab\n\n#### Page 8\n\nRéparer un système de fichiers\n✓ La commande fsck permet de vérifier l'intégrité d'un système de fichiers et, le\n  cas échéant, d'effectuer une tentative de réparation. Le système de fichier ne doit\n  pas être monter. Pour cette raison ces tests sont souvent effectués en runlevel 1\n  (single) :\n      # init 1\n      # umount /usr\n      # fsck -t ext3 -f /dev/hda7\n      # mount /usr\n      # init 5\n\n✓ Un autre moyen consiste à forcer la vérification de l'intégrité de tous les systèmes\n  de fichiers locaux au démarrage du système. Pour cela, il suffit de créer un fichier\n  vide nommé forcefsck dans la racine de l'arborescence :\n     # touch /forcefsck\n     # init 6\n\n✓ Les blocs de données orphelins retrouvés lors de la réparation de systèmes de\n  fichiers ext2 ou ext3 sont placés dans les répertoires lost+found présents dans\n  la racine de chaque système de fichiers ext2 ou ext3.\n\n#### Page 12\n\nCréer un espace de mémoire virtuelle\n✓ Pour configurer un nouvel espace de mémoire virtuelle et l'activer de\n  manière permanente, il est nécessaire de :\n   1) créer une partition ou un fichier vide ;\n   2) créer une signature de mémoire virtuelle avec la commande mkswap ;\n   3) utiliser la commande swapon pour activer l'espace de mémoire virtuelle ;\n   5) ajouter une ligne au fichier /etc/fstab afin que l'espace de mémoire virtuelle\n      soit activée à chaque démarrage du système.\n\n✓ Voici un exemple pour ajouter un fichier de 100 Mo à la mémoire virtuelle :\n   # dd if=/dev/zero of=/swapfile bs=1024 count=102400\n   .../...\n   # mkswap /swapfile\n   Initialisation de la version de l'espace de swap 1, taille = 104853 kB\n   # swapon /swapfile\n   # echo /swapfile swap swap defaults 0 0 >> /etc/fstab\n   # swapon -s\n   Filename               Type                Size       Used       Priority\n   /dev/hda3              partition           524152     0          -1\n   /swapfile              file                102392     0          -2",
+              "excerpt": "## Page 1 Le système de gestion de fichiers ## Page 2 Les systèmes de gestion de fichiers ✓ Sous Unix un fichier est : - toujours désigné par un nom. - possède un unique inode (certaines informations concernant le fichier). - possède les fonctionnalités suivantes : • ouverture. •"
+            },
+            {
+              "sourceId": "base-files-12-02-cours-6-et-7-avril-amir-hajjam-md-acac9d37",
+              "title": "12-02_Cours_6_et_7_avril_Amir_Hajjam_中文翻译",
+              "path": "base-files/12-02_Cours_6_et_7_avril_Amir_Hajjam_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### Unix 下的文件\n\n在 Unix 中，一个文件：\n\n- 总是由一个名称标识；\n- 拥有唯一的 inode（保存与文件有关的部分信息）；\n- 具有以下操作能力：\n    - 打开；\n    - 关闭；\n    - 读取（查看）；\n    - 写入（修改）。\n\n一个文件可以是：\n\n- 普通文件（有时也称为“普通/正常”文件）；\n- 目录；\n- 符号链接；\n- 伪文件：\n    - 按字符访问的设备；\n    - 通信设备；\n    - 按块访问的设备。\n\n#### 文件系统\n\n文件系统（或文件管理系统）是一种**存储并组织信息为文件**的方式。\n\n它是按照某种给定格式组织起来的一组目录和文件。系统能够以读写方式识别数十种文件系统格式。\n\n根据文件系统的类型，用来持久化数据的介质可以是：\n\n- 由本地磁盘控制器管理的设备分区（如磁盘、硬件 RAID 控制器）；\n- 可移动设备（如软盘、CD-ROM）；\n- 网络上提供的资源（如 NFS 或 SMB 服务器）；\n- 内存（如 **tmpfs** 文件系统）；\n    \n    内存 - 临时文件系统\n    \n- 虚拟空间（如 proc、sysfs、usbdevfs、devpts 等）；\n- 模拟的块设备（如 ramdisk、loop、NBD、LVM、软件 RAID 提供的设备）。\n\n#### 最常用的文件系统与挂载\n\n课件中提到，最常用的文件系统是 **ext3**。要创建一个新的文件系统并将其永久挂载到目录树中，需要：\n\n1. 配置一个块设备；\n2. 用 **`mkfs`** 命令创建文件系统；\n3. 选择一个挂载点；\n4. 用 **`mount`** 命令把文件系统挂载到挂载点；\n5. 在 **`/etc/fstab`** 中添加一行，使系统每次启动时自动挂载。\n\n第一步如何做取决于存储介质类型。多数情况下，它是本地磁盘上的一个分区，通常使用 `fdisk` 创建。\n\n一个“合理安装”的操作系统通常会把磁盘划分为多个分区，例如：\n\n- 系统分区（系统文件、配置文件等）；\n- 用户分区（用户数据）；\n\n这样做的优点：\n\n- 更安全；\n- 可以**只格式化某一个分区，而不影响其他分区**；\n- 某些分区可以**只读挂载**。\n\n#### 磁盘分区与格式化\n\n硬盘处理通常分为：\n\n- **低级格式化**（物理格式化，在工厂完成）；\n- **分区**（通常在安装操作系统时进行）；\n- **高级格式化**（逻辑格式化，与操作系统和目标文件系统有关）。\n\n常见工具：\n\n- DOS：`fips`、`fdisk`、`PartitionMagic`\n- Linux：`fdisk`、`parted`\n- 安装 Linux 时的文本/图形安装菜单\n\n常见格式化命令：\n\n- Windows：`format`（创建 FAT 或 NTFS 文件系统）\n- Unix/Linux：`mkfs`（创建 Ext2、Ext3、FAT 等文件系统）\n\n示例：\n\n```bash\nmkfs -t ext2 /dev/hda1\nmkfs -t vfat /dev/fd0\n```\n\n日志型文件系统（journaled filesystem）对故障更稳健。\n\n#### 不同系统支持的文件系统（课件示意）\n\n- DOS：FAT16\n- Windows 95：FAT16\n- Windows 95 OSR2：FAT16、FAT32\n- Windows 98：FAT16、FAT32\n- Windows NT4：FAT、NTFS v4\n- Windows 2000/XP：FAT、FAT16、FAT32、NTFS v4/v5\n- Linux：Ext2、Ext3、ReiserFS、Linux Swap，以及 FAT、NTFS 等\n- MacOS：HFS、MFS\n- SGI IRIX：XFS\n- FreeBSD / OpenBSD：UFS\n- Sun Solaris：UFS\n- IBM AIX：JFS",
+              "excerpt": "## 文件管理系统 ### Unix 下的文件 在 Unix 中，一个文件： - 总是由一个名称标识； - 拥有唯一的 inode（保存与文件有关的部分信息）； - 具有以下操作能力： - 打开； - 关闭； - 读取（查看）； - 写入（修改）。 一个文件可以是： - 普通文件（有时也称为“普通/正常”文件）； - 目录； - 符号链接； - 伪文件： - 按字符访问的设备； - 通信设备； - 按块访问的设备。 ### 文件系统 文件系统（或文件管理系统）是一种**存储并组织信息为文件**的方式。 它是按照某种给定格式组织起来的一组目录和文件。系统能"
+            },
+            {
+              "sourceId": "sandbox-01-04-sh-3eab350b",
+              "title": "01-04-文件属性&权限",
+              "path": "sandbox/01-04-文件属性&权限.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 01-04-文件属性&权限\n\nls -l ./ # long listing format\n<<'COMMENT'\ntotal 56\n-rw-r--r--  1 a86198  staff   292 Apr 13 13:40 01-修改命令提示符.sh\n-rw-r--r--  1 a86198  staff   578 Apr 13 14:15 01-命令提示.sh\n-rw-r--r--  1 a86198  staff    69 Apr 13 13:57 01-基础命令.sh\n-rw-r--r--  1 a86198  staff   633 Apr 13 15:20 01-文件属性.sh\n-rw-r--r--  1 a86198  staff  2283 Apr 13 15:04 01-文件目录.sh\ndrwxr-xr-x  2 a86198  staff    64 Apr 13 15:21 test-files\n-rw-r--r--  1 a86198  staff   590 Apr 13 15:00 智能提示自动补全而不是展示.sh\n-rw-r--r--  1 a86198  staff   823 Apr 13 13:43 配置交互智能提示.sh\n\n文件类型+权限 硬链接数 所有者 所属组 文件大小字节数 最后修改时间 文件名\n\n#### 第一列开头\n\n- 普通文件\nd 目录文件\nl 符号链接\n\n#### 权限\n\n第一个字段中除了第一列代表文件类型外的剩余9个字母\n\n#### 将用户主目录设置为私有目录（仅自己可访问）\n\nchmod 700 -\n\nls -l ./",
+              "excerpt": "ls -l ./ # long listing format <<'COMMENT' total 56 -rw-r--r-- 1 a86198 staff 292 Apr 13 13:40 01-修改命令提示符.sh -rw-r--r-- 1 a86198 staff 578 Apr 13 14:15 01-命令提示.sh -rw-r--r-- 1 a86198 staff 69 Apr 13 13:57 01-基础命令.sh -rw-r--r-- 1 a86198 staff 633 Apr 13 15:20 01-文件属性.sh -rw-r--r--"
+            },
+            {
+              "sourceId": "sandbox-01-04-sh-fdffb4a5",
+              "title": "01-04-文件操作",
+              "path": "sandbox/01-04-文件操作.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 查看文件类型\n\nfile ./esN",
+              "excerpt": "# NodeJS/sandboxs/fs 对照 NodeJS 中的文件操作 # 沙盒环境 cd ./test-files # 创建文件 touch file1 echo 1 >> file1 # 复制文件 cp ./file1 ./file1-copy # 删除文件 rm ./file1 # 修改文件名 mv ./file1-copy ./重命名后文件名 mv ./重命名后文件名 ./esN # 查看文件内容 cat ./esN more ./esN # more 支持分页查看: 按回车翻行、按空格翻页 # 查看文件类型 file ./esN # ./e"
+            },
+            {
+              "sourceId": "sandbox-01-04-sh-b6bc5414",
+              "title": "01-04-文件目录",
+              "path": "sandbox/01-04-文件目录.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### CLI 工具，像 npm 拉下来的包的CLI工具就是在 node modules/.bin/ 下面，npx 本质就是进入该目录进行执行\n\necho \"=== 二进制文件\"\nls -l /bin\n<<'COMMENT'\ntotal 9560\n-rwxr-xr-x  1 root  wheel   101456 Feb 25 11:41 [\n-r-xr-xr-x  1 root  wheel  1310208 Feb 25 11:41 bash\n-rwxr-xr-x  1 root  wheel   118992 Feb 25 11:41 cat\n-rwxr-xr-x  1 root  wheel   120656 Feb 25 11:41 chmod\n-rwxr-xr-x  1 root  wheel   153360 Feb 25 11:41 cp\n-rwxr-xr-x  2 root  wheel  1091936 Feb 25 11:41 csh\n-rwxr-xr-x  1 root  wheel   274272 Feb 25 11:41 dash\n-rwxr-xr-x  1 root  wheel   135392 Feb 25 11:41 date\n-rwxr-xr-x  1 root  wheel   152576 Feb 25 11:41 dd\n-rwxr-xr-x  1 root  wheel   119152 Feb 25 11:41 df\n-rwxr-xr-x  1 root  wheel   101136 Feb 25 11:41 echo\n-rwxr-xr-x  1 root  wheel   202528 Feb 25 11:41 ed\n-rwxr-xr-x  1 root  wheel   102000 Feb 25 11:41 expr\n-rwxr-xr-x  1 root  wheel   101184 Feb 25 11:41 hostname\n-rwxr-xr-x  1 root  wheel   101504 Feb 25 11:41 kill\n-r-xr-xr-x  1 root  wheel  2549488 Feb 25 11:41 ksh\n-rwxr-xr-x  1 root  wheel   364448 Feb 25 11:41 launchctl\n-rwxr-xr-x  2 root  wheel   102192 Feb 25 11:41 link\n-rwxr-xr-x  2 root  wheel   102192 Feb 25 11:41 ln\n-rwxr-xr-x  1 root  wheel   154624 Feb 25 11:41 ls\n-rwxr-xr-x  1 root  wheel   101472 Feb 25 11:41 mkdir\n-rwxr-xr-x  1 root  wheel   119440 Feb 25 11:41 mv\n-rwxr-xr-x  1 root  wheel   304672 Feb 25 11:41 pax\n-rwsr-xr-x  1 root  wheel   170816 Feb 25 11:41 ps\n-rwxr-xr-x  1 root  wheel   101296 Feb 25 11:41 pwd\n-rwxr-xr-x  1 root  wheel   101072 Feb 25 11:41 realpath\n-rwxr-xr-x  2 root  wheel   119200 Feb 25 11:41 rm\n-rwxr-xr-x  1 root  wheel   101120 Feb 25 11:41 rmdir\n-rwxr-xr-x  1 root  wheel   101232 Feb 25 11:41 sh\n-rwxr-xr-x  1 root  wheel   101168 Feb 25 11:41 sleep\n-rwxr-xr-x  1 root  wheel   135504 Feb 25 11:41 stty\n-rwxr-xr-x  1 root  wheel   100784 Feb 25 11:41 sync\n-rwxr-xr-x  2 root  wheel  1091936 Feb 25 11:41 tcsh\n-rwxr-xr-x  1 root  wheel   101472 Feb 25 11:41 test\n-rwxr-xr-x  2 root  wheel   119200 Feb 25 11:41 unlink\n-rwxr-xr-x  1 root  wheel   101056 Feb 25 11:41 wait4path\n-rwxr-xr-x  1 root  wheel  1361200 Feb 25 11:41 zsh\nCOMMENT\n\necho \"\n=== 设备文件\" # \"\"就能自动换行，不像 JS 会空白折叠，如果用 ``反而会导致命令替换\nls /dev",
+              "excerpt": "# CLI 工具，像 npm 拉下来的包的CLI工具就是在 node_modules/.bin/ 下面，npx 本质就是进入该目录进行执行 echo \"=== 二进制文件\" ls -l /bin <<'COMMENT' total 9560 -rwxr-xr-x 1 root wheel 101456 Feb 25 11:41 [ -r-xr-xr-x 1 root wheel 1310208 Feb 25 11:41 bash -rwxr-xr-x 1 root wheel 118992 Feb 25 11:41 cat -rwxr-xr-x 1 ro"
+            },
+            {
+              "sourceId": "sandbox-01-04-sh-3f515aee",
+              "title": "01-04-目录操作",
+              "path": "sandbox/01-04-目录操作.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 查看 cwd 当前工作目录\n\npwd\n\n#### 创建目录文件\n\nmkdir ./test-dir\n\ncd ./test-dir ; touch 1\ncd ../\n\n#### 深度递归显示当前目录、及所有子目录的磁盘占用空间字节数\n\ndu ./\n\n#### 在当前目录查找文件，注意不能递归查找、而且后缀名也不可缺\n\nfind 01-基础命令.sh",
+              "excerpt": "# 查看 cwd 当前工作目录 pwd # /Users/a86198/Desktop/Lab/operating-system-app/sandbox # 创建目录文件 mkdir ./test-dir cd ./test-dir ; touch 1 cd ../ # rm ./test-dir/1 # rmdir ./test-dir # 必须要空的，否则 rmdir: ./test-dir: Directory not empty # 可以用 rm -r 递归删除 rm -r ./test-dir mkdir ./test-files/test-d"
+            },
+            {
+              "sourceId": "sandbox-01-04-sh-030bf090",
+              "title": "01-04-链接",
+              "path": "sandbox/01-04-链接.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### ln 默认创建的是硬链接\n\nln ./test-files/esN ./test-files/esN-hard-link\n\nln -s ./test-files/esN ./test-files/esN-soft-link\n\nls -l ./test-files\n<<'COMMENT'\ntotal 24\n-r-xr-x-w-  2 a86198  staff   2 Apr 13 15:42 esN\n-r-xr-x-w-  2 a86198  staff   2 Apr 13 15:42 esN-hard-link\nlrwxr-xr-x  1 a86198  staff  16 Apr 13 16:25 esN-soft-link -> ./test-files/esN\n-rw-r--r--  1 a86198  staff   4 Apr 13 15:42 esN2\ndrwxr-xr-x  2 a86198  staff  64 Apr 13 15:55 test-dir\nCOMMENT",
+              "excerpt": "# ln 默认创建的是硬链接 ln ./test-files/esN ./test-files/esN-hard-link ln -s ./test-files/esN ./test-files/esN-soft-link ls -l ./test-files <<'COMMENT' total 24 -r-xr-x-w- 2 a86198 staff 2 Apr 13 15:42 esN -r-xr-x-w- 2 a86198 staff 2 Apr 13 15:42 esN-hard-link lrwxr-xr-x 1 a86198 staff 16"
+            },
+            {
+              "sourceId": "sandbox-02-td1-sh-76996d92",
+              "title": "02-TD1",
+              "path": "sandbox/02-TD1.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 删除/重命名操作是看目录的权限\n\nls -ld $dirPath\nchmod o+r-w $dirPath\nls -ld $dirPath\n\ninput=''\nwhile [ \"$input\" != 'stop' ] ; do\n    echo \"$input\" >> $filePath\n    echo \"输入 'stop' 停止写入\"\n    read input\ndone",
+              "excerpt": "# 1 dirPath=$(pwd)/test-files/02/dir1/dir2 mkdir $dirPath ## mkdir: /Users/a86198/Desktop/Lab/operating-system-app/sandbox/test-files/02/dir1: No such file or directory ## mkdir 默认无法”透层“，当父层级不存在时会报错 mkdir -p $dirPath ## -p 选项配置之后就可以了 # 2 echo \" === 2\" filePath=$dirPath/file1.txt "
+            }
+          ]
+        },
+        {
+          "type": "sandbox-links",
+          "ids": [
+            "permissions-map"
+          ]
+        }
+      ]
+    }
+  ],
+  "review": {
+    "checklist": [
+      "Linux 把硬盘、设备、虚拟文件系统都整合进一棵统一的目录树。",
+      "常见目录如 `/bin`、`/etc`、`/proc`、`/var` 的职责不同。",
+      "路径、挂载与设备文件决定了“你访问的到底是什么”。"
+    ],
+    "pitfalls": [
+      "把目录当成“容器概念”而忽视它在 Unix 中本身也是文件。"
+    ],
+    "diagramIdeas": [
+      "根目录分层图、绝对路径与相对路径对照图。"
+    ]
+  },
+  "previousSlug": "linux-cli",
+  "nextSlug": "shell-control"
+}

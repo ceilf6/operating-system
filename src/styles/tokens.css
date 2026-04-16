@@ -1,0 +1,18 @@
+:root {
+  --paper-0: #f4ead8;
+  --paper-1: #eadfc8;
+  --paper-2: #d7c9ae;
+  --ink-0: #0f1f31;
+  --ink-1: #1a2f46;
+  --ink-2: #2d4865;
+  --signal-green: #2e7d5b;
+  --signal-orange: #c06d2c;
+  --signal-blue: #346a90;
+  --signal-red: #8d4a3c;
+  --card-bg: rgba(255, 252, 245, 0.82);
+  --card-stroke: rgba(19, 35, 55, 0.12);
+  --shadow-soft: 0 18px 48px rgba(18, 32, 47, 0.12);
+  --font-display: "Baskerville", "Iowan Old Style", "Times New Roman", "Songti SC", serif;
+  --font-body: "Palatino", "Times New Roman", "Songti SC", serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", "Menlo", "Consolas", monospace;
+}

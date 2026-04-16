@@ -1,0 +1,393 @@
+{
+  "slug": "shell-control",
+  "number": "04",
+  "track": "Linux/Unix 实操线",
+  "title": "重定向、管道、脚本与流程控制",
+  "summary": "从 stdin/stdout/stderr 到变量、参数、条件、循环、函数和数组，构成 Shell 自动化主线。",
+  "searchKeywords": [
+    "重定向",
+    "管道",
+    "变量",
+    "流程控制",
+    "函数",
+    "数组"
+  ],
+  "sourceIds": [
+    "base-files-04-lo03-linux-td2-2026-correction-pdf-458039a0",
+    "base-files-04-lo03-linux-td2-2026-pdf-57ceb643",
+    "base-files-04-lo03-linux-td2-md-4c3fbb98",
+    "notes-01-05-md-13297274",
+    "notes-01-06-shell-md-f9e33a49",
+    "notes-01-07-md-24a7178b",
+    "notes-01-08-shell-md-18beb3ef",
+    "notes-04-td2-md-d030a92e",
+    "sandbox-01-05-sh-40e199db",
+    "sandbox-01-05-sh-c940d607",
+    "sandbox-01-06-sh-0fe57dc2",
+    "sandbox-01-06-sh-e62e1d4f",
+    "sandbox-01-07-sh-e7ae6a88",
+    "sandbox-01-08-childscript-sh-5ab0855f",
+    "sandbox-01-08-cleanfatherscript-sh-5d59b43a",
+    "sandbox-01-08-sh-2dbaac59",
+    "sandbox-01-08-sh-79a79333",
+    "sandbox-01-08-sh-936280af",
+    "sandbox-01-08-shell-sh-6d848cec",
+    "sandbox-04-01-wc-sh-6d51107d",
+    "sandbox-04-04-est-numerique-sh-6de04871",
+    "sandbox-04-05-calculette-sh-019209cf",
+    "sandbox-04-07-preaddlasttime-sh-ec2877e1",
+    "sandbox-04-09-sup-sh-c4e9471c",
+    "sandbox-04-td2-sh-24f7f28a"
+  ],
+  "sandboxIds": [
+    "redirection-lab",
+    "shell-flow"
+  ],
+  "sections": [
+    {
+      "id": "io-and-script",
+      "title": "标准流、参数与脚本结构",
+      "anchor": "io-and-script",
+      "sourceIds": [
+        "notes-01-05-md-13297274",
+        "notes-01-06-shell-md-f9e33a49",
+        "notes-01-07-md-24a7178b",
+        "notes-01-08-shell-md-18beb3ef",
+        "base-files-04-lo03-linux-td2-2026-pdf-57ceb643",
+        "base-files-04-lo03-linux-td2-2026-correction-pdf-458039a0",
+        "base-files-04-lo03-linux-td2-md-4c3fbb98",
+        "sandbox-01-05-sh-c940d607",
+        "sandbox-01-05-sh-40e199db",
+        "sandbox-01-06-sh-0fe57dc2",
+        "sandbox-01-06-sh-e62e1d4f",
+        "sandbox-01-07-sh-e7ae6a88",
+        "sandbox-01-08-shell-sh-6d848cec",
+        "sandbox-01-08-childscript-sh-5ab0855f",
+        "sandbox-01-08-cleanfatherscript-sh-5d59b43a",
+        "sandbox-01-08-sh-2dbaac59",
+        "sandbox-01-08-sh-79a79333",
+        "sandbox-01-08-sh-936280af",
+        "sandbox-04-01-wc-sh-6d51107d",
+        "sandbox-04-04-est-numerique-sh-6de04871",
+        "sandbox-04-05-calculette-sh-019209cf",
+        "sandbox-04-07-preaddlasttime-sh-ec2877e1",
+        "sandbox-04-09-sup-sh-c4e9471c",
+        "sandbox-04-td2-sh-24f7f28a"
+      ],
+      "glossaryIds": [
+        "stdin",
+        "stdout",
+        "stderr"
+      ],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "这一章把命令行操作升级为可复用脚本，理解输入输出流和脚本执行模型。"
+        },
+        {
+          "type": "key-points",
+          "items": [
+            "标准输入、标准输出、标准错误是 Shell 命令组合的基础。",
+            "位置参数、环境变量和 `read` 决定了脚本如何接收外部信息。",
+            "条件、循环、函数和数组把一次性命令扩展为自动化工具。"
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "易错点",
+          "content": "忽略空格、引号、IFS 和子 Shell 语义，是 Shell 新手最常见的翻车点。"
+        },
+        {
+          "type": "diagram-list",
+          "items": [
+            "命令 -> stdout -> 管道 -> 下一条命令 的数据流图。"
+          ]
+        },
+        {
+          "type": "exercise-list",
+          "items": [
+            {
+              "id": "io-and-script-exercise-1",
+              "prompt": "说明 `read`、`$@`、`shift`、`$?` 分别解决什么问题。",
+              "answer": "",
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "notes-01-05-md-13297274",
+              "title": "01-05-重定向、管道与错误处理",
+              "path": "notes/01-05-重定向、管道与错误处理.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 01-05-重定向、管道与错误处理\n\n在Shell环境中，几乎所有命令都遵循「**标准输入**→**标准输出**→**标准错误**」这一模型：\n\n> 链式处理（装饰器模式）\n> \n- 使用>、>>、<、<<可以将输入输出重定向到文件或从文件读入；\n- 使用管道符号|可以把一条命令的输出实时作为下一条命令的输入；\n- 使用2>这样的写法可以将错误信息单独收集或丢弃（/dev/null）\n\n#### 输入输出重定向\n\n- 将输出重定向到指定文件\n    - > 覆盖原内容\n    - >> 追加到文件末尾\n- 输入重定向\n    - < 将输入重定向为指定文件的内容\n    - << 将后续输入行作为命令的参数，指导遇到指定的标记结束，例如\n        \n        ```bash\n        <<'COMMENT'\n        输入参数\n        COMMENT\n        ```\n        \n\n例如像\n\n```bash\n命令名 [选项] [参数] < 文件名\n```\n\n从指定文件中拿到输入\n\n```bash\n命令名 [选项] [参数] > 文件名\n```\n\n执行命令写入指定文件\n\n#### 错误重定向\n\n命令的正常结果会输出到标准输出中，\n\n像 语法错误、执行错误信息会收集到标准错误中\n\n2> 可以指定标准错误的收集文件 \n\n```bash\n命令名 >> out.log 2>> err.log\n```\n\n正常输出追加到out.log中，错误输出追加到err.log中",
+              "excerpt": "在Shell环境中，几乎所有命令都遵循「**标准输入**→**标准输出**→**标准错误**」这一模型： > 链式处理（装饰器模式） > - 使用>、>>、<、<<可以将输入输出重定向到文件或从文件读入； - 使用管道符号|可以把一条命令的输出实时作为下一条命令的输入； - 使用2>这样的写法可以将错误信息单独收集或丢弃（/dev/null） # 输入输出重定向 - 将输出重定向到指定文件 - > 覆盖原内容 - >> 追加到文件末尾 - 输入重定向 - < 将输入重定向为指定文件的内容 - << 将后续输入行作为命令的参数，指导遇到指定的标记结束，例如"
+            },
+            {
+              "sourceId": "notes-01-06-shell-md-f9e33a49",
+              "title": "01-06-Shell脚本与参数",
+              "path": "notes/01-06-Shell脚本与参数.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 01-06-Shell脚本与参数\n\n写入一个脚本文件就可以将重复进行复用、分享\n\n通过位置参数（$0、$1、$*、$@、#等）实现「同一个脚本，处理不同数据」；\n\n借助变量、环境变量和只读变量，将一次性实验脚本逐步演化为可维护的工具脚本。\n\n“脚本（script）”指可由Shell执行的文件，包含Unix外部命令、内部命令和注释\n\n在执行脚本时，会按顺序读取并执行脚本文件中的每一行\n\n若Shell在某行检测到错误，将停止读取脚本并显示引发错误的命令所在行号\n\n#### 参数\n\n在Shell术语中，参数指**任何可包含值的实体**。Shell区分三类参数：\n\n- 变量：由名称标识（如a、PATH）\n- 位置参数：由数字标识（如0、1、12）\n- 特殊参数：由特殊字符标识（如#、?、$）\n\n每类参数的赋值方式不同。获取参数值时，无论哪类，均需在引用前加$。\n\n示例：$echo $PATH 显示变量PATH的值。\n\n#### 变量\n\n变量由名称标识，名称是由字母、数字或下划线组成的字符串，且不能以数字开头。区分大小写。\n\n变量可分为三组：\n\n- 用户变量（如a、valeur）\n- Shell预定义变量（如PS1、PATH、REPLY、IFS）\n- Unix命令预定义变量（如TERM）\n\n通常，用户变量名使用小写字母，而预定义变量名（Shell或Unix命令）使用大写字母。\n\n#### 赋值\n\n```bash\n变量名=值\n```\n\n注意不要空格画蛇添足，有空格就变成了三个字段识别为命令了\n\n#### 引用\n\n```bash\n$变量名\n```",
+              "excerpt": "写入一个脚本文件就可以将重复进行复用、分享 通过位置参数（$0、$1、$*、$@、#等）实现「同一个脚本，处理不同数据」； 借助变量、环境变量和只读变量，将一次性实验脚本逐步演化为可维护的工具脚本。 “脚本（script）”指可由Shell执行的文件，包含Unix外部命令、内部命令和注释 在执行脚本时，会按顺序读取并执行脚本文件中的每一行 若Shell在某行检测到错误，将停止读取脚本并显示引发错误的命令所在行号 # 用户环境 包含：终端类型、提示符、字符删除键 由两个脚本创建 - /etc/profile 所有用户共享的全局配置文件 - /.bash_p"
+            },
+            {
+              "sourceId": "notes-01-07-md-24a7178b",
+              "title": "01-07-流程控制",
+              "path": "notes/01-07-流程控制.md",
+              "kind": "note",
+              "language": "mixed",
+              "content": "#### 01-07-流程控制\n\n- 使用if、case根据条件分支执行不同命令序列；\n- 使用for、while、until等循环结构实现重复性任务；\n- 通过test命令和逻辑运算符，对文件属性、字符串和数值进行条件判断\n\n```bash\nif 条件\nthen\n\t命令块\nelif 条件\nthen\n\t命令块\nelse\n\t命令块\nfi\n```\n\n```bash\ntestFilePath1=$(pwd)/test-files\ntestFilePath2=$(pwd)/test-files/script.sh\ntestFilePath3=../noFile\n\n#### 那么执行等等都是当成命令对待\n\ntestFileFunc(){ # 1){\n    # Shell 函数不在定义处写形参名，参数是通过函数体里的 $1、$2 ... 取的\n    if test -f $1\n    then\n        echo \"$1 是普通文件\"\n        fileRes=$(file $1)\n        echo \"$1 文件详细信息 $fileRes\n        \"\n    elif test -d $1\n    then\n        echo \"$1 是目录文件\"\n        echo \"进入目录 $1\n        \"\n    else\n        echo \"$1 不存在\n        \"\n    fi\n}\n\n#### Shell的函数调用是通过 \"\" 命令行方法传入参数\n\ntestFileFunc \"$testFilePath1\"\ntestFileFunc \"$testFilePath2\"\ntestFileFunc \"$testFilePath3\"\n```\n\n#### test\n\ntest 是 Shell 的测试命令，用来判断条件是否成立\n\n`test -f` 判断是否为普通文件\n\n`test -d` 判断是否为目录文件\n\n可以将if和then放在同一行，用分号分隔：\n\n```bash\nif test -f $1 ; then file $1 ; fi\n```\n\n#### 写法\n\n注意 [ ] 两边得有空格\n\n```bash\n    if [ -r $1 ];then\n    # 等价于 \n    if test -r $1;then\n```",
+              "excerpt": "- 使用if、case根据条件分支执行不同命令序列； - 使用for、while、until等循环结构实现重复性任务； - 通过test命令和逻辑运算符，对文件属性、字符串和数值进行条件判断 ```bash if 条件 then 命令块 elif 条件 then 命令块 else 命令块 fi ``` ```bash testFilePath1=$(pwd)/test-files testFilePath2=$(pwd)/test-files/script.sh testFilePath3=../noFile # 函数本质上就是把一组命令起了一个名字 #"
+            },
+            {
+              "sourceId": "notes-01-08-shell-md-18beb3ef",
+              "title": "01-08-Shell拓展、函数、数组",
+              "path": "notes/01-08-Shell拓展、函数、数组.md",
+              "kind": "note",
+              "language": "mixed",
+              "content": "#### 类型约束\n\n```bash\ndeclare -i\n```\n\n为变量加上了一个整数属性，会影响赋值时的处理方式\n\n因为 Shell 默认是将变量当成字符串处理的\n\n在声明为整数时，会自动计算\n\n```bash\n\n#### 其实也不算是 Java 和 TS 中的约束，只是为变量加上了一个整数属性，会影响赋值时的处理方式\n\ndeclare -i v1\nv1=1+2\necho $v1 # 3\n\nv1Default=1+2\necho $v1Default # 1+2\n```\n\n#### 内部命令进行计算\n\necho \"\\$((v1Default)) $((v1Default))\" # 3\n```\n\n- 要获取算术表达式的值，可使用语法：$((算术表达式))\n- 示例：echo $(( 7 * 3 ))\n- 命令替换和参数替换可以出现在(( ))或$(( ))中，只要结果能解释为整数。\n- 例如，$(( $(ls -l | wc -l) -1 ))中管道ls -l | wc -l的结果被当作数值处理\n\n#### for\n\n```bash\nfor (( 起始 ; 条件 ; 终止 ))\ndo\n\tdoWhatUWant\ndone\n```\n\n```bash\nfor (( i=0 ; i<5 ; i++ )); do\n  echo \"i: $i\"\ndone\n```\n\n#### 函数\n\n```bash",
+              "excerpt": "# 类型约束 ```bash declare -i ``` 为变量加上了一个整数属性，会影响赋值时的处理方式 因为 Shell 默认是将变量当成字符串处理的 在声明为整数时，会自动计算 ```bash # 类型约束 ## 其实也不算是 Java 和 TS 中的约束，只是为变量加上了一个整数属性，会影响赋值时的处理方式 declare -i v1 v1=1+2 echo $v1 # 3 v1Default=1+2 echo $v1Default # 1+2 ``` # 内部命令 ```bash # 内部命令进行计算 echo \"\\$((v1Default)"
+            },
+            {
+              "sourceId": "base-files-04-lo03-linux-td2-2026-pdf-57ceb643",
+              "title": "04_LO03_Linux_TD2_2026",
+              "path": "base-files/04_LO03_Linux_TD2_2026.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nLO03\n                                                          TD n°2 Linux\n\n\n\n\n                                                        EXERCICE 6\nEXERCICE 1\n                                                        Créer un script qui va devra exploiter les données\nEcrire un script ou une commande qui permet de          d'un fichier de notes que vous allez créer au\ncompter le nombre de mots d’un fichier sans utiliser    préalable dans le même répertoire que le script.\nla commande « wc »\n                                                        Ce fichier sera appelé FichierNote.txt et devra se\n                                                        présenter comme ceci :\nEXERCICE 2                                              Dupont François 12\n                                                        Durand Françoise 8\nEcrire un script qui numérote les lignes d’un fichier   Dujardin Nicole 14\npassé en argument. (cat –n fichier permet de faire la\nmême chose).                                            Le script devra afficher les lignes dans lesquelles la\n                                                        note est supérieure ou égale à 10.\n\nEXERCICE 3\n                                                        EXERCICE 7\nCompter le nombre de fichiers et le nombre de\nrépertoires du répertoire courant.                      Écrire un script qui ajoute au début de chaque fichier\n                                                        (si cela est possible) du répertoire courant la date de\n                                                        la dernière modification.\nEXERCICE 4\n                                                        EXERCICE 8\nÉcrire une script « est_numerique » qui vérifie que\nl’argument passé est un nombre et affiche un\nmessage spécifique si ce n’est pas le cas.              On se propose d'écrire un script inverse en Bash, qui\n                                                        réécrit sur la sortie standard un fichier en inversant\n                                                        l'ordre de ses lignes. La première ligne devient la\nEXERCICE 5                                              dernière ligne, la deuxième ligne devient l’avant\n                                                        dernière ligne, …. , la dernière ligne devient la\nCréer un script dans lequel deux nombres opérandes      première ligne\net un signe opérateur (+-*/) devront être donnés en\nparamètres, ou saisis. Le script doit réaliser\nl'opération souhaitée.                                  EXERCICE 9\nExemple :\n                                                        Réaliser un script « sup » qui permet de supprimer\n./calculette 7 + 4\n                                                        une liste de fichiers et/ou de répertoires en les\nLe résultat est : 11\n                                                        recopiant dans un répertoire de sauvegarde appelé\n                                                        « .poubelle » et en leur donnant la date courante. Les\n                                                        fichiers et répertoires de la poubelle « .poubelle » qui\n                                                        ont été détruits depuis plus de 30 jours seront\n                                                        définitivement éliminés de la poubelle « .poubelle ».",
+              "excerpt": "## Page 1 LO03 TD n°2 Linux EXERCICE 6 EXERCICE 1 Créer un script qui va devra exploiter les données Ecrire un script ou une commande qui permet de d'un fichier de notes que vous allez créer au compter le nombre de mots d’un fichier sans utiliser préalable dans le même répertoire"
+            },
+            {
+              "sourceId": "base-files-04-lo03-linux-td2-2026-correction-pdf-458039a0",
+              "title": "04_LO03_Linux_TD2_2026_Correction",
+              "path": "base-files/04_LO03_Linux_TD2_2026_Correction.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nLO03\n                                                        TD n°2 Linux Correction\n\n\n\n\n                                                           #! /bin/bash\nEXERCICE 1                                                 # Exercice 3\n\n                                                           for i in $(ls)\nEcrire un script ou une commande qui permet de             do\ncompter le nombre de mots d’un fichier sans utiliser                if [ -d $i ]; then\nla commande « wc »                                                           ((d++))\n                                                                    else\n#! /bin/bash                                                                 ((f++))\n\n#### Simulation de wc fi\n\nfich=$1                                                    done\nif [ -r $fch ]; then                                       echo \"$d répertoires et $f fichiers\"\n         while read ligne\n         do\n                  set $ligne\n                                                           EXERCICE 4\n                  ((nbmots+=$#))\n         done < $fich\n         echo $nbmots $fich                                Écrire une script « est_numerique » qui vérifie que\nelse                                                       l’argument passé est un nombre et affiche un\n         echo \"Le fichier $fich n'existe pas\"              message spécifique si ce n’est pas le cas.\nfi\n                                                           #! /bin/bash\n                                                           # Exercice 4\n\nEXERCICE 2                                                 exec 2>/dev/null\n\n                                                           if [ $# -eq 0 ]; then\nEcrire un script qui numérote les lignes d’un fichier               echo \"Le script necessite un argument\"\npassé en argument. (cat –n fichier permet de faire la               exit\nmême chose).                                               fi\n\n#! /bin/bash                                               (($1*2))\n\n#### Exercice 2 if $? eq 0 ; then\n\nif [ -r $1 ]; then                                                  echo \"$1 est un nombre\"\n                                                           else\n        while read ligne                                            echo \"$1 n'est pas un nombre\"\n        do                                                 fi\n               ((i++))\n               echo \" $i $ligne\"\n        done < $1\n                                                           EXERCICE 5\nelse\n        echo \"Le fichier $1 n'est pas accessible\"          Créer un script dans lequel deux nombres opérandes\nfi                                                         et un signe opérateur (+-*/) devront être donnés en\n                                                           paramètres, ou saisis. Le script doit réaliser\n                                                           l'opération souhaitée.\nEXERCICE 3\n                                                           Exemple :\nCompter le nombre de fichiers et le nombre de              ./calculette 7 + 4\nrépertoires du répertoire courant.                         Le résultat est : 11\n\n#### Exercice 5 while read nom prenom note\n\ndo\nexec 2>/dev/null                                                   if [ $note -ge 10 ]; then\n                                                                           echo \"$nom $prenom $note\"\nif [ $# -ne 3 ]; then                                              fi\n         echo \"Usage Calculette 7 + 3\"                      done < $1\n         exit\nfi\n(($1*2))                                                    EXERCICE 7\nif [ $? -eq 1 ]; then\n         echo \"$1 n'est pas un nombre\"\n         exit                                               Écrire un script qui ajoute au début de chaque fichier\nfi                                                          (si cela est possible) du répertoire courant la date de\n(($3*2))                                                    la dernière modification.\nif [ $? -eq 1 ]; then\n         echo \"$3 n'est pas un nombre\"                      #! /bin/bash\n         exit                                               # Exercice 7\nfi\ncase $2 in                                                  for i in $(ls)\n         +) echo Le résultat est $(($1+$3));;               do\n         -) echo Le résultat est $(($1-$3));;                        if [ -f $i ]; then\n         /) echo Le résultat est $(($1/$3));;                                 echo $(date) > /tmp/fichtemp\n         x) echo Le résultat est $(($1*$3));;                                 cat $i >> /tmp/fichtemp\nesac                                                                          mv /tmp/fichtemp $i\n                                                                     fi\n                                                            done\nEXERCICE 6\n                                                            EXERCICE 8\nCréer un script qui va devra exploiter les données\nd'un fichier de notes que vous allez créer au\npréalable dans le même répertoire que le script.            On se propose d'écrire un script inverse en Bash, qui\n                                                            réécrit sur la sortie standard un fichier en inversant\n                                                            l'ordre de ses lignes. La première ligne devient la\nCe fichier sera appelé FichierNote.txt et devra se\n                                                            dernière ligne, la deuxième ligne devient l’avant\nprésenter comme ceci :\n                                                            dernière ligne, …. , la dernière ligne devient la\nDupont François 12                                          première ligne\nDurand Françoise 8\nDujardin Nicole 14                                          #! /bin/bash\n                                                            # Exercice 8\nLe script devra afficher les lignes dans lesquelles la\nnote est supérieure ou égale à 10.                          if [ ! -f $1 ]; then\n                                                                      echo \"Le ficheir $1 n'est pas accessible\"\n#! /bin/bash                                                          exit\n\n#### Exercice 6 fi\n\nif [ ! -r $1 ]; then                                        nbligne=$(wc -l $1 | cut -d' ' -f1)\n          echo \"Le fichier $1 n'est pas accessible\"\n          exit                                              i=$nbligne\nfi                                                          while [ $i -ne 0 ]\n                                                                                                                  21",
+              "excerpt": "## Page 1 LO03 TD n°2 Linux Correction #! /bin/bash EXERCICE 1 # Exercice 3 for i in $(ls) Ecrire un script ou une commande qui permet de do compter le nombre de mots d’un fichier sans utiliser if [ -d $i ]; then la commande « wc » ((d++)) else #! /bin/bash ((f++)) # Simulation d"
+            },
+            {
+              "sourceId": "base-files-04-lo03-linux-td2-md-4c3fbb98",
+              "title": "04_LO03_Linux_TD2_中文翻译",
+              "path": "base-files/04_LO03_Linux_TD2_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 练习 2\n\n编写一个脚本，为作为参数传入的文件**按行编号**。  \n（`cat -n 文件名` 可以实现同样的功能。）\n\n#### 练习 4\n\n编写一个名为 **`est_numerique`** 的脚本，用于检查传入的参数是否是一个数字；如果不是，则显示一条特定提示信息。\n\n#### 练习 5\n\n创建一个脚本，其中两个操作数和一个运算符符号（`+ - * /`）需要通过参数传入，或者由用户输入。脚本应完成对应的运算。\n\n**示例：**\n```bash\n./calculette 7 + 4\n```\n\n结果是：\n```bash\n11\n```\n\n#### 练习 8\n\n现要求用 Bash 编写一个“逆序”脚本，它能够将某个文件的内容输出到标准输出，并**将文件的行顺序倒过来**。  \n也就是说：第一行变成最后一行，第二行变成倒数第二行，……，最后一行变成第一行。",
+              "excerpt": "# LO03 — Linux 第 2 次习题课 ## 练习 1 编写一个脚本或一条命令，在**不使用 `wc` 命令**的情况下，统计一个文件中的单词数量。 ## 练习 2 编写一个脚本，为作为参数传入的文件**按行编号**。 （`cat -n 文件名` 可以实现同样的功能。） ## 练习 3 统计**当前目录**中的**文件数量**和**目录数量**。 ## 练习 4 编写一个名为 **`est_numerique`** 的脚本，用于检查传入的参数是否是一个数字；如果不是，则显示一条特定提示信息。 ## 练习 5 创建一个脚本，其中两个操作数和一个运算"
+            },
+            {
+              "sourceId": "sandbox-01-05-sh-c940d607",
+              "title": "01-05-管道",
+              "path": "sandbox/01-05-管道.sh",
+              "kind": "sandbox",
+              "language": "fr",
+              "content": "#### 01-05-管道\n\nls | more\n\nps aux | grep nginx\nls -l | grep \".txt\"",
+              "excerpt": "ls | more ps aux | grep nginx ls -l | grep \".txt\""
+            },
+            {
+              "sourceId": "sandbox-01-05-sh-40e199db",
+              "title": "01-05-重定向",
+              "path": "sandbox/01-05-重定向.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 链式处理 cat 拿到指定文件的内容后 写入到目标文件中（装饰器模式）\n\ncat ./test-files/esN2 > ./test-files/esN2-copy\n\nls ./test-files >> ./test-files/out.log 2>> ./test-files/err.log",
+              "excerpt": "# 输入重定向 # 链式处理 cat 拿到指定文件的内容后 > 写入到目标文件中（装饰器模式） cat ./test-files/esN2 > ./test-files/esN2-copy ls ./test-files >> ./test-files/out.log 2>> ./test-files/err.log"
+            },
+            {
+              "sourceId": "sandbox-01-06-sh-0fe57dc2",
+              "title": "01-06-参数>变量",
+              "path": "sandbox/01-06-参数>变量.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 01-06-参数>变量\n\necho \"PS1 $PS1\"\n\necho \"PATH $PATH\"\n\necho \"REPLY $REPLY\"\n\necho \"IFS $IFS\"\n\n\necho \"TERM $TERM\"\n\n\nvFromUser=1 # 注意不要空格画蛇添足，有空格就变成了三个字段识别为命令了\necho \"vFromUser $vFromUser\"\n\n#### 读取\n\nread vFromUser\necho \"vFromUser $vFromUser\"\n\n#### 在不指定变量名时，默认保存到 REPLY 中\n\nread\necho \"REPLY $REPLY\"\n\n#### 提示词\n\nread -p \"覆盖objFromUser: \" vFromUser\necho \"vFromUser $vFromUser\"\n\necho \"\n=== set显示所有变量\"\nset\n\n#### unset 删除变量\n\nunset vFromUser\necho \"vFromUser $vFromUser\"\n\nread v1 v2 # 1 2\necho \"v1 $v1\"\necho \"v2 $v2\"",
+              "excerpt": "echo \"PS1 $PS1\" echo \"PATH $PATH\" echo \"REPLY $REPLY\" echo \"IFS $IFS\" echo \"TERM $TERM\" vFromUser=1 # 注意不要空格画蛇添足，有空格就变成了三个字段识别为命令了 echo \"vFromUser $vFromUser\" # 读取 read vFromUser echo \"vFromUser $vFromUser\" # 当 read 出现在管道时，常常运行在子 shell 里，所以如果想保存的话不要写在管道里面 # 在不指定变量名时，默认保存到 REPLY 中"
+            },
+            {
+              "sourceId": "sandbox-01-06-sh-e62e1d4f",
+              "title": "01-06-脚本",
+              "path": "sandbox/01-06-脚本.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 01-06-脚本\n\n#!/bin/bash\n\necho \"=== bash\"\nbash ./01-03-修改命令提示符.sh\n\necho \"=== bash <\"\nbash <./01-03-修改命令提示符.sh\n\necho \"=== chmod +x ; \"\nchmod +x ./01-03-修改命令提示符.sh ; ./01-03-修改命令提示符.sh\n\necho \"=== path\"\nbash ./test-files/script.sh\n\necho \"=== 默认执行脚本会开一个新进程\n如果想要影响当前进程的话可以用 source 或 . 因为不会开子进程\"\n. ./01-03-修改命令提示符.sh\nsource ./01-03-修改命令提示符.sh",
+              "excerpt": "#!/bin/bash echo \"=== bash\" bash ./01-03-修改命令提示符.sh echo \"=== bash <\" bash <./01-03-修改命令提示符.sh echo \"=== chmod +x ; \" chmod +x ./01-03-修改命令提示符.sh ; ./01-03-修改命令提示符.sh echo \"=== path\" bash ./test-files/script.sh echo \"=== 默认执行脚本会开一个新进程 如果想要影响当前进程的话可以用 source 或 . 因为不会开子进程\" . ./01-0"
+            },
+            {
+              "sourceId": "sandbox-01-07-sh-e7ae6a88",
+              "title": "01-07-流程控制",
+              "path": "sandbox/01-07-流程控制.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 那么执行等等都是当成命令对待\n\ntestFileFunc(){ # 1){\n    # Shell 函数不在定义处写形参名，参数是通过函数体里的 $1、$2 ... 取的\n    if test -f \"$1\" # 为防止路径中的空格影响执行，最好加 \"\"\n    then\n        echo \"$1 是普通文件\"\n        fileRes=$(file \"$1\")\n        echo \"$1 文件详细信息 $fileRes\n        \"\n    elif test -d \"$1\"\n    then\n        echo \"$1 是目录文件\"\n        echo \"进入目录 $1\n        \"\n    else\n        echo \"$1 不存在\n        \"\n    fi\n}\n\n#### Shell的函数调用是通过 \"\" 命令行方法传入参数\n\ntestFileFunc \"$testFilePath1\"\ntestFileFunc \"$testFilePath2\"\ntestFileFunc \"$testFilePath3\"\n\n#### if test f \"$testFilePath2\" && test r \"$testFilePath2\"\n\nif test -f \"$testFilePath2\" -a -r \"$testFilePath2\"\nthen\n    echo \"$testFilePath2 是一个可读的普通文件\"\nelse\n    echo \"$testFilePath2 不是一个可读的普通文件\"\nfi\n\n#### if test f \"$testFilePath2\" || test r \"$testFilePath2\"\n\nif test -f \"$testFilePath2\" -o -r \"$testFilePath2\"\nthen\n    echo \"$testFilePath2 是一个普通文件或者可读的文件\"\nelse\n    echo \"$testFilePath2 不是一个普通文件也不可读\"\nfi\n\n#### case分支处理\n\ntestFilePath4=$(pwd)/test-files/script2.sh\ntouch \"$testFilePath4\"\necho \"是否要删除文件 $testFilePath4 ?(y删除 n不删)\"\nread input\ncase $input in\n    y|Y)\n        echo \"删除文件 $testFilePath4\"\n        rm \"$testFilePath4\"\n        ;;\n    n|N)\n        echo \"不删除文件 $testFilePath4\"\n        ;;\n    *)\n        echo \"输入错误，请输入 y/Y 或 n/N\"\n        ;;\nesac",
+              "excerpt": "testFilePath1=$(pwd)/test-files testFilePath2=$(pwd)/test-files/script.sh testFilePath3=../noFile # 函数本质上就是把一组命令起了一个名字 # 那么执行等等都是当成命令对待 testFileFunc(){ # 1){ # Shell 函数不在定义处写形参名，参数是通过函数体里的 $1、$2 ... 取的 if test -f \"$1\" # 为防止路径中的空格影响执行，最好加 \"\" then echo \"$1 是普通文件\" fileRes=$(file \"$1"
+            },
+            {
+              "sourceId": "sandbox-01-08-shell-sh-6d848cec",
+              "title": "01-08-Shell拓展、函数、数组",
+              "path": "sandbox/01-08-Shell拓展、函数、数组.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 其实也不算是 Java 和 TS 中的约束，只是为变量加上了一个整数属性，会影响赋值时的处理方式\n\ndeclare -i v1\nv1=1+2\necho \"v1 $v1\" # 3\n\nv1Default=1+2\necho \"v1Default $v1Default\" # 1+2\n\n#### for\n\nfor (( i=0 ; i<5 ; i++ )); do\n  echo \"i: $i\"\ndone\n\n#### Function\n\nfunction foo {\n  echo \"入参\"\n  while [ $1 ]; do\n    echo \"$1\"\n    shift\n  done\n}\nfoo 1 2 3\n\nfoo2(){\n    echo \"入参\"\n    while [ $1 ]; do\n        echo \"$1\"\n        shift\n    done\n}\nfoo2 4 5 6\n\n#### local\n\nlocalTest(){\n    local localTestVar=1\n    echo \"localTestVar: $localTestVar\"\n    localTestVar=2\n    echo \"localTestVar: $localTestVar\"\n    local -a arrayTest=(1 2 3)\n    echo \"arrayTest: ${arrayTest[*]}\"\n}\nlocalTest\necho \"localTestVar: $localTestVar\" # 没有输出，说明 localTestVar 是局部变量\necho \"arrayTest: ${arrayTest[*]}\" # 没有输出，说明 arrayTest 是局部变量\n\n#### 入参\n\nfunction sum {\n  local sum=0\n  for arg in \"$@\"; do # $@\n    sum=$((sum + arg))\n  done\n  echo \"sum: $sum\"\n}\nsum 1 2 3 4 5",
+              "excerpt": "# 类型约束 ## 其实也不算是 Java 和 TS 中的约束，只是为变量加上了一个整数属性，会影响赋值时的处理方式 declare -i v1 v1=1+2 echo \"v1 $v1\" # 3 v1Default=1+2 echo \"v1Default $v1Default\" # 1+2 # 内部命令进行计算 echo \"\\$((v1Default)) $((v1Default))\" # 3 # 运算符 arg2=2 arg3=3 echo \"arg2++: $((arg2++))\" # 2 echo \"arg2--: $((arg2--))\" # 3"
+            },
+            {
+              "sourceId": "sandbox-01-08-childscript-sh-5ab0855f",
+              "title": "01-08-childScript",
+              "path": "sandbox/01-08-childScript.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### source ./01 08 Shell拓展、函数、数组.sh 注意，这里形成循环引用 无限递归了\n\nsource ./01-08-cleanFatherScript.sh\necho \"\n=== foo2\"\nfoo2 100 200 300",
+              "excerpt": "echo \"=== foo\" foo 100 200 300 # 如果父脚本没有导出的话可以通过 # source ./01-08-Shell拓展、函数、数组.sh # 注意，这里形成循环引用-无限递归了 source ./01-08-cleanFatherScript.sh echo \" === foo2\" foo2 100 200 300"
+            },
+            {
+              "sourceId": "sandbox-01-08-cleanfatherscript-sh-5d59b43a",
+              "title": "01-08-cleanFatherScript",
+              "path": "sandbox/01-08-cleanFatherScript.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 01-08-cleanFatherScript\n\nfoo2(){\n    echo \"入参\"\n    while [ $1 ]; do\n        echo \"$1\"\n        shift\n    done\n}",
+              "excerpt": "foo2(){ echo \"入参\" while [ $1 ]; do echo \"$1\" shift done }"
+            },
+            {
+              "sourceId": "sandbox-01-08-sh-2dbaac59",
+              "title": "01-08-日志错误统计",
+              "path": "sandbox/01-08-日志错误统计.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 01-08-日志错误统计\n\n#!/usr/bin/env bash\n\nset -u\n\nSCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"\nLOG_DIR=\"$SCRIPT_DIR/test-files/mock-logs\"\n\nshopt -s nullglob\nlog_files=(\"$LOG_DIR\"/*.log)\n\nif [ ${#log_files[@]} -eq 0 ]; then\n  echo \"未找到日志文件: $LOG_DIR\"\n  exit 1\nfi\n\ntotal_error_count=0\n\necho \"开始扫描日志目录: $LOG_DIR\"\n\nfor log_file in \"${log_files[@]}\"; do\n  file_error_count=0\n\n  while IFS= read -r line; do\n    case \"$line\" in\n      *ERROR*)\n        file_error_count=$((file_error_count + 1))\n        total_error_count=$((total_error_count + 1))\n        ;;\n    esac\n  done < \"$log_file\"\n\n  echo \"$(basename \"$log_file\"): ERROR 行数 = $file_error_count\"\ndone\n\necho \"总 ERROR 行数 = $total_error_count\"",
+              "excerpt": "#!/usr/bin/env bash set -u SCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\" LOG_DIR=\"$SCRIPT_DIR/test-files/mock-logs\" shopt -s nullglob log_files=(\"$LOG_DIR\"/*.log) if [ ${#log_files[@]} -eq 0 ]; then echo \"未找到日志文件: $LOG_DIR\" exit 1 fi total_error_count=0 echo \"开始扫描日志目"
+            },
+            {
+              "sourceId": "sandbox-01-08-sh-79a79333",
+              "title": "01-08-目录文件摘要函数",
+              "path": "sandbox/01-08-目录文件摘要函数.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 01-08-目录文件摘要函数\n\n#!/usr/bin/env bash\n\nset -u\n\nSCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"\nSUMMARY_ROOT=\"$SCRIPT_DIR/test-files/mock-summary\"\n\nsummarize_directory() {\n  local target_dir=\"$1\"\n  local file_count=0\n  local subdir_count=0\n  local recursive_file_count=0\n  local entry\n\n  if [ ! -d \"$target_dir\" ]; then\n    echo \"目录不存在: $target_dir\"\n    return 1\n  fi\n\n  for entry in \"$target_dir\"/*; do\n    [ -e \"$entry\" ] || continue\n\n    if [ -f \"$entry\" ]; then\n      file_count=$((file_count + 1))\n    elif [ -d \"$entry\" ]; then\n      subdir_count=$((subdir_count + 1))\n    fi\n  done\n\n  recursive_file_count=$(find \"$target_dir\" -type f | wc -l | tr -d ' ')\n\n  echo \"目录摘要: $target_dir\"\n  echo \"当前层级普通文件数: $file_count\"\n  echo \"当前层级子目录数: $subdir_count\"\n  echo \"递归普通文件总数: $recursive_file_count\"\n  echo\n}\n\nsummarize_directory \"$SUMMARY_ROOT/alpha\"\nsummarize_directory \"$SUMMARY_ROOT/beta\"\nsummarize_directory \"$SUMMARY_ROOT/empty\"",
+              "excerpt": "#!/usr/bin/env bash set -u SCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\" SUMMARY_ROOT=\"$SCRIPT_DIR/test-files/mock-summary\" summarize_directory() { local target_dir=\"$1\" local file_count=0 local subdir_count=0 local recursive_file_count=0 local entry if [ ! -d \"$targ"
+            },
+            {
+              "sourceId": "sandbox-01-08-sh-936280af",
+              "title": "01-08-重要目录磁盘检查",
+              "path": "sandbox/01-08-重要目录磁盘检查.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 01-08-重要目录磁盘检查\n\n#!/usr/bin/env bash\n\nset -u\n\nSCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"\nPROJECT_ROOT=\"$(cd \"$SCRIPT_DIR/..\" && pwd)\"\n\nimportant_dirs=(\n  \"$PROJECT_ROOT/base-files\"\n  \"$PROJECT_ROOT/notes\"\n  \"$PROJECT_ROOT/sandbox\"\n)\n\necho \"检查重要目录磁盘使用情况\"\n\nfor dir_path in \"${important_dirs[@]}\"; do\n  if [ -d \"$dir_path\" ]; then\n    usage=$(du -sh \"$dir_path\" 2>/dev/null | awk '{print $1}')\n    echo \"$(basename \"$dir_path\"): $usage ($dir_path)\"\n  else\n    echo \"目录不存在: $dir_path\"\n  fi\ndone",
+              "excerpt": "#!/usr/bin/env bash set -u SCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\" PROJECT_ROOT=\"$(cd \"$SCRIPT_DIR/..\" && pwd)\" important_dirs=( \"$PROJECT_ROOT/base-files\" \"$PROJECT_ROOT/notes\" \"$PROJECT_ROOT/sandbox\" ) echo \"检查重要目录磁盘使用情况\" for dir_path in \"${important_dirs[@]}"
+            },
+            {
+              "sourceId": "sandbox-04-01-wc-sh-6d51107d",
+              "title": "04-01-wc",
+              "path": "sandbox/04-01-wc.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 04-01-wc\n\n#!/usr/bin/env bash\n\nfilePath=$1\ncnt1=0\ncnt2=0\nif [ -r \"$filePath\" ];then\n    while read curLine\n    do\n        # 1. 通过 set 命令将当前行的单词分割成一个个参数\n        set $curLine\n        ((cnt1+=$#))\n\n        # 2. read\n        read -r -a arr <<< \"$curLine\"\n        cnt2=$((cnt2+${#arr[@]}))\n\n    done < \"$filePath\"\n    echo \"文件中单词数量 $cnt1\"\n    echo \"文件中单词数量 $cnt2\"\nelse\n    echo \"文件不可读\"\nfi",
+              "excerpt": "#!/usr/bin/env bash filePath=$1 cnt1=0 cnt2=0 if [ -r \"$filePath\" ];then while read curLine do # 1. 通过 set 命令将当前行的单词分割成一个个参数 set $curLine ((cnt1+=$#)) # 2. read read -r -a arr <<< \"$curLine\" cnt2=$((cnt2+${#arr[@]})) done < \"$filePath\" echo \"文件中单词数量 $cnt1\" echo \"文件中单词数量 $cnt2\" el"
+            },
+            {
+              "sourceId": "sandbox-04-04-est-numerique-sh-6de04871",
+              "title": "04-04-est_numerique",
+              "path": "sandbox/04-04-est_numerique.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### eq 数字比较要求两端都是数字\n\nif test \"$1\" -eq \"$1\" 2>/dev/null\nthen\n    echo \"是数字\"\nelse\n    echo \"不是数字\"\nfi",
+              "excerpt": "case \"$1\" in ''|*[!0-9]*) # 空字符串 # 或者 *任意长度字符串 出现一个不是数字的字符 *任意长度字符串 echo \"不是数字\" ;; *) echo \"是数字\" ;; esac # -eq 数字比较要求两端都是数字 if test \"$1\" -eq \"$1\" 2>/dev/null then echo \"是数字\" else echo \"不是数字\" fi"
+            },
+            {
+              "sourceId": "sandbox-04-05-calculette-sh-019209cf",
+              "title": "04-05-calculette",
+              "path": "sandbox/04-05-calculette.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 04-05-calculette\n\narg1=$1\narg2=$3\nex=$2\necho $(($arg1 $ex $arg2))\n\ncase $ex in\n    \"+\")\n        echo $(($arg1 + $arg2))\n        ;;\n    \"-\")\n        echo $(($arg1 - $arg2))\n        ;;\n    # \"*\")\n    \\*)\n        echo $(($arg1 * $arg2))\n        ;;\n    \"/\")\n        if [ $arg2 -ne 0 ]\n        then\n            echo $(($arg1 / $arg2))\n        else\n            echo \"除数不能为0\"\n        fi\n        ;;\n    *)\n        echo \"不支持的运算符\"\n        ;;\nesac",
+              "excerpt": "arg1=$1 arg2=$3 ex=$2 echo $(($arg1 $ex $arg2)) case $ex in \"+\") echo $(($arg1 + $arg2)) ;; \"-\") echo $(($arg1 - $arg2)) ;; # \"*\") \\*) echo $(($arg1 * $arg2)) ;; \"/\") if [ $arg2 -ne 0 ] then echo $(($arg1 / $arg2)) else echo \"除数不能为0\" fi ;; *) echo \"不支持的运算符\" ;; esac"
+            },
+            {
+              "sourceId": "sandbox-04-07-preaddlasttime-sh-ec2877e1",
+              "title": "04-07-preAddLastTime",
+              "path": "sandbox/04-07-preAddLastTime.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 04-07-preAddLastTime\n\nfor file in \"$(pwd)\"/test-files/*\ndo\n    # 如果不是普通文件就跳过，因为会损坏文件\n    [ -f \"$file\" ] || continue\n\n    set -- $(ls -l \"$file\")\n    lastTime=\"$6 $7 $8\"\n    \n    tmpFile=\"/tmp/fichtemp.$$\"\n    echo $lastTime > \"$tmpFile\"\n    cat \"$file\" >> \"$tmpFile\"\n    mv \"$tmpFile\" \"$file\"\ndone",
+              "excerpt": "for file in \"$(pwd)\"/test-files/* do # 如果不是普通文件就跳过，因为会损坏文件 [ -f \"$file\" ] || continue set -- $(ls -l \"$file\") lastTime=\"$6 $7 $8\" tmpFile=\"/tmp/fichtemp.$$\" echo $lastTime > \"$tmpFile\" cat \"$file\" >> \"$tmpFile\" mv \"$tmpFile\" \"$file\" done"
+            },
+            {
+              "sourceId": "sandbox-04-09-sup-sh-c4e9471c",
+              "title": "04-09-sup",
+              "path": "sandbox/04-09-sup.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 04-09-sup\n\n#!/usr/bin/env bash\n\ntrash_dir=\"$(pwd -P)/.poubelle\"\n\nusage() {\n    echo \"用法: $0 fichier|dossier [...]\" >&2\n    exit 1\n}\n\ncleanup_trash() {\n    [ -d \"$trash_dir\" ] || return 0\n\n    find \"$trash_dir\" -mindepth 1 -maxdepth 1 -mtime +30 -exec rm -rf {} +\n}\n\nabsolute_path() {\n    local target=\"$1\"\n\n    if [ -d \"$target\" ] && [ ! -L \"$target\" ]; then\n        (cd \"$target\" && pwd -P)\n        return\n    fi\n\n    printf '%s/%s\\n' \"$(cd \"$(dirname \"$target\")\" && pwd -P)\" \"$(basename \"$target\")\"\n}\n\nmake_backup_name() {\n    local target=\"$1\"\n    local timestamp sanitized candidate suffix\n\n    timestamp=\"$(date '+%Y%m%d-%H%M%S')\"\n    sanitized=\"${target#./}\"\n    sanitized=\"${sanitized#/}\"\n    sanitized=\"${sanitized//\\//__}\"\n    [ -n \"$sanitized\" ] || sanitized=\"item\"\n\n    candidate=\"${sanitized}_${timestamp}\"\n    suffix=0\n    while [ -e \"$trash_dir/$candidate\" ]; do\n        suffix=$((suffix + 1))\n        candidate=\"${sanitized}_${timestamp}_$suffix\"\n    done\n\n    printf '%s\\n' \"$candidate\"\n}\n\nis_inside_trash() {\n    local target=\"$1\"\n    local target_abs\n\n    target_abs=\"$(absolute_path \"$target\")\"\n\n    case \"$target_abs\" in\n        \"$trash_dir\"|\"$trash_dir\"/*)\n            return 0\n            ;;\n        *)\n            return 1\n            ;;\n    esac\n}\n\nwould_include_trash() {\n    local target=\"$1\"\n    local target_abs\n\n    target_abs=\"$(absolute_path \"$target\")\"\n\n    case \"$trash_dir\" in\n        \"$target_abs\"|\"$target_abs\"/*)\n            return 0\n            ;;\n        *)\n            return 1\n            ;;\n    esac\n}\n\nbackup_and_remove() {\n    local target=\"$1\"\n    local backup_name\n\n    if [ ! -e \"$target\" ] && [ ! -L \"$target\" ]; then\n        echo \"目标不存在: $target\" >&2\n        return 1\n    fi\n\n    if is_inside_trash \"$target\"; then\n        echo \"拒绝操作 .poubelle 中的内容: $target\" >&2\n        return 1\n    fi\n\n    if would_include_trash \"$target\"; then\n        echo \"拒绝删除会包含 .poubelle 的目录: $target\" >&2\n        return 1\n    fi\n\n    backup_name=\"$(make_backup_name \"$target\")\" || return 1\n\n    cp -RP \"$target\" \"$trash_dir/$backup_name\" || return 1\n    rm -rf \"$target\"\n}\n\nmain() {\n    local status=0\n\n    [ \"$#\" -gt 0 ] || usage\n\n    mkdir -p \"$trash_dir\" || exit 1\n    cleanup_trash\n\n    for target in \"$@\"; do\n        if ! backup_and_remove \"$target\"; then\n            status=1\n        fi\n    done\n\n    exit \"$status\"\n}\n\nmain \"$@\"",
+              "excerpt": "#!/usr/bin/env bash trash_dir=\"$(pwd -P)/.poubelle\" usage() { echo \"用法: $0 fichier|dossier [...]\" >&2 exit 1 } cleanup_trash() { [ -d \"$trash_dir\" ] || return 0 find \"$trash_dir\" -mindepth 1 -maxdepth 1 -mtime +30 -exec rm -rf {} + } absolute_path() { local target=\"$1\" if [ -d \"$"
+            },
+            {
+              "sourceId": "sandbox-04-td2-sh-24f7f28a",
+              "title": "04-TD2",
+              "path": "sandbox/04-TD2.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 2\n\nsolve2(){\n    local -i cur=1\n    while IFS= read -r curLine || [ -n \"$curLine\" ]\n    # 后面 || 或的逻辑是为了文件最后一行很可能没有以换行符结尾导致没有read\n    do\n        echo \"第${cur}行 $curLine\"\n        ((cur++))\n    done < \"$1\"\n}\nsolve2 $(pwd)/test-files/FichierNote.txt\n\n#### 3\n\nsolve3(){\n    local -i cntD=0\n    local -i cntF=0\n    for i in $(ls \"./\")\n    do\n        if [ -d \"$(pwd)/$i\" ]\n        # 路径外面别忘记 \" \"\n        then\n            ((cntD++))\n        elif [ -f \"$(pwd)/$i\" ]\n        # 参考答案直接全补的，这不好因为除了目录还有链接文件等等也不是普通文件\n        then\n            cntF=$((cntF+1))\n        fi\n    done\n    echo \"普通文件数量 $cntF\"\n    echo \"目录数量 $cntD\"\n}\nsolve3\n\n#### 6\n\nsolve6(){\n    local -i cnt=0\n    while read curLine || [ -n \"$curLine\" ]\n    do\n        # 指针不会动，只会读取第一行\n        # read cur < $(pwd)/test-files/FichierNote.txt\n        set $curLine\n        curGrade=$3\n        if [ \"$curGrade\" -ge 10 ]\n        then\n            ((cnt++))\n        fi\n    done < $(pwd)/test-files/FichierNote.txt\n    echo \"分数大于10的记录数量 $cnt\"\n}\nsolve6\n\n#### 参考答案直接拿到是 date 也就是当前的时间，而不是文件的修改时间\n\nsolve7(){\n    # for file in \"$(pwd)\"/test-files/*\n    # do\n    #     set -- $(ls -l \"$file\")\n    #     echo $#\n    #     echo $*\n    # done\n\n    # ls -l \"$(pwd)\"/test-files/* | while read curLine\n    # do\n    #     set -- $curLine\n    #     echo $#\n    #     echo $*\n    # done\n\n    for file in \"$(pwd)\"/test-files/*\n    do\n        # 如果不是普通文件就跳过，因为会损坏文件\n        [ -f \"$file\" ] || continue\n    \n        set -- $(ls -l \"$file\")\n        lastTime=\"$6 $7 $8\"\n        \n        tmpFile=\"/tmp/fichtemp.$$\"\n        echo $lastTime > \"$tmpFile\"\n        cat \"$file\" >> \"$tmpFile\"\n        mv \"$tmpFile\" \"$file\"\n        rm \"$tmpFile\"\n    done\n}\nsolve7\n\n#### 8\n\nsolve8(){\n    preFilePath=$1\n    tmpFile=\"/tmp/fichtemp.$$\"\n    while read curLine || [ -n \"$curLine\" ]\n    do\n        curTmp=\"/tmp/fichtemp2.$$\"\n        cat \"$tmpFile\" > \"$curTmp\"\n        echo \"$curLine\" > \"$tmpFile\"\n        cat \"$curTmp\" >> \"$tmpFile\"\n        rm \"$curTmp\"\n    done < \"$preFilePath\"\n    mv \"$tmpFile\" \"${preFilePath}-reverse\"\n}\nsolve8 $(pwd)/test-files/esN",
+              "excerpt": "# 2 solve2(){ local -i cur=1 while IFS= read -r curLine || [ -n \"$curLine\" ] # 后面 || 或的逻辑是为了文件最后一行很可能没有以换行符结尾导致没有read do echo \"第${cur}行 $curLine\" ((cur++)) done < \"$1\" } solve2 $(pwd)/test-files/FichierNote.txt # 3 solve3(){ local -i cntD=0 local -i cntF=0 for i in $(ls \"./\") do "
+            }
+          ]
+        },
+        {
+          "type": "sandbox-links",
+          "ids": [
+            "shell-flow",
+            "redirection-lab"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "appendix-sources",
+      "title": "补充原始资料",
+      "anchor": "appendix-sources",
+      "sourceIds": [
+        "notes-04-td2-md-d030a92e"
+      ],
+      "glossaryIds": [],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。"
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "notes-04-td2-md-d030a92e",
+              "title": "04-TD2",
+              "path": "notes/04-TD2.md",
+              "kind": "note",
+              "language": "mixed",
+              "content": "#### 04-TD2\n\n> 以 sandbox 中 04-...sh 为准\n\n#### 逐行读取文件\n\n```bash\nwhile read curLine || [ -n \"$curLine\" ]\ndo\n\ndone < $filePath\n```\n\n通过 -n 防止最后一行没有换行被漏掉\n\n#### IFS 划分\n\n通过 set 分割一个个参数然后用 # 获取参数个数 或 read存储到数组中用 #arr[@]\n\n#### 法1. set\n\n```bash\n\n#### 1. 通过 set 命令将当前行的单词分割成一个个参数\n\nset $curLine\n((cnt1+=$#))\n```",
+              "excerpt": "> 以 sandbox 中 04-...sh 为准 # 1 ## 逐行读取文件 ```bash while read curLine || [ -n \"$curLine\" ] do done < $filePath ``` 通过 -n 防止最后一行没有换行被漏掉 ## IFS 划分 通过 set 分割一个个参数然后用 # 获取参数个数 或 read存储到数组中用 #arr[@] ### 法1. set ```bash # 1. 通过 set 命令将当前行的单词分割成一个个参数 set $curLine ((cnt1+=$#)) ``` ### 法2. r"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "review": {
+    "checklist": [
+      "标准输入、标准输出、标准错误是 Shell 命令组合的基础。",
+      "位置参数、环境变量和 `read` 决定了脚本如何接收外部信息。",
+      "条件、循环、函数和数组把一次性命令扩展为自动化工具。"
+    ],
+    "pitfalls": [
+      "忽略空格、引号、IFS 和子 Shell 语义，是 Shell 新手最常见的翻车点。"
+    ],
+    "diagramIdeas": [
+      "命令 -> stdout -> 管道 -> 下一条命令 的数据流图。"
+    ]
+  },
+  "previousSlug": "filesystem-permissions",
+  "nextSlug": "text-processing"
+}

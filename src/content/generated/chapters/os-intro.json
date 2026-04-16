@@ -1,0 +1,123 @@
+{
+  "slug": "os-intro",
+  "number": "10",
+  "track": "操作系统理论线",
+  "title": "操作系统导论、体系结构与进程基础",
+  "summary": "从 OS 功能、层次结构、进程与内存基本概念进入理论主线。",
+  "searchKeywords": [
+    "操作系统导论",
+    "体系结构",
+    "进程",
+    "内存"
+  ],
+  "sourceIds": [
+    "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+    "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+    "notes-15-md-615702dd"
+  ],
+  "sandboxIds": [],
+  "sections": [
+    {
+      "id": "os-structure",
+      "title": "操作系统功能与层次结构",
+      "anchor": "os-structure",
+      "sourceIds": [
+        "notes-15-md-615702dd",
+        "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+        "base-files-15-lo03-se-2025-2026-md-3784dfdd"
+      ],
+      "glossaryIds": [
+        "kernel",
+        "process"
+      ],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "理论线先回答“操作系统是什么、它替我们屏蔽了哪些硬件细节、它内部如何分层组织”。"
+        },
+        {
+          "type": "key-points",
+          "items": [
+            "操作系统提供虚拟机抽象，使程序无需直接管理硬件。",
+            "课程把 OS 分为内核、内存管理、I/O 管理、文件管理和资源分配等层次。",
+            "进程和内存是后续分页、同步、调度与死锁的起点。"
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "易错点",
+          "content": "只把操作系统理解成“软件集合”，忽略它的抽象与资源管理角色。"
+        },
+        {
+          "type": "diagram-list",
+          "items": [
+            "OS 分层结构图。"
+          ]
+        },
+        {
+          "type": "exercise-list",
+          "items": [
+            {
+              "id": "os-structure-exercise-1",
+              "prompt": "解释为什么 `read` 这样的系统调用能让应用无须关心底层介质。",
+              "answer": "",
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "notes-15-md-615702dd",
+              "title": "15",
+              "path": "notes/15.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 第 1 页：操作系统体系结构与理论\n\n**原题：** Architecture et théorie des systèmes d’exploitation\n\n**中文：** 操作系统体系结构与理论\n\n---\n\n#### 第 2 页：课程计划\n\n- 操作系统导论\n- 体系结构与内存管理\n- 进程管理与调度\n- 进程错误检测与死锁\n- 资源管理\n\n---\n\n#### 第 3 页：操作系统导论\n\n- 操作系统是用户与物理机器之间的接口，它使用户能够使用计算机的功能。\n- 它提供一个称为“虚拟机”的基础，程序和工具将在其上构建。\n- 操作系统的目标是让开发应用程序时，无需关心硬件运行与管理的细节。\n- 例如：读取文件时，只需简单调用系统调用 `read`，无需关心文件位于何种介质上（磁盘、U 盘等）。\n\n---\n\n#### 第 4 页：操作系统的功能\n\n操作系统的主要功能包括：\n\n- 装载并启动程序\n- 管理处理器、内存和外设\n- 管理进程（正在执行的程序）和文件系统\n- 错误检测\n\n---\n\n#### 第 5 页：操作系统的结构（上）\n\n操作系统按层次结构组织：每一层使用其下层提供的功能。通常可分为 5 层：\n\n- 最底层是**内核（kernel）**，它是硬件与软件之间的接口，负责管理 CPU、中断、进程间通信与同步，并常驻内存。\n- 第二层是**内存管理器**，负责在各个进程之间共享内存。\n\n---",
+              "excerpt": "## 第 1 页：操作系统体系结构与理论 **原题：** Architecture et théorie des systèmes d’exploitation **中文：** 操作系统体系结构与理论 --- ## 第 2 页：课程计划 - 操作系统导论 - 体系结构与内存管理 - 进程管理与调度 - 进程错误检测与死锁 - 资源管理 --- ## 第 3 页：操作系统导论 - 操作系统是用户与物理机器之间的接口，它使用户能够使用计算机的功能。 - 它提供一个称为“虚拟机”的基础，程序和工具将在其上构建。 - 操作系统的目标是让开发应用程序时，无需关心硬"
+            },
+            {
+              "sourceId": "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+              "title": "15_LO03_SE_2025_2026",
+              "path": "base-files/15_LO03_SE_2025_2026.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nArchitecture et théorie des systèmes\n          d’exploitation\n\n#### Page 2\n\nPlan du cours\n\n   Introduction aux systèmes d'exploitation\n\n   Architecture et gestion de la mémoire\n\n   Gestion et ordonnancement des processus\n\n   Détection d'erreurs et inter-blocages des processus\n\n   Gestion des ressources\n\n#### Page 3\n\nIntroduction aux systèmes d’exploitation\n\n Un système d’exploitation est une interface entre l’utilisateur et\n  la machine physique, il permet d’utiliser les fonctionnalités de\n  l’ordinateur.\n Il fournit une base appelée « machine virtuelle » sur laquelle\n\n  seront construits les programmes et utilitaires.\n Le but du système d’exploitation consiste à permettre de\n\n  développer des applications sans se soucier des détails de\n  fonctionnement et de gestion du matériel.\n    Exemple : on peut effectuer la lecture d’un fichier par un\n\n      simple appel système « read » sans se soucier sur quel type\n      de support il se trouve (Disque, Cle USB, …).\n\n#### Page 4\n\nLes fonctions d’un système\n                      d’exploitation\n\n   Les systèmes d’exploitation ont comme fonctions principales :\n\n       Chargement et lancement des programmes\n\n       Gestion des processeurs, de la mémoire, des périphériques\n\n       Gestion des processus (programmes en cours d’exécution) et\n        du système de fichiers\n\n       Détection des erreurs\n\n#### Page 5\n\nStructure d’un système d’exploitation\n\n   Le système d’exploitation est structuré en couches : chaque couche\n    utilise les fonctions des couches inférieures. On l’organise\n    généralement en 5 couches :\n\n        Au plus bas niveau on trouve le noyau, l’interface entre le\n         matériel et le logiciel, il se charge de gérer le CPU, les\n         interruptions, la communication et la synchronisation entre les\n         processus. Il réside entièrement en mémoire.\n\n        Au second niveau, on trouve le gestionnaire de la mémoire qui se\n         charge du partage de la mémoire entre les processus.",
+              "excerpt": "## Page 1 Architecture et théorie des systèmes d’exploitation ## Page 2 Plan du cours  Introduction aux systèmes d'exploitation  Architecture et gestion de la mémoire  Gestion et ordonnancement des processus  Détection d'erreurs et inter-blocages des processus  Gestion des r"
+            },
+            {
+              "sourceId": "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+              "title": "15_LO03_SE_2025_2026_中文翻译",
+              "path": "base-files/15_LO03_SE_2025_2026_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 第 1 页：操作系统体系结构与理论\n\n**原题：** Architecture et théorie des systèmes d’exploitation\n\n**中文：** 操作系统体系结构与理论\n\n---\n\n#### 第 2 页：课程计划\n\n- 操作系统导论\n- 体系结构与内存管理\n- 进程管理与调度\n- 进程错误检测与死锁\n- 资源管理\n\n---\n\n#### 第 3 页：操作系统导论\n\n- 操作系统是用户与物理机器之间的接口，它使用户能够使用计算机的功能。\n- 它提供一个称为“虚拟机”的基础，程序和工具将在其上构建。\n- 操作系统的目标是让开发应用程序时，无需关心硬件运行与管理的细节。\n- 例如：读取文件时，只需简单调用系统调用 `read`，无需关心文件位于何种介质上（磁盘、U 盘等）。\n\n---\n\n#### 第 4 页：操作系统的功能\n\n操作系统的主要功能包括：\n\n- 装载并启动程序\n- 管理处理器、内存和外设\n- 管理进程（正在执行的程序）和文件系统\n- 错误检测\n\n---\n\n#### 第 5 页：操作系统的结构（上）\n\n操作系统按层次结构组织：每一层使用其下层提供的功能。通常可分为 5 层：\n\n- 最底层是**内核（kernel）**，它是硬件与软件之间的接口，负责管理 CPU、中断、进程间通信与同步，并常驻内存。\n- 第二层是**内存管理器**，负责在各个进程之间共享内存。\n\n---",
+              "excerpt": "## 第 1 页：操作系统体系结构与理论 **原题：** Architecture et théorie des systèmes d’exploitation **中文：** 操作系统体系结构与理论 --- ## 第 2 页：课程计划 - 操作系统导论 - 体系结构与内存管理 - 进程管理与调度 - 进程错误检测与死锁 - 资源管理 --- ## 第 3 页：操作系统导论 - 操作系统是用户与物理机器之间的接口，它使用户能够使用计算机的功能。 - 它提供一个称为“虚拟机”的基础，程序和工具将在其上构建。 - 操作系统的目标是让开发应用程序时，无需关心硬"
+            }
+          ]
+        },
+        {
+          "type": "sandbox-links",
+          "ids": []
+        }
+      ]
+    }
+  ],
+  "review": {
+    "checklist": [
+      "操作系统提供虚拟机抽象，使程序无需直接管理硬件。",
+      "课程把 OS 分为内核、内存管理、I/O 管理、文件管理和资源分配等层次。",
+      "进程和内存是后续分页、同步、调度与死锁的起点。"
+    ],
+    "pitfalls": [
+      "只把操作系统理解成“软件集合”，忽略它的抽象与资源管理角色。"
+    ],
+    "diagramIdeas": [
+      "OS 分层结构图。"
+    ]
+  },
+  "previousSlug": "user-automation",
+  "nextSlug": "memory-paging"
+}

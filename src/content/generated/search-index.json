@@ -1,0 +1,1206 @@
+[
+  {
+    "id": "course-overview",
+    "route": "/course/course-overview",
+    "title": "课程导论与学习路径",
+    "excerpt": "说明资料来源、学习顺序，以及 Linux 实操线与操作系统理论线如何配合。",
+    "chapterSlug": "course-overview",
+    "kind": "section",
+    "keywords": [
+      "课程导论",
+      "学习路径",
+      "资料关系",
+      "操作系统课程",
+      "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
+      "base-files-01-linux-docx-a571b321",
+      "base-files-01-lo03-linux-2026-cours1-2-md-8e4df8da",
+      "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
+      "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+      "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+      "readme-md-8ec9a00b",
+      "sandbox-sh-2731f376",
+      "sandbox-sh-642d1d46",
+      "sandbox-test-files-02-dir1-dir2-debut-txt-b085733b",
+      "sandbox-test-files-02-dir1-dir2-file-link-txt-7d33c805",
+      "sandbox-test-files-02-dir1-dir2-file-moved-txt-a90963ec",
+      "sandbox-test-files-02-dir1-dir2-file1-txt-4166cab0",
+      "sandbox-test-files-02-dir1-dir2-fin-txt-121adea3",
+      "sandbox-test-files-09-2-03-txt-f01f7025",
+      "sandbox-test-files-09-2-05-txt-a246920a",
+      "sandbox-test-files-09-2-06-txt-9b3049dc",
+      "sandbox-test-files-09-2-txt-34d28d9f",
+      "sandbox-test-files-13-txt-67da07d3",
+      "sandbox-test-files-fichiernote-txt-05fdd343",
+      "sandbox-test-files-mock-summary-alpha-report-txt-7c48fd63",
+      "sandbox-test-files-mock-summary-alpha-todo-md-e878c7e3",
+      "sandbox-test-files-mock-summary-beta-images-diagram-txt-3d793952",
+      "sandbox-test-files-mock-summary-beta-summary-txt-c943c0c6",
+      "sandbox-test-files-palindrometestfile-txt-0031d49a",
+      "sandbox-test-files-script-sh-35508212",
+      "sandbox-test-files-words-txt-2ed1388e"
+    ]
+  },
+  {
+    "id": "course-overview::material-map",
+    "route": "/course/course-overview#material-map",
+    "title": "课程导论与学习路径 / 资料结构与学习顺序",
+    "excerpt": "先读 保证完整性，再用 进行中文学习化消化，最后用 把概念跑起来。课程项目与教师补充媒体被单独挂到综合实践章节。",
+    "chapterSlug": "course-overview",
+    "kind": "section",
+    "keywords": [
+      "课程导论",
+      "学习路径",
+      "资料关系",
+      "操作系统课程",
+      "readme-md-8ec9a00b",
+      "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
+      "base-files-01-lo03-linux-2026-cours1-2-md-8e4df8da",
+      "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
+      "base-files-01-linux-docx-a571b321",
+      "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+      "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+      "kernel",
+      "shell"
+    ]
+  },
+  {
+    "id": "course-overview::appendix-sources",
+    "route": "/course/course-overview#appendix-sources",
+    "title": "课程导论与学习路径 / 补充原始资料",
+    "excerpt": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。",
+    "chapterSlug": "course-overview",
+    "kind": "section",
+    "keywords": [
+      "课程导论",
+      "学习路径",
+      "资料关系",
+      "操作系统课程",
+      "sandbox-test-files-02-dir1-dir2-debut-txt-b085733b",
+      "sandbox-test-files-02-dir1-dir2-file-link-txt-7d33c805",
+      "sandbox-test-files-02-dir1-dir2-file-moved-txt-a90963ec",
+      "sandbox-test-files-02-dir1-dir2-file1-txt-4166cab0",
+      "sandbox-test-files-02-dir1-dir2-fin-txt-121adea3",
+      "sandbox-test-files-09-2-03-txt-f01f7025",
+      "sandbox-test-files-09-2-05-txt-a246920a",
+      "sandbox-test-files-09-2-06-txt-9b3049dc",
+      "sandbox-test-files-09-2-txt-34d28d9f",
+      "sandbox-test-files-13-txt-67da07d3",
+      "sandbox-test-files-fichiernote-txt-05fdd343",
+      "sandbox-test-files-mock-summary-alpha-report-txt-7c48fd63",
+      "sandbox-test-files-mock-summary-alpha-todo-md-e878c7e3",
+      "sandbox-test-files-mock-summary-beta-images-diagram-txt-3d793952",
+      "sandbox-test-files-mock-summary-beta-summary-txt-c943c0c6",
+      "sandbox-test-files-palindrometestfile-txt-0031d49a",
+      "sandbox-test-files-script-sh-35508212",
+      "sandbox-test-files-words-txt-2ed1388e",
+      "sandbox-sh-642d1d46",
+      "sandbox-sh-2731f376"
+    ]
+  },
+  {
+    "id": "filesystem-admin",
+    "route": "/course/filesystem-admin",
+    "title": "文件系统管理、挂载、swap、归档、模块与网络",
+    "excerpt": "从分区、mkfs、mount、swap、tar 到模块和网络配置，进入系统管理层面。",
+    "chapterSlug": "filesystem-admin",
+    "kind": "section",
+    "keywords": [
+      "mount",
+      "swap",
+      "tar",
+      "module",
+      "route",
+      "ifconfig",
+      "base-files-12-02-cours-6-et-7-avril-amir-hajjam-md-acac9d37",
+      "base-files-12-02-cours-6-et-7-avril-amir-hajjam-pdf-84805bde",
+      "base-files-16-td7-td8-md-5308c3d1",
+      "base-files-16-td7-td8-pdf-46a44a7f",
+      "notes-12-02-md-79f464d5",
+      "notes-16-md-56059bca"
+    ]
+  },
+  {
+    "id": "filesystem-admin::storage-and-network",
+    "route": "/course/filesystem-admin#storage-and-network",
+    "title": "文件系统管理、挂载、swap、归档、模块与网络 / 存储、归档、模块与网络配置",
+    "excerpt": "这部分是 Linux 实操线的系统管理上半场：把文件系统、交换空间、模块和网络接口放到同一张运维地图里。",
+    "chapterSlug": "filesystem-admin",
+    "kind": "section",
+    "keywords": [
+      "mount",
+      "swap",
+      "tar",
+      "module",
+      "route",
+      "ifconfig",
+      "notes-12-02-md-79f464d5",
+      "notes-16-md-56059bca",
+      "base-files-12-02-cours-6-et-7-avril-amir-hajjam-pdf-84805bde",
+      "base-files-12-02-cours-6-et-7-avril-amir-hajjam-md-acac9d37",
+      "base-files-16-td7-td8-pdf-46a44a7f",
+      "base-files-16-td7-td8-md-5308c3d1",
+      "mount",
+      "swap",
+      "module"
+    ]
+  },
+  {
+    "id": "filesystem-permissions",
+    "route": "/course/filesystem-permissions",
+    "title": "文件系统、路径、权限与链接",
+    "excerpt": "把 Linux 的“万物皆文件”落到目录树、路径、权限、链接与文件操作的具体模型上。",
+    "chapterSlug": "filesystem-permissions",
+    "kind": "section",
+    "keywords": [
+      "文件系统",
+      "权限",
+      "inode",
+      "路径",
+      "链接",
+      "base-files-02-lo03-linux-td1-2026-correction-pdf-350734e4",
+      "base-files-02-lo03-linux-td1-2026-pdf-83a43a44",
+      "base-files-02-lo03-linux-td1-pdf-e77feb22",
+      "base-files-02-td1-md-3b35db44",
+      "base-files-11-cours-mars-2026-2-md-e078412c",
+      "base-files-11-cours-mars-2026-2-pdf-8b955ba4",
+      "base-files-12-02-cours-6-et-7-avril-amir-hajjam-md-acac9d37",
+      "base-files-12-02-cours-6-et-7-avril-amir-hajjam-pdf-84805bde",
+      "notes-01-04-md-a032fd59",
+      "notes-02-td1-md-4e53108c",
+      "notes-11-md-cc80b5f5",
+      "sandbox-01-04-sh-030bf090",
+      "sandbox-01-04-sh-3eab350b",
+      "sandbox-01-04-sh-3f515aee",
+      "sandbox-01-04-sh-b6bc5414",
+      "sandbox-01-04-sh-fdffb4a5",
+      "sandbox-02-td1-sh-76996d92"
+    ]
+  },
+  {
+    "id": "filesystem-permissions::tree-and-types",
+    "route": "/course/filesystem-permissions#tree-and-types",
+    "title": "文件系统、路径、权限与链接 / 目录树、文件类型与路径模型",
+    "excerpt": "从根目录、FHS、设备文件和绝对/相对路径入手，建立统一目录树的认知框架。",
+    "chapterSlug": "filesystem-permissions",
+    "kind": "section",
+    "keywords": [
+      "文件系统",
+      "权限",
+      "inode",
+      "路径",
+      "链接",
+      "notes-01-04-md-a032fd59",
+      "notes-02-td1-md-4e53108c",
+      "notes-11-md-cc80b5f5",
+      "base-files-02-lo03-linux-td1-2026-pdf-83a43a44",
+      "base-files-02-lo03-linux-td1-2026-correction-pdf-350734e4",
+      "base-files-02-lo03-linux-td1-pdf-e77feb22",
+      "base-files-02-td1-md-3b35db44",
+      "base-files-11-cours-mars-2026-2-pdf-8b955ba4",
+      "base-files-11-cours-mars-2026-2-md-e078412c",
+      "base-files-12-02-cours-6-et-7-avril-amir-hajjam-pdf-84805bde",
+      "base-files-12-02-cours-6-et-7-avril-amir-hajjam-md-acac9d37",
+      "sandbox-01-04-sh-3eab350b",
+      "sandbox-01-04-sh-fdffb4a5",
+      "sandbox-01-04-sh-b6bc5414",
+      "sandbox-01-04-sh-3f515aee",
+      "sandbox-01-04-sh-030bf090",
+      "sandbox-02-td1-sh-76996d92",
+      "inode",
+      "fhs",
+      "hard-link",
+      "soft-link"
+    ]
+  },
+  {
+    "id": "free-software",
+    "route": "/course/free-software",
+    "title": "自由软件与系统观念补充",
+    "excerpt": "用 GPL、copyleft 与自由软件/开源软件差异补上 Linux 生态背后的法律与协作观念。",
+    "chapterSlug": "free-software",
+    "kind": "section",
+    "keywords": [
+      "GPL",
+      "copyleft",
+      "自由软件",
+      "开源软件",
+      "base-files-10-td1-td2-md-cb6a6003",
+      "base-files-10-td1-td2-pdf-3f493a40",
+      "notes-10-md-8b87c73f"
+    ]
+  },
+  {
+    "id": "free-software::gpl-basics",
+    "route": "/course/free-software#gpl-basics",
+    "title": "自由软件与系统观念补充 / GPL、自由软件与协作文化",
+    "excerpt": "Linux 不只是技术体系，也是以自由软件许可证和协作文化为基础的生态。",
+    "chapterSlug": "free-software",
+    "kind": "section",
+    "keywords": [
+      "GPL",
+      "copyleft",
+      "自由软件",
+      "开源软件",
+      "notes-10-md-8b87c73f",
+      "base-files-10-td1-td2-pdf-3f493a40",
+      "base-files-10-td1-td2-md-cb6a6003",
+      "copyleft"
+    ]
+  },
+  {
+    "id": "linux-cli",
+    "route": "/course/linux-cli",
+    "title": "Linux 与命令行入门",
+    "excerpt": "从发行版、Shell、本地环境、提示符与帮助系统开始，建立 Linux 学习入口。",
+    "chapterSlug": "linux-cli",
+    "kind": "section",
+    "keywords": [
+      "Linux",
+      "Shell",
+      "命令行",
+      "prompt",
+      "man",
+      "发行版",
+      "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
+      "base-files-01-linux-docx-a571b321",
+      "base-files-01-lo03-linux-2026-cours1-2-md-8e4df8da",
+      "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
+      "notes-01-02-md-d7aa8120",
+      "notes-01-03-shell-md-3f3d265e",
+      "sandbox-01-03-sh-4bdbe395",
+      "sandbox-01-03-sh-66aad953",
+      "sandbox-01-03-sh-ad91765a"
+    ]
+  },
+  {
+    "id": "linux-cli::linux-basics",
+    "route": "/course/linux-cli#linux-basics",
+    "title": "Linux 与命令行入门 / Linux 发行版与本地运行环境",
+    "excerpt": "这一部分回答“我在哪里运行 Linux、不同发行版有何差异、Shell 为什么是课程第一站”。",
+    "chapterSlug": "linux-cli",
+    "kind": "section",
+    "keywords": [
+      "Linux",
+      "Shell",
+      "命令行",
+      "prompt",
+      "man",
+      "发行版",
+      "notes-01-02-md-d7aa8120",
+      "notes-01-03-shell-md-3f3d265e",
+      "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
+      "base-files-01-lo03-linux-2026-cours1-2-md-8e4df8da",
+      "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
+      "base-files-01-linux-docx-a571b321",
+      "sandbox-01-03-sh-4bdbe395",
+      "sandbox-01-03-sh-ad91765a",
+      "sandbox-01-03-sh-66aad953",
+      "shell"
+    ]
+  },
+  {
+    "id": "logs-rsyslog",
+    "route": "/course/logs-rsyslog",
+    "title": "日志、轮转、服务启动与 rsyslog",
+    "excerpt": "围绕 syslog/rsyslog、logrotate、runlevel、cron 与远程日志构建系统运维视角。",
+    "chapterSlug": "logs-rsyslog",
+    "kind": "section",
+    "keywords": [
+      "syslog",
+      "rsyslog",
+      "logrotate",
+      "runlevel",
+      "cron",
+      "base-files-12-01-cours-30-et-31-mars-amir-hajjam-md-0e0d58ba",
+      "base-files-12-01-cours-30-et-31-mars-amir-hajjam-pdf-48cc08bf",
+      "base-files-13-td5-td6-md-b13b0e61",
+      "base-files-13-td5-td6-pdf-139514b6",
+      "base-files-13-tds-31-et-32-avec-correction-md-41e012cd",
+      "base-files-13-tds-31-et-32-avec-correction-pptx-e68c79e3",
+      "base-files-14-td-fri-1-md-8a8ebd67",
+      "base-files-14-td-fri-1-pdf-c699a325",
+      "base-files-16-td7-td8-md-5308c3d1",
+      "base-files-16-td7-td8-pdf-46a44a7f",
+      "notes-12-01-md-81ea98db",
+      "notes-13-td6-md-d8fa0eea",
+      "notes-16-md-56059bca"
+    ]
+  },
+  {
+    "id": "logs-rsyslog::syslog-stack",
+    "route": "/course/logs-rsyslog#syslog-stack",
+    "title": "日志、轮转、服务启动与 rsyslog / syslog / rsyslog 与日志轮转",
+    "excerpt": "日志不是附属功能，而是系统观测、审计和故障排查的核心基础设施。",
+    "chapterSlug": "logs-rsyslog",
+    "kind": "section",
+    "keywords": [
+      "syslog",
+      "rsyslog",
+      "logrotate",
+      "runlevel",
+      "cron",
+      "notes-12-01-md-81ea98db",
+      "notes-13-td6-md-d8fa0eea",
+      "notes-16-md-56059bca",
+      "base-files-12-01-cours-30-et-31-mars-amir-hajjam-pdf-48cc08bf",
+      "base-files-12-01-cours-30-et-31-mars-amir-hajjam-md-0e0d58ba",
+      "base-files-13-td5-td6-md-b13b0e61",
+      "base-files-13-tds-31-et-32-avec-correction-md-41e012cd",
+      "base-files-14-td-fri-1-pdf-c699a325",
+      "base-files-14-td-fri-1-md-8a8ebd67",
+      "base-files-16-td7-td8-pdf-46a44a7f",
+      "base-files-16-td7-td8-md-5308c3d1",
+      "syslog",
+      "logrotate"
+    ]
+  },
+  {
+    "id": "logs-rsyslog::appendix-sources",
+    "route": "/course/logs-rsyslog#appendix-sources",
+    "title": "日志、轮转、服务启动与 rsyslog / 补充原始资料",
+    "excerpt": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。",
+    "chapterSlug": "logs-rsyslog",
+    "kind": "section",
+    "keywords": [
+      "syslog",
+      "rsyslog",
+      "logrotate",
+      "runlevel",
+      "cron",
+      "base-files-13-td5-td6-pdf-139514b6",
+      "base-files-13-tds-31-et-32-avec-correction-pptx-e68c79e3"
+    ]
+  },
+  {
+    "id": "memory-paging",
+    "route": "/course/memory-paging",
+    "title": "内存、虚拟内存、分页与页面置换",
+    "excerpt": "围绕 MMU、地址转换、分页机制和页面置换算法建立内存管理核心认知。",
+    "chapterSlug": "memory-paging",
+    "kind": "section",
+    "keywords": [
+      "虚拟内存",
+      "分页",
+      "MMU",
+      "FIFO",
+      "LRU",
+      "Clock",
+      "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+      "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+      "base-files-17-lo03-td-se-2026-md-e76e95bf",
+      "base-files-17-lo03-td-se-2026-pdf-225fdd66",
+      "notes-15-md-615702dd",
+      "notes-17-md-23ec2de9"
+    ]
+  },
+  {
+    "id": "memory-paging::paging-core",
+    "route": "/course/memory-paging#paging-core",
+    "title": "内存、虚拟内存、分页与页面置换 / 地址转换与页面置换",
+    "excerpt": "课程从地址位划分、页表、MMU 与页面置换算法逐步搭出虚拟内存模型。",
+    "chapterSlug": "memory-paging",
+    "kind": "section",
+    "keywords": [
+      "虚拟内存",
+      "分页",
+      "MMU",
+      "FIFO",
+      "LRU",
+      "Clock",
+      "notes-15-md-615702dd",
+      "notes-17-md-23ec2de9",
+      "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+      "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+      "base-files-17-lo03-td-se-2026-pdf-225fdd66",
+      "base-files-17-lo03-td-se-2026-md-e76e95bf",
+      "virtual-memory",
+      "mmu",
+      "fifo",
+      "lru"
+    ]
+  },
+  {
+    "id": "os-intro",
+    "route": "/course/os-intro",
+    "title": "操作系统导论、体系结构与进程基础",
+    "excerpt": "从 OS 功能、层次结构、进程与内存基本概念进入理论主线。",
+    "chapterSlug": "os-intro",
+    "kind": "section",
+    "keywords": [
+      "操作系统导论",
+      "体系结构",
+      "进程",
+      "内存",
+      "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+      "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+      "notes-15-md-615702dd"
+    ]
+  },
+  {
+    "id": "os-intro::os-structure",
+    "route": "/course/os-intro#os-structure",
+    "title": "操作系统导论、体系结构与进程基础 / 操作系统功能与层次结构",
+    "excerpt": "理论线先回答“操作系统是什么、它替我们屏蔽了哪些硬件细节、它内部如何分层组织”。",
+    "chapterSlug": "os-intro",
+    "kind": "section",
+    "keywords": [
+      "操作系统导论",
+      "体系结构",
+      "进程",
+      "内存",
+      "notes-15-md-615702dd",
+      "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+      "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+      "kernel",
+      "process"
+    ]
+  },
+  {
+    "id": "shell-control",
+    "route": "/course/shell-control",
+    "title": "重定向、管道、脚本与流程控制",
+    "excerpt": "从 stdin/stdout/stderr 到变量、参数、条件、循环、函数和数组，构成 Shell 自动化主线。",
+    "chapterSlug": "shell-control",
+    "kind": "section",
+    "keywords": [
+      "重定向",
+      "管道",
+      "变量",
+      "流程控制",
+      "函数",
+      "数组",
+      "base-files-04-lo03-linux-td2-2026-correction-pdf-458039a0",
+      "base-files-04-lo03-linux-td2-2026-pdf-57ceb643",
+      "base-files-04-lo03-linux-td2-md-4c3fbb98",
+      "notes-01-05-md-13297274",
+      "notes-01-06-shell-md-f9e33a49",
+      "notes-01-07-md-24a7178b",
+      "notes-01-08-shell-md-18beb3ef",
+      "notes-04-td2-md-d030a92e",
+      "sandbox-01-05-sh-40e199db",
+      "sandbox-01-05-sh-c940d607",
+      "sandbox-01-06-sh-0fe57dc2",
+      "sandbox-01-06-sh-e62e1d4f",
+      "sandbox-01-07-sh-e7ae6a88",
+      "sandbox-01-08-childscript-sh-5ab0855f",
+      "sandbox-01-08-cleanfatherscript-sh-5d59b43a",
+      "sandbox-01-08-sh-2dbaac59",
+      "sandbox-01-08-sh-79a79333",
+      "sandbox-01-08-sh-936280af",
+      "sandbox-01-08-shell-sh-6d848cec",
+      "sandbox-04-01-wc-sh-6d51107d",
+      "sandbox-04-04-est-numerique-sh-6de04871",
+      "sandbox-04-05-calculette-sh-019209cf",
+      "sandbox-04-07-preaddlasttime-sh-ec2877e1",
+      "sandbox-04-09-sup-sh-c4e9471c",
+      "sandbox-04-td2-sh-24f7f28a"
+    ]
+  },
+  {
+    "id": "shell-control::io-and-script",
+    "route": "/course/shell-control#io-and-script",
+    "title": "重定向、管道、脚本与流程控制 / 标准流、参数与脚本结构",
+    "excerpt": "这一章把命令行操作升级为可复用脚本，理解输入输出流和脚本执行模型。",
+    "chapterSlug": "shell-control",
+    "kind": "section",
+    "keywords": [
+      "重定向",
+      "管道",
+      "变量",
+      "流程控制",
+      "函数",
+      "数组",
+      "notes-01-05-md-13297274",
+      "notes-01-06-shell-md-f9e33a49",
+      "notes-01-07-md-24a7178b",
+      "notes-01-08-shell-md-18beb3ef",
+      "base-files-04-lo03-linux-td2-2026-pdf-57ceb643",
+      "base-files-04-lo03-linux-td2-2026-correction-pdf-458039a0",
+      "base-files-04-lo03-linux-td2-md-4c3fbb98",
+      "sandbox-01-05-sh-c940d607",
+      "sandbox-01-05-sh-40e199db",
+      "sandbox-01-06-sh-0fe57dc2",
+      "sandbox-01-06-sh-e62e1d4f",
+      "sandbox-01-07-sh-e7ae6a88",
+      "sandbox-01-08-shell-sh-6d848cec",
+      "sandbox-01-08-childscript-sh-5ab0855f",
+      "sandbox-01-08-cleanfatherscript-sh-5d59b43a",
+      "sandbox-01-08-sh-2dbaac59",
+      "sandbox-01-08-sh-79a79333",
+      "sandbox-01-08-sh-936280af",
+      "sandbox-04-01-wc-sh-6d51107d",
+      "sandbox-04-04-est-numerique-sh-6de04871",
+      "sandbox-04-05-calculette-sh-019209cf",
+      "sandbox-04-07-preaddlasttime-sh-ec2877e1",
+      "sandbox-04-09-sup-sh-c4e9471c",
+      "sandbox-04-td2-sh-24f7f28a",
+      "stdin",
+      "stdout",
+      "stderr"
+    ]
+  },
+  {
+    "id": "shell-control::appendix-sources",
+    "route": "/course/shell-control#appendix-sources",
+    "title": "重定向、管道、脚本与流程控制 / 补充原始资料",
+    "excerpt": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。",
+    "chapterSlug": "shell-control",
+    "kind": "section",
+    "keywords": [
+      "重定向",
+      "管道",
+      "变量",
+      "流程控制",
+      "函数",
+      "数组",
+      "notes-04-td2-md-d030a92e"
+    ]
+  },
+  {
+    "id": "sync-deadlock-scheduling",
+    "route": "/course/sync-deadlock-scheduling",
+    "title": "同步、死锁、调度与课程项目",
+    "excerpt": "把信号量、哲学家问题、死锁、银行家算法、调度算法和 SyncFS 课程项目收束成综合章节。",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "kind": "section",
+    "keywords": [
+      "信号量",
+      "死锁",
+      "调度",
+      "SyncFS",
+      "银行家算法",
+      "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+      "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+      "base-files-17-lo03-td-se-2026-md-e76e95bf",
+      "base-files-17-lo03-td-se-2026-pdf-225fdd66",
+      "base-files-from-teacher-20260410130233-97-71-jpg-9a9cec46",
+      "base-files-from-teacher-36fed1122923ee61bba06c0048f285ce-mp4-f47c3cf6",
+      "base-files-project-chat-4cc1e6ba",
+      "base-files-project-md-b0688767",
+      "base-files-project-pdf-b570ea5e",
+      "base-files-project-readme-syncfs-md-62e30e35",
+      "base-files-project-syncfs-sh-21b9c7aa",
+      "notes-15-md-615702dd",
+      "notes-17-md-23ec2de9"
+    ]
+  },
+  {
+    "id": "sync-deadlock-scheduling::concurrency-and-scheduling",
+    "route": "/course/sync-deadlock-scheduling#concurrency-and-scheduling",
+    "title": "同步、死锁、调度与课程项目 / 同步、死锁与调度算法",
+    "excerpt": "这是课程中最需要把图、算法和运行过程一起理解的部分，适合边推演边画图。",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "kind": "section",
+    "keywords": [
+      "信号量",
+      "死锁",
+      "调度",
+      "SyncFS",
+      "银行家算法",
+      "notes-15-md-615702dd",
+      "notes-17-md-23ec2de9",
+      "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+      "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+      "base-files-17-lo03-td-se-2026-pdf-225fdd66",
+      "base-files-17-lo03-td-se-2026-md-e76e95bf",
+      "base-files-project-readme-syncfs-md-62e30e35",
+      "base-files-project-chat-4cc1e6ba",
+      "base-files-project-syncfs-sh-21b9c7aa",
+      "base-files-project-md-b0688767",
+      "base-files-project-pdf-b570ea5e",
+      "base-files-from-teacher-36fed1122923ee61bba06c0048f285ce-mp4-f47c3cf6",
+      "base-files-from-teacher-20260410130233-97-71-jpg-9a9cec46",
+      "semaphore",
+      "deadlock",
+      "banker"
+    ]
+  },
+  {
+    "id": "text-processing",
+    "route": "/course/text-processing",
+    "title": "文本处理与 Shell 题解",
+    "excerpt": "把正则、grep、sed、awk 与一系列 TD 题解串成可迁移的文本处理能力。",
+    "chapterSlug": "text-processing",
+    "kind": "section",
+    "keywords": [
+      "grep",
+      "sed",
+      "awk",
+      "正则",
+      "which",
+      "tree",
+      "wc",
+      "base-files-06-cn-lo03-silde-cours-3-4-pdf-62c8431d",
+      "base-files-06-lo03-linux-2026-cours3-pdf-569574e6",
+      "base-files-07-lo03-linux-2026-cours4-md-3180a740",
+      "base-files-07-lo03-linux-2026-cours4-pdf-dd13a19d",
+      "base-files-08-lo03-linux-td3-2026-correction-pdf-24099538",
+      "base-files-08-lo03-linux-td3-2026-pdf-9fed7c0c",
+      "base-files-08-lo03-td3-linux-md-3cb146d1",
+      "base-files-09-lo03-linux-td4-1-2026-pdf-d4311f4e",
+      "base-files-09-lo03-linux-td4-2-2026-pdf-6b9812d5",
+      "base-files-09-lo03-td4-linux-md-0b29177c",
+      "base-files-09-lo03-td4-linux-md-187aed1d",
+      "notes-06-grep-sed-md-a3515484",
+      "notes-07-awk-md-38948e0e",
+      "notes-08-td3-md-2db2c1da",
+      "notes-09-td4-md-7b1bd18f",
+      "sandbox-06-regexp-sh-e00eda0e",
+      "sandbox-08-05-set-sh-1d90c6de",
+      "sandbox-08-dico-sh-e6e5ca91",
+      "sandbox-08-palindrome-sh-3865ed7e",
+      "sandbox-08-palindrome4file-sh-a5d9cf11",
+      "sandbox-08-tree-sh-c7f89521",
+      "sandbox-08-which-sh-92217d21",
+      "sandbox-09-01-count-sh-a1e58925",
+      "sandbox-09-03-counteachword-sh-e2613975",
+      "sandbox-09-04-rev-sh-bb6f57b9",
+      "sandbox-09-05-group-sh-ee6a50d4",
+      "sandbox-09-2-01-sh-a8fa441f",
+      "sandbox-09-2-02-sh-4f80be95",
+      "sandbox-09-2-03-sh-a83ce872",
+      "sandbox-09-2-04-sh-bb102c52",
+      "sandbox-09-2-05-sh-16efd06d",
+      "sandbox-09-2-06-sh-937cba41",
+      "sandbox-09-wc-sh-54fc000f"
+    ]
+  },
+  {
+    "id": "text-processing::regex-and-tools",
+    "route": "/course/text-processing#regex-and-tools",
+    "title": "文本处理与 Shell 题解 / 正则表达式、grep、sed 与 awk",
+    "excerpt": "文本工具不只是命令记忆，而是“输入记录 规则匹配 结构化输出”的统一方法。",
+    "chapterSlug": "text-processing",
+    "kind": "section",
+    "keywords": [
+      "grep",
+      "sed",
+      "awk",
+      "正则",
+      "which",
+      "tree",
+      "wc",
+      "notes-06-grep-sed-md-a3515484",
+      "notes-07-awk-md-38948e0e",
+      "notes-08-td3-md-2db2c1da",
+      "notes-09-td4-md-7b1bd18f",
+      "base-files-06-lo03-linux-2026-cours3-pdf-569574e6",
+      "base-files-07-lo03-linux-2026-cours4-pdf-dd13a19d",
+      "base-files-07-lo03-linux-2026-cours4-md-3180a740",
+      "base-files-08-lo03-linux-td3-2026-pdf-9fed7c0c",
+      "base-files-08-lo03-linux-td3-2026-correction-pdf-24099538",
+      "base-files-08-lo03-td3-linux-md-3cb146d1",
+      "base-files-09-lo03-linux-td4-1-2026-pdf-d4311f4e",
+      "base-files-09-lo03-linux-td4-2-2026-pdf-6b9812d5",
+      "base-files-09-lo03-td4-linux-md-187aed1d",
+      "base-files-09-lo03-td4-linux-md-0b29177c",
+      "sandbox-06-regexp-sh-e00eda0e",
+      "sandbox-08-05-set-sh-1d90c6de",
+      "sandbox-08-dico-sh-e6e5ca91",
+      "sandbox-08-palindrome-sh-3865ed7e",
+      "sandbox-08-palindrome4file-sh-a5d9cf11",
+      "sandbox-08-tree-sh-c7f89521",
+      "sandbox-08-which-sh-92217d21",
+      "sandbox-09-01-count-sh-a1e58925",
+      "sandbox-09-03-counteachword-sh-e2613975",
+      "sandbox-09-04-rev-sh-bb6f57b9",
+      "sandbox-09-05-group-sh-ee6a50d4",
+      "sandbox-09-wc-sh-54fc000f",
+      "sandbox-09-2-01-sh-a8fa441f",
+      "sandbox-09-2-02-sh-4f80be95",
+      "sandbox-09-2-03-sh-a83ce872",
+      "sandbox-09-2-04-sh-bb102c52",
+      "sandbox-09-2-05-sh-16efd06d",
+      "sandbox-09-2-06-sh-937cba41",
+      "grep",
+      "awk"
+    ]
+  },
+  {
+    "id": "text-processing::appendix-sources",
+    "route": "/course/text-processing#appendix-sources",
+    "title": "文本处理与 Shell 题解 / 补充原始资料",
+    "excerpt": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。",
+    "chapterSlug": "text-processing",
+    "kind": "section",
+    "keywords": [
+      "grep",
+      "sed",
+      "awk",
+      "正则",
+      "which",
+      "tree",
+      "wc",
+      "base-files-06-cn-lo03-silde-cours-3-4-pdf-62c8431d"
+    ]
+  },
+  {
+    "id": "user-automation",
+    "route": "/course/user-automation",
+    "title": "用户与系统管理自动化",
+    "excerpt": "用 `tr`、`useradd`、`userdel` 和批量脚本把系统管理任务自动化。",
+    "chapterSlug": "user-automation",
+    "kind": "section",
+    "keywords": [
+      "useradd",
+      "userdel",
+      "tr",
+      "账户自动化",
+      "base-files-13-admin-td5-txt-d567c2ce",
+      "base-files-13-lo03-linux-td5-2026-pdf-c214a27c",
+      "base-files-13-lo03-td5-linux-md-5f70b8e3",
+      "notes-13-td5-md-fae9e1ae",
+      "sandbox-13-admin-td5-sh-074d6b9e",
+      "sandbox-13-sh-ce02c9a0"
+    ]
+  },
+  {
+    "id": "user-automation::account-automation",
+    "route": "/course/user-automation#account-automation",
+    "title": "用户与系统管理自动化 / 账户批量创建、删除与文本预处理",
+    "excerpt": "课程在这里把字符处理、参数检查和系统命令调用合成一个真正的管理员脚本。",
+    "chapterSlug": "user-automation",
+    "kind": "section",
+    "keywords": [
+      "useradd",
+      "userdel",
+      "tr",
+      "账户自动化",
+      "notes-13-td5-md-fae9e1ae",
+      "base-files-13-lo03-linux-td5-2026-pdf-c214a27c",
+      "base-files-13-lo03-td5-linux-md-5f70b8e3",
+      "base-files-13-admin-td5-txt-d567c2ce",
+      "sandbox-13-sh-ce02c9a0",
+      "sandbox-13-admin-td5-sh-074d6b9e"
+    ]
+  },
+  {
+    "id": "glossary::kernel",
+    "route": "/glossary",
+    "title": "内核",
+    "excerpt": "操作系统最底层的核心模块，负责管理 CPU、中断、内存与设备。",
+    "chapterSlug": "os-intro",
+    "kind": "glossary",
+    "keywords": [
+      "内核",
+      "os-intro"
+    ]
+  },
+  {
+    "id": "glossary::shell",
+    "route": "/glossary",
+    "title": "Shell",
+    "excerpt": "命令解释器，也是脚本语言，负责连接用户与操作系统。",
+    "chapterSlug": "linux-cli",
+    "kind": "glossary",
+    "keywords": [
+      "Shell",
+      "linux-cli"
+    ]
+  },
+  {
+    "id": "glossary::stdin",
+    "route": "/glossary",
+    "title": "标准输入",
+    "excerpt": "命令默认读取数据的入口，通常来自键盘或前序管道。",
+    "chapterSlug": "shell-control",
+    "kind": "glossary",
+    "keywords": [
+      "标准输入",
+      "shell-control"
+    ]
+  },
+  {
+    "id": "glossary::stdout",
+    "route": "/glossary",
+    "title": "标准输出",
+    "excerpt": "命令正常结果的输出通道，可重定向到文件或管道。",
+    "chapterSlug": "shell-control",
+    "kind": "glossary",
+    "keywords": [
+      "标准输出",
+      "shell-control"
+    ]
+  },
+  {
+    "id": "glossary::stderr",
+    "route": "/glossary",
+    "title": "标准错误",
+    "excerpt": "命令错误信息的输出通道，可单独重定向。",
+    "chapterSlug": "shell-control",
+    "kind": "glossary",
+    "keywords": [
+      "标准错误",
+      "shell-control"
+    ]
+  },
+  {
+    "id": "glossary::inode",
+    "route": "/glossary",
+    "title": "inode",
+    "excerpt": "文件系统中描述文件元数据的结构，文件名与 inode 分离。",
+    "chapterSlug": "filesystem-permissions",
+    "kind": "glossary",
+    "keywords": [
+      "inode",
+      "filesystem-permissions"
+    ]
+  },
+  {
+    "id": "glossary::fhs",
+    "route": "/glossary",
+    "title": "FHS",
+    "excerpt": "Filesystem Hierarchy Standard，Unix 文件系统层次结构标准。",
+    "chapterSlug": "filesystem-permissions",
+    "kind": "glossary",
+    "keywords": [
+      "FHS",
+      "filesystem-permissions"
+    ]
+  },
+  {
+    "id": "glossary::hard-link",
+    "route": "/glossary",
+    "title": "硬链接",
+    "excerpt": "多个目录项指向同一个 inode，本质上共享同一份文件数据。",
+    "chapterSlug": "filesystem-permissions",
+    "kind": "glossary",
+    "keywords": [
+      "硬链接",
+      "filesystem-permissions"
+    ]
+  },
+  {
+    "id": "glossary::soft-link",
+    "route": "/glossary",
+    "title": "符号链接",
+    "excerpt": "保存目标路径的特殊文件，类似快捷方式。",
+    "chapterSlug": "filesystem-permissions",
+    "kind": "glossary",
+    "keywords": [
+      "符号链接",
+      "filesystem-permissions"
+    ]
+  },
+  {
+    "id": "glossary::grep",
+    "route": "/glossary",
+    "title": "grep",
+    "excerpt": "按模式搜索文本的经典 Unix 工具，可结合管道快速筛选。",
+    "chapterSlug": "text-processing",
+    "kind": "glossary",
+    "keywords": [
+      "grep",
+      "text-processing"
+    ]
+  },
+  {
+    "id": "glossary::awk",
+    "route": "/glossary",
+    "title": "awk",
+    "excerpt": "面向记录与字段的文本处理语言，适合统计、提取和转换。",
+    "chapterSlug": "text-processing",
+    "kind": "glossary",
+    "keywords": [
+      "awk",
+      "text-processing"
+    ]
+  },
+  {
+    "id": "glossary::copyleft",
+    "route": "/glossary",
+    "title": "Copyleft",
+    "excerpt": "要求衍生作品继续保持相同自由许可证的法律机制。",
+    "chapterSlug": "free-software",
+    "kind": "glossary",
+    "keywords": [
+      "Copyleft",
+      "free-software"
+    ]
+  },
+  {
+    "id": "glossary::syslog",
+    "route": "/glossary",
+    "title": "syslog",
+    "excerpt": "Unix/Linux 的日志收集与分发体系，用 facility 和 priority 描述消息。",
+    "chapterSlug": "logs-rsyslog",
+    "kind": "glossary",
+    "keywords": [
+      "syslog",
+      "logs-rsyslog"
+    ]
+  },
+  {
+    "id": "glossary::logrotate",
+    "route": "/glossary",
+    "title": "logrotate",
+    "excerpt": "用于控制日志轮转、压缩、保留数量和创建权限的工具。",
+    "chapterSlug": "logs-rsyslog",
+    "kind": "glossary",
+    "keywords": [
+      "logrotate",
+      "logs-rsyslog"
+    ]
+  },
+  {
+    "id": "glossary::mount",
+    "route": "/glossary",
+    "title": "挂载",
+    "excerpt": "把文件系统接入统一目录树，使其可以通过路径访问。",
+    "chapterSlug": "filesystem-admin",
+    "kind": "glossary",
+    "keywords": [
+      "挂载",
+      "filesystem-admin"
+    ]
+  },
+  {
+    "id": "glossary::swap",
+    "route": "/glossary",
+    "title": "交换空间",
+    "excerpt": "当物理内存不足时，临时保存页面到磁盘的空间。",
+    "chapterSlug": "filesystem-admin",
+    "kind": "glossary",
+    "keywords": [
+      "交换空间",
+      "filesystem-admin"
+    ]
+  },
+  {
+    "id": "glossary::module",
+    "route": "/glossary",
+    "title": "内核模块",
+    "excerpt": "可以按需加载、卸载的内核功能单元。",
+    "chapterSlug": "filesystem-admin",
+    "kind": "glossary",
+    "keywords": [
+      "内核模块",
+      "filesystem-admin"
+    ]
+  },
+  {
+    "id": "glossary::process",
+    "route": "/glossary",
+    "title": "进程",
+    "excerpt": "正在执行的程序实例，是资源分配和调度的基本单位。",
+    "chapterSlug": "os-intro",
+    "kind": "glossary",
+    "keywords": [
+      "进程",
+      "os-intro"
+    ]
+  },
+  {
+    "id": "glossary::virtual-memory",
+    "route": "/glossary",
+    "title": "虚拟内存",
+    "excerpt": "为进程提供比物理内存更大且连续的地址空间抽象。",
+    "chapterSlug": "memory-paging",
+    "kind": "glossary",
+    "keywords": [
+      "虚拟内存",
+      "memory-paging"
+    ]
+  },
+  {
+    "id": "glossary::mmu",
+    "route": "/glossary",
+    "title": "MMU",
+    "excerpt": "Memory Management Unit，负责虚拟地址到物理地址的转换。",
+    "chapterSlug": "memory-paging",
+    "kind": "glossary",
+    "keywords": [
+      "MMU",
+      "memory-paging"
+    ]
+  },
+  {
+    "id": "glossary::fifo",
+    "route": "/glossary",
+    "title": "FIFO",
+    "excerpt": "先入先出页面置换算法，可能出现 Belady 异常。",
+    "chapterSlug": "memory-paging",
+    "kind": "glossary",
+    "keywords": [
+      "FIFO",
+      "memory-paging"
+    ]
+  },
+  {
+    "id": "glossary::lru",
+    "route": "/glossary",
+    "title": "LRU",
+    "excerpt": "最近最少使用页面置换算法，依据最近访问历史淘汰页面。",
+    "chapterSlug": "memory-paging",
+    "kind": "glossary",
+    "keywords": [
+      "LRU",
+      "memory-paging"
+    ]
+  },
+  {
+    "id": "glossary::semaphore",
+    "route": "/glossary",
+    "title": "信号量",
+    "excerpt": "用于互斥与同步的计数型并发原语。",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "kind": "glossary",
+    "keywords": [
+      "信号量",
+      "sync-deadlock-scheduling"
+    ]
+  },
+  {
+    "id": "glossary::deadlock",
+    "route": "/glossary",
+    "title": "死锁",
+    "excerpt": "进程相互等待资源而无法继续推进的状态。",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "kind": "glossary",
+    "keywords": [
+      "死锁",
+      "sync-deadlock-scheduling"
+    ]
+  },
+  {
+    "id": "glossary::banker",
+    "route": "/glossary",
+    "title": "银行家算法",
+    "excerpt": "通过安全性检查避免系统进入不安全状态的死锁避免算法。",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "kind": "glossary",
+    "keywords": [
+      "银行家算法",
+      "sync-deadlock-scheduling"
+    ]
+  },
+  {
+    "id": "sandbox::shell-flow",
+    "route": "/practice/shell-flow",
+    "title": "Shell 命令流模拟",
+    "excerpt": "用一组常见命令组合模拟终端输入、命令执行和输出结果。",
+    "chapterSlug": "linux-cli",
+    "kind": "sandbox",
+    "keywords": [
+      "Shell",
+      "命令行",
+      "标准输入输出",
+      "linux-cli",
+      "shell-control"
+    ]
+  },
+  {
+    "id": "sandbox::permissions-map",
+    "route": "/practice/permissions-map",
+    "title": "文件树与权限可视化",
+    "excerpt": "在目录树和权限面板中理解八进制、符号权限与链接的区别。",
+    "chapterSlug": "filesystem-permissions",
+    "kind": "sandbox",
+    "keywords": [
+      "文件系统",
+      "权限",
+      "硬链接",
+      "符号链接",
+      "filesystem-permissions"
+    ]
+  },
+  {
+    "id": "sandbox::redirection-lab",
+    "route": "/practice/redirection-lab",
+    "title": "重定向与管道数据流",
+    "excerpt": "观察 stdin/stdout/stderr 如何在命令、文件和管道之间流动。",
+    "chapterSlug": "shell-control",
+    "kind": "sandbox",
+    "keywords": [
+      "重定向",
+      "管道",
+      "错误输出",
+      "shell-control"
+    ]
+  },
+  {
+    "id": "sandbox::regex-playground",
+    "route": "/practice/regex-playground",
+    "title": "Regex / awk Playground",
+    "excerpt": "用课程中的样本文本测试正则、grep 风格匹配和 awk 风格字段处理。",
+    "chapterSlug": "text-processing",
+    "kind": "sandbox",
+    "keywords": [
+      "正则表达式",
+      "grep",
+      "sed",
+      "awk",
+      "text-processing"
+    ]
+  },
+  {
+    "id": "sandbox::syslog-rule-matcher",
+    "route": "/practice/syslog-rule-matcher",
+    "title": "syslog 规则匹配器",
+    "excerpt": "输入 facility、priority 与规则，观察消息会落到哪里。",
+    "chapterSlug": "logs-rsyslog",
+    "kind": "sandbox",
+    "keywords": [
+      "syslog",
+      "rsyslog",
+      "logrotate",
+      "logs-rsyslog"
+    ]
+  },
+  {
+    "id": "sandbox::page-replacement",
+    "route": "/practice/page-replacement",
+    "title": "页面置换算法模拟器",
+    "excerpt": "比较 FIFO、LRU、Clock 三种算法在同一访问序列下的缺页情况。",
+    "chapterSlug": "memory-paging",
+    "kind": "sandbox",
+    "keywords": [
+      "分页",
+      "虚拟内存",
+      "页面置换",
+      "memory-paging"
+    ]
+  },
+  {
+    "id": "sandbox::scheduler-timeline",
+    "route": "/practice/scheduler-timeline",
+    "title": "调度算法时间线模拟器",
+    "excerpt": "输入进程到达时间和 CPU burst，观察 FCFS、SJF、RR 的调度时间线。",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "kind": "sandbox",
+    "keywords": [
+      "进程调度",
+      "时间片",
+      "响应时间",
+      "sync-deadlock-scheduling"
+    ]
+  },
+  {
+    "id": "sandbox::resource-graph",
+    "route": "/practice/resource-graph",
+    "title": "信号量 / 死锁资源图模拟器",
+    "excerpt": "通过资源分配图理解互斥、等待环与死锁检测。",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "kind": "sandbox",
+    "keywords": [
+      "信号量",
+      "临界区",
+      "死锁",
+      "sync-deadlock-scheduling"
+    ]
+  },
+  {
+    "id": "sandbox::syncfs-decision",
+    "route": "/practice/syncfs-decision",
+    "title": "SyncFS 决策模拟器",
+    "excerpt": "基于 A/B/Journal 的状态推演课程项目同步器的动作选择。",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "kind": "sandbox",
+    "keywords": [
+      "文件同步",
+      "冲突处理",
+      "元数据比较",
+      "sync-deadlock-scheduling"
+    ]
+  }
+]

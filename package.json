@@ -1,0 +1,33 @@
+{
+  "name": "operating-system-app",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run generate && tsc --noEmit -p tsconfig.app.json && vite build",
+    "generate": "python3 scripts/extract_sources.py && python3 scripts/normalize_content.py && python3 scripts/build_search_index.py",
+    "preview": "vite preview",
+    "check:coverage": "python3 scripts/normalize_content.py --check",
+    "bootstrap:materials": "bash scripts/bootstrap-material-tools.sh"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.511.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.6.1",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.8",
+    "@types/node": "^24.0.1",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.5",
+    "@vitejs/plugin-react": "^4.5.2",
+    "tailwindcss": "^4.1.8",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  }
+}

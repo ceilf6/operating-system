@@ -1,0 +1,157 @@
+{
+  "slug": "user-automation",
+  "number": "09",
+  "track": "Linux/Unix 实操线",
+  "title": "用户与系统管理自动化",
+  "summary": "用 `tr`、`useradd`、`userdel` 和批量脚本把系统管理任务自动化。",
+  "searchKeywords": [
+    "useradd",
+    "userdel",
+    "tr",
+    "账户自动化"
+  ],
+  "sourceIds": [
+    "base-files-13-admin-td5-txt-d567c2ce",
+    "base-files-13-lo03-linux-td5-2026-pdf-c214a27c",
+    "base-files-13-lo03-td5-linux-md-5f70b8e3",
+    "notes-13-td5-md-fae9e1ae",
+    "sandbox-13-admin-td5-sh-074d6b9e",
+    "sandbox-13-sh-ce02c9a0"
+  ],
+  "sandboxIds": [
+    "shell-flow"
+  ],
+  "sections": [
+    {
+      "id": "account-automation",
+      "title": "账户批量创建、删除与文本预处理",
+      "anchor": "account-automation",
+      "sourceIds": [
+        "notes-13-td5-md-fae9e1ae",
+        "base-files-13-lo03-linux-td5-2026-pdf-c214a27c",
+        "base-files-13-lo03-td5-linux-md-5f70b8e3",
+        "base-files-13-admin-td5-txt-d567c2ce",
+        "sandbox-13-sh-ce02c9a0",
+        "sandbox-13-admin-td5-sh-074d6b9e"
+      ],
+      "glossaryIds": [],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "课程在这里把字符处理、参数检查和系统命令调用合成一个真正的管理员脚本。"
+        },
+        {
+          "type": "key-points",
+          "items": [
+            "`tr` 常被用在登录名构造、大小写转换与字段清洗。",
+            "批量账户脚本不仅要创建账户，还要处理缺省参数、注释行与删除模式。",
+            "系统管理脚本的风险高于普通练习，必须特别关注参数验证和权限边界。"
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "易错点",
+          "content": "把 macOS 命令和 Linux 管理命令混在一起而不做环境区分。"
+        },
+        {
+          "type": "diagram-list",
+          "items": [
+            "listing -> 解析 -> login -> useradd/userdel 流程图。"
+          ]
+        },
+        {
+          "type": "exercise-list",
+          "items": [
+            {
+              "id": "account-automation-exercise-1",
+              "prompt": "说明为什么登录名生成规则和注释行过滤都必须在脚本里显式处理。",
+              "answer": "",
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "notes-13-td5-md-fae9e1ae",
+              "title": "13-TD5",
+              "path": "notes/13-TD5.md",
+              "kind": "note",
+              "language": "mixed",
+              "content": "#### tr\n\ntr 命令用于字符处理\n\n```bash\ntr from to\n```\n\n按照 from 到 to 的规则，逐个字符处理\n\n例如\n\n```bash\ntr ':' '|'\n```\n\n大小写转换\n\n```bash\ntr 'A-Z' 'a-z'\n```\n\n#### useradd\n\n```bash\nuseradd -u UID \\\n        -g GID \\\n        -d dir-home目录 \\\n        -c comment注释评论 \\\n        -s shell \\\n        -p passwd \\\n        用户名\n```",
+              "excerpt": "> 以 sandbox/13-...sh 为准 # tr tr 命令用于字符处理 ```bash tr from to ``` 按照 from 到 to 的规则，逐个字符处理 例如 ```bash tr ':' '|' ``` 大小写转换 ```bash tr 'A-Z' 'a-z' ``` # useradd ```bash useradd -u UID \\ -g GID \\ -d dir-home目录 \\ -c comment注释评论 \\ -s shell \\ -p passwd \\ 用户名 ```"
+            },
+            {
+              "sourceId": "base-files-13-lo03-linux-td5-2026-pdf-c214a27c",
+              "title": "13_LO03_Linux_TD5_2026",
+              "path": "base-files/13_LO03_Linux_TD5_2026.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nLO03\n                                                             TD n°5 Linux\n                                      Script de création et suppression automatique de comptes\n\n\n\nOn dispose d’un fichier « listing » contenant la           5. Utiliser le login constitué au point 4 pour créer\nliste des noms et prénoms d'utilisateurs pour              des comptes en utilisant les informations\nlesquels on doit créer des comptes                         suivantes pour la commande useradd (vous\ninformatiques sur un système Linux.                        avez besoin d’être root pour utiliser cette\nLe format du fichier est le suivant:                       commande) :\n\n#### 1ere liste login : comme défini au point 4\n\nDupont Charles\nMartin Paul                                                - home : /home/NOM_xy, avec xy : les 2\n\n#### 2eme liste premières initiales du prénom en minuscule\n\nRetraint Florent\n...                                                        - UID : 1000 pour le premier compte, puis\n                                                           incrémenter de 1 à chaque compte groupe :\n                                                           users\n1. Écrire un script-shell qui lit le fichier « listing »\nligne par ligne et qui en fait l'écho à l'écran sous       - Commentaire : « prénom NOM-TP ADMIN\nla forme :                                                 LINUX »\n<nom> <prénom>\n                                                           - shell : /bin/bash\n2. Modifier le script pour éliminer la(les) ligne(s)\nde commentaires éventuellement présente(s)                 - passwd : créer un compte « guest » (useradd\ndans « listing » (ligne commençant par un                  guest) ; lui affecter un mot de passe ; utiliser le\ncaractère '#' en début de ligne).                          mot de passe crypté de guest comme mot de\n                                                           passe pour l'option -p de la commande useradd.\n3. Faire afficher à l'écran les informations :\n<nom> <prénom> <initiales en minuscule> en                 6. Tester manuellement la connexion sur les\ntenant compte des points 1 et 2. Utiliser la               comptes ainsi créés à partir de la commande su\ncommande tr pour passer des majuscules aux                 et vérifier que les répertoires des utilisateurs ont\nminuscules.                                                bien été crées.\n\n4. Modifier le script pour passer le nom du                7. Modifier le script pour prévoir une option del\nfichier « listing » en argument et contrôler               (-del): cette option détruit les comptes des\nl'existence du fichier avant de poursuivre le              utilisateurs du fichier « listing » à partir de la\ntraitement du script.                                      commande userdel et affiche à chaque fois un\nUtiliser un message de type :                              message :\n- « Usage : ... » si l'argument n'a pas été                Suppression du compte <....> : [OK]\ndonné,                                                     [ERROR] : dans le cas contraire, suivi du\n- « Fichier <….> inexistant », si le fichier passé         message d'erreur de userdel\nen argument n'existe pas.\n   Pour éviter les doublons éventuels au niveau            Ne pas oublier de supprimer les répertoires des\ndes logins, on prend les 2 premiers caractères             utilisateurs que vous avez crées.\ndu nom et les 2 premiers caractères du prénom,\ntout en minuscule, pour former le nom de login\nde l'utilisateur. Faire afficher ce login à la\nplace de <INITIALES> du point 3.",
+              "excerpt": "## Page 1 LO03 TD n°5 Linux Script de création et suppression automatique de comptes On dispose d’un fichier « listing » contenant la 5. Utiliser le login constitué au point 4 pour créer liste des noms et prénoms d'utilisateurs pour des comptes en utilisant les informations lesqu"
+            },
+            {
+              "sourceId": "base-files-13-lo03-td5-linux-md-5f70b8e3",
+              "title": "13_LO03_TD5_Linux_中文翻译",
+              "path": "base-files/13_LO03_TD5_Linux_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 用户账户的自动创建与删除脚本\n\n现有一个名为 `listing` 的文件，其中包含需要在 Linux 系统上创建计算机账户的用户姓名列表。\n\n文件格式如下：\n\n```text\n\n#### 第二份名单\n\nRetraint Florent\n...\n```\n\n#### 1.\n\n编写一个 shell 脚本，逐行读取 `listing` 文件，并按如下形式回显到屏幕上：\n\n```text\n<姓> <名>\n```\n\n#### 2.\n\n修改脚本，去掉 `listing` 中可能存在的注释行（即：以 `#` 字符开头的行）。\n\n#### 3.\n\n在考虑第 1、2 问要求的基础上，将以下信息显示到屏幕上：\n\n```text\n<姓> <名> <小写首字母缩写>\n```\n\n使用 `tr` 命令将大写字母转换为小写字母。",
+              "excerpt": "# LO03 # Linux 第 5 次习题课（TD n°5） ## 用户账户的自动创建与删除脚本 现有一个名为 `listing` 的文件，其中包含需要在 Linux 系统上创建计算机账户的用户姓名列表。 文件格式如下： ```text # 第一份名单 Dupont Charles Martin Paul # 第二份名单 Retraint Florent ... ``` ## 题目要求 ### 1. 编写一个 shell 脚本，逐行读取 `listing` 文件，并按如下形式回显到屏幕上： ```text <姓> <名> ``` ### 2. 修改脚本"
+            },
+            {
+              "sourceId": "base-files-13-admin-td5-txt-d567c2ce",
+              "title": "13_Admin_TD5修正内容",
+              "path": "base-files/13_Admin_TD5修正内容.txt",
+              "kind": "note",
+              "language": "fr",
+              "content": "#### 13_Admin_TD5修正内容\n\n#! /bin/bash\nusage () {\n\techo \"Usage : admin [-del] file\"\n\texit\n}\nuid=2001\nif [ $# -ne 1 -a $# -ne 2 ]; then\n\tusage\nfi\nif [ $# -eq 1 ]; then\n\tfic=$1\n\tDEL=0\nelse\n\tfic=$2\n\tif [ $1 != \"-del\" ]; then\n\t\tusage\n\tfi\n\tDEL=1\nfi\nif [ -r $fic ]; then\n\tmdp=$(grep guest /etc/shadow | cut -d':' -f2)\n\twhile read nom prenom\n\tdo\n\t\tif [[ ! $nom =~ ^# ]] ; then\n\t\t\tini1=$(echo ${nom:0:2} | tr [A-Z] [a-z])\n\t\t\tini2=$(echo ${prenom:0:2} | tr [A-Z] [a-z])\n\t\t\tini=$ini1$ini2\n\t\t\tif [ $DEL -eq 0 ]; then\n\t\t\t\techo \"Création du compte de $prenom $nom\"\n\t\t\t\tuseradd -m -d /home/${nom}_${ini2} -s /bin/bash -u $uid -c \"$prenom $nom - ADMIN TP LINUX\" -p \"$mdp\" $ini\n\t\t\t\t((uid++))\n\t\t\telse\n\t\t\t\tmessage=$(userdel -r $ini 2>&1)\n\t\t\t\tif [ $? -eq 0 ]; then\n\t\t\t\t\techo \"Supression du compte <$ini> [OK]\"\n\t\t\t\telse\n\t\t\t\t\techo \"[ERROR] : $message\"\n\t\t\t\tfi\n\t\t\tfi\n\t\tfi\n\tdone < $fic\nelse\n\techo \"Fichier $fic inaccesible\"\nfi",
+              "excerpt": "#! /bin/bash usage () { echo \"Usage : admin [-del] file\" exit } uid=2001 if [ $# -ne 1 -a $# -ne 2 ]; then usage fi if [ $# -eq 1 ]; then fic=$1 DEL=0 else fic=$2 if [ $1 != \"-del\" ]; then usage fi DEL=1 fi if [ -r $fic ]; then mdp=$(grep guest /etc/shadow | cut -d':' -f2) while "
+            },
+            {
+              "sourceId": "sandbox-13-sh-ce02c9a0",
+              "title": "13",
+              "path": "sandbox/13.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### test ne\n\nthen\n    if [ $# -eq 2 ] && [ $1 = \"-del\" ]\n    # 7\n    ## && 不能在 [] 里面\n    then\n        # userdel $3\n        # 不是只删除一个，而是所有\n        # awk -v target=$3 '{\n        #     match = \"<\" $3 \">\"\n        #     if ( $3==$match )\n        #         print \"\"\n        #     else\n        #         print\n        # }' \"$2\" > tmp\n        # mv tmp \"$2\"\n        listing=\"$2\"\n\n        while IFS= read -r curLine || [ -n \"$curLine\" ]\n        do\n            set -- $curLine\n\n            login=\"${3#<}\"\n            login=\"${login%>}\"\n\n            echo -n \"Suppression du compte <$login> : \"\n\n            # 收集错误管道信息\n            err=$(userdel -r \"$login\" 2>&1)\n\n            if [ $? -eq 0 ]\n            then\n                echo \"[OK]\"\n            else\n                echo \"[ERROR]\"\n                echo \"$err\"\n            fi\n        done < \"$listing\"\n        exit 0\n    else\n        echo \"Usage : ...\"\n        exit 1\n    fi\nfi\n\nif [ ! -e \"$1\" ]\nthen\n    echo \"Fichier <….> inexistant\"\n    exit 1\nfi\n\np=$1\n\n#### 第二份名单\n\nRetraint Florent\" > \"$p\"\n}\nreset\n\n#### mv tmp \"$p\"\n\nawk '{\n    # if ($1 != \"#\"){\n    if ($0 !~ /^#/){\n        login=substr($1,1,2) substr($2,1,2)\n        print \"<\" $1 \"> <\" $2 \"> <\" login \">\"\n    }\n}' \"$p\" | tr 'A-Z' 'a-z' > tmp\n\n#### 最好还是在 awk 内部通过 printf 筛选后管道化处理\n\nmv tmp \"$p\"\n\ncurUID=1000\n\nwhile read curLine || [ -n \"$curLine\" ]\ndo\n    set -- $curLine\n    field3=\"$3\"\n    loginLen=${#field3}\n    targetLen=$((loginLen-2))\n    login=\"${field3:1:targetLen}\"\n\n    nom=\"$1\"\n    lowerDir=$(printf '%s' \"${nom:1:3}\" | tr 'A-Z' 'a-z')\n    homeDir=\"/home/NOM_${lowerDir}\"\n\n    useradd -u $curUID \\\n            -d $homeDir \\\n            -g \"users\" \\\n            -c \"prénom NOM-TP ADMIN LINUX\" \\\n            -s \"/bin/bash\" \\\n            -p \"12345678\" \\\n            $login\n\n    ((curUID++))\n\n    # macOS 上没有 useradd\n    sudo sysadminctl -addUser \"$login\" \\\n                 -fullName \"$nom\" \\\n                 -password '12345678' \\\n                 -home \"$homeDir\" \\\n                 -shell /bin/bash\n\ndone < \"$p\"",
+              "excerpt": "# p=$(pwd)/test-files/13.txt if [ $# -ne 1 ] # test -ne then if [ $# -eq 2 ] && [ $1 = \"-del\" ] # 7 ## && 不能在 [] 里面 then # userdel $3 # 不是只删除一个，而是所有 # awk -v target=$3 '{ # match = \"<\" $3 \">\" # if ( $3==$match ) # print \"\" # else # print # }' \"$2\" > tmp # mv tmp \"$2\" listing=\"$2\""
+            },
+            {
+              "sourceId": "sandbox-13-admin-td5-sh-074d6b9e",
+              "title": "13_Admin_TD5修正内容",
+              "path": "sandbox/13_Admin_TD5修正内容.sh",
+              "kind": "sandbox",
+              "language": "fr",
+              "content": "#### 13_Admin_TD5修正内容\n\n#! /bin/bash\nusage () {\n\techo \"Usage : admin [-del] file\"\n\texit\n}\nuid=2001\nif [ $# -ne 1 -a $# -ne 2 ]; then\n\tusage\nfi\nif [ $# -eq 1 ]; then\n\tfic=$1\n\tDEL=0\nelse\n\tfic=$2\n\tif [ $1 != \"-del\" ]; then\n\t\tusage\n\tfi\n\tDEL=1\nfi\nif [ -r $fic ]; then\n\tmdp=$(grep guest /etc/shadow | cut -d':' -f2)\n\twhile read nom prenom\n\tdo\n\t\tif [[ ! $nom =~ ^# ]] ; then\n\t\t\tini1=$(echo ${nom:0:2} | tr [A-Z] [a-z])\n\t\t\tini2=$(echo ${prenom:0:2} | tr [A-Z] [a-z])\n\t\t\tini=$ini1$ini2\n\t\t\tif [ $DEL -eq 0 ]; then\n\t\t\t\techo \"Création du compte de $prenom $nom\"\n\t\t\t\tuseradd -m -d /home/${nom}_${ini2} -s /bin/bash -u $uid -c \"$prenom $nom - ADMIN TP LINUX\" -p \"$mdp\" $ini\n\t\t\t\t((uid++))\n\t\t\telse\n\t\t\t\tmessage=$(userdel -r $ini 2>&1)\n\t\t\t\tif [ $? -eq 0 ]; then\n\t\t\t\t\techo \"Supression du compte <$ini> [OK]\"\n\t\t\t\telse\n\t\t\t\t\techo \"[ERROR] : $message\"\n\t\t\t\tfi\n\t\t\tfi\n\t\tfi\n\tdone < $fic\nelse\n\techo \"Fichier $fic inaccesible\"\nfi",
+              "excerpt": "#! /bin/bash usage () { echo \"Usage : admin [-del] file\" exit } uid=2001 if [ $# -ne 1 -a $# -ne 2 ]; then usage fi if [ $# -eq 1 ]; then fic=$1 DEL=0 else fic=$2 if [ $1 != \"-del\" ]; then usage fi DEL=1 fi if [ -r $fic ]; then mdp=$(grep guest /etc/shadow | cut -d':' -f2) while "
+            }
+          ]
+        },
+        {
+          "type": "sandbox-links",
+          "ids": [
+            "shell-flow"
+          ]
+        }
+      ]
+    }
+  ],
+  "review": {
+    "checklist": [
+      "`tr` 常被用在登录名构造、大小写转换与字段清洗。",
+      "批量账户脚本不仅要创建账户，还要处理缺省参数、注释行与删除模式。",
+      "系统管理脚本的风险高于普通练习，必须特别关注参数验证和权限边界。"
+    ],
+    "pitfalls": [
+      "把 macOS 命令和 Linux 管理命令混在一起而不做环境区分。"
+    ],
+    "diagramIdeas": [
+      "listing -> 解析 -> login -> useradd/userdel 流程图。"
+    ]
+  },
+  "previousSlug": "filesystem-admin",
+  "nextSlug": "os-intro"
+}

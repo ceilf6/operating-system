@@ -1,0 +1,968 @@
+[
+  {
+    "sourceId": "readme-md-8ec9a00b",
+    "chapterSlug": "course-overview",
+    "sectionId": "material-map",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
+    "chapterSlug": "course-overview",
+    "sectionId": "material-map",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-01-lo03-linux-2026-cours1-2-md-8e4df8da",
+    "chapterSlug": "course-overview",
+    "sectionId": "material-map",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
+    "chapterSlug": "course-overview",
+    "sectionId": "material-map",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-01-linux-docx-a571b321",
+    "chapterSlug": "course-overview",
+    "sectionId": "material-map",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+    "chapterSlug": "course-overview",
+    "sectionId": "material-map",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+    "chapterSlug": "course-overview",
+    "sectionId": "material-map",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-01-02-md-d7aa8120",
+    "chapterSlug": "linux-cli",
+    "sectionId": "linux-basics",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-01-03-shell-md-3f3d265e",
+    "chapterSlug": "linux-cli",
+    "sectionId": "linux-basics",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
+    "chapterSlug": "linux-cli",
+    "sectionId": "linux-basics",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-01-lo03-linux-2026-cours1-2-md-8e4df8da",
+    "chapterSlug": "linux-cli",
+    "sectionId": "linux-basics",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
+    "chapterSlug": "linux-cli",
+    "sectionId": "linux-basics",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-01-linux-docx-a571b321",
+    "chapterSlug": "linux-cli",
+    "sectionId": "linux-basics",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-03-sh-4bdbe395",
+    "chapterSlug": "linux-cli",
+    "sectionId": "linux-basics",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-03-sh-ad91765a",
+    "chapterSlug": "linux-cli",
+    "sectionId": "linux-basics",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-03-sh-66aad953",
+    "chapterSlug": "linux-cli",
+    "sectionId": "linux-basics",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-01-04-md-a032fd59",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-02-td1-md-4e53108c",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-11-md-cc80b5f5",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-02-lo03-linux-td1-2026-pdf-83a43a44",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-02-lo03-linux-td1-2026-correction-pdf-350734e4",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-02-lo03-linux-td1-pdf-e77feb22",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-02-td1-md-3b35db44",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-11-cours-mars-2026-2-pdf-8b955ba4",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-11-cours-mars-2026-2-md-e078412c",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-12-02-cours-6-et-7-avril-amir-hajjam-pdf-84805bde",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-12-02-cours-6-et-7-avril-amir-hajjam-md-acac9d37",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-04-sh-3eab350b",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-04-sh-fdffb4a5",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-04-sh-b6bc5414",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-04-sh-3f515aee",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-04-sh-030bf090",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-02-td1-sh-76996d92",
+    "chapterSlug": "filesystem-permissions",
+    "sectionId": "tree-and-types",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-01-05-md-13297274",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-01-06-shell-md-f9e33a49",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-01-07-md-24a7178b",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-01-08-shell-md-18beb3ef",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-04-lo03-linux-td2-2026-pdf-57ceb643",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-04-lo03-linux-td2-2026-correction-pdf-458039a0",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-04-lo03-linux-td2-md-4c3fbb98",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-05-sh-c940d607",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-05-sh-40e199db",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-06-sh-0fe57dc2",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-06-sh-e62e1d4f",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-07-sh-e7ae6a88",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-08-shell-sh-6d848cec",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-08-childscript-sh-5ab0855f",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-08-cleanfatherscript-sh-5d59b43a",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-08-sh-2dbaac59",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-08-sh-79a79333",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-01-08-sh-936280af",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-04-01-wc-sh-6d51107d",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-04-04-est-numerique-sh-6de04871",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-04-05-calculette-sh-019209cf",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-04-07-preaddlasttime-sh-ec2877e1",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-04-09-sup-sh-c4e9471c",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-04-td2-sh-24f7f28a",
+    "chapterSlug": "shell-control",
+    "sectionId": "io-and-script",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-06-grep-sed-md-a3515484",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-07-awk-md-38948e0e",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-08-td3-md-2db2c1da",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-09-td4-md-7b1bd18f",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-06-lo03-linux-2026-cours3-pdf-569574e6",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-07-lo03-linux-2026-cours4-pdf-dd13a19d",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-07-lo03-linux-2026-cours4-md-3180a740",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-08-lo03-linux-td3-2026-pdf-9fed7c0c",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-08-lo03-linux-td3-2026-correction-pdf-24099538",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-08-lo03-td3-linux-md-3cb146d1",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-09-lo03-linux-td4-1-2026-pdf-d4311f4e",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-09-lo03-linux-td4-2-2026-pdf-6b9812d5",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-09-lo03-td4-linux-md-187aed1d",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-09-lo03-td4-linux-md-0b29177c",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-06-regexp-sh-e00eda0e",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-08-05-set-sh-1d90c6de",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-08-dico-sh-e6e5ca91",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-08-palindrome-sh-3865ed7e",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-08-palindrome4file-sh-a5d9cf11",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-08-tree-sh-c7f89521",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-08-which-sh-92217d21",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-09-01-count-sh-a1e58925",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-09-03-counteachword-sh-e2613975",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-09-04-rev-sh-bb6f57b9",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-09-05-group-sh-ee6a50d4",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-09-wc-sh-54fc000f",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-09-2-01-sh-a8fa441f",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-09-2-02-sh-4f80be95",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-09-2-03-sh-a83ce872",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-09-2-04-sh-bb102c52",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-09-2-05-sh-16efd06d",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-09-2-06-sh-937cba41",
+    "chapterSlug": "text-processing",
+    "sectionId": "regex-and-tools",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-10-md-8b87c73f",
+    "chapterSlug": "free-software",
+    "sectionId": "gpl-basics",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-10-td1-td2-pdf-3f493a40",
+    "chapterSlug": "free-software",
+    "sectionId": "gpl-basics",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-10-td1-td2-md-cb6a6003",
+    "chapterSlug": "free-software",
+    "sectionId": "gpl-basics",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-12-01-md-81ea98db",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "syslog-stack",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-13-td6-md-d8fa0eea",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "syslog-stack",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-16-md-56059bca",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "syslog-stack",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-12-01-cours-30-et-31-mars-amir-hajjam-pdf-48cc08bf",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "syslog-stack",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-12-01-cours-30-et-31-mars-amir-hajjam-md-0e0d58ba",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "syslog-stack",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-13-td5-td6-md-b13b0e61",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "syslog-stack",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-13-tds-31-et-32-avec-correction-md-41e012cd",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "syslog-stack",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-14-td-fri-1-pdf-c699a325",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "syslog-stack",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-14-td-fri-1-md-8a8ebd67",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "syslog-stack",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-16-td7-td8-pdf-46a44a7f",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "syslog-stack",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-16-td7-td8-md-5308c3d1",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "syslog-stack",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-12-02-md-79f464d5",
+    "chapterSlug": "filesystem-admin",
+    "sectionId": "storage-and-network",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-16-md-56059bca",
+    "chapterSlug": "filesystem-admin",
+    "sectionId": "storage-and-network",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-12-02-cours-6-et-7-avril-amir-hajjam-pdf-84805bde",
+    "chapterSlug": "filesystem-admin",
+    "sectionId": "storage-and-network",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-12-02-cours-6-et-7-avril-amir-hajjam-md-acac9d37",
+    "chapterSlug": "filesystem-admin",
+    "sectionId": "storage-and-network",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-16-td7-td8-pdf-46a44a7f",
+    "chapterSlug": "filesystem-admin",
+    "sectionId": "storage-and-network",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-16-td7-td8-md-5308c3d1",
+    "chapterSlug": "filesystem-admin",
+    "sectionId": "storage-and-network",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-13-td5-md-fae9e1ae",
+    "chapterSlug": "user-automation",
+    "sectionId": "account-automation",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-13-lo03-linux-td5-2026-pdf-c214a27c",
+    "chapterSlug": "user-automation",
+    "sectionId": "account-automation",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-13-lo03-td5-linux-md-5f70b8e3",
+    "chapterSlug": "user-automation",
+    "sectionId": "account-automation",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-13-admin-td5-txt-d567c2ce",
+    "chapterSlug": "user-automation",
+    "sectionId": "account-automation",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-13-sh-ce02c9a0",
+    "chapterSlug": "user-automation",
+    "sectionId": "account-automation",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "sandbox-13-admin-td5-sh-074d6b9e",
+    "chapterSlug": "user-automation",
+    "sectionId": "account-automation",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-15-md-615702dd",
+    "chapterSlug": "os-intro",
+    "sectionId": "os-structure",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+    "chapterSlug": "os-intro",
+    "sectionId": "os-structure",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+    "chapterSlug": "os-intro",
+    "sectionId": "os-structure",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-15-md-615702dd",
+    "chapterSlug": "memory-paging",
+    "sectionId": "paging-core",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-17-md-23ec2de9",
+    "chapterSlug": "memory-paging",
+    "sectionId": "paging-core",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+    "chapterSlug": "memory-paging",
+    "sectionId": "paging-core",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+    "chapterSlug": "memory-paging",
+    "sectionId": "paging-core",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-17-lo03-td-se-2026-pdf-225fdd66",
+    "chapterSlug": "memory-paging",
+    "sectionId": "paging-core",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-17-lo03-td-se-2026-md-e76e95bf",
+    "chapterSlug": "memory-paging",
+    "sectionId": "paging-core",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-15-md-615702dd",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-17-md-23ec2de9",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-17-lo03-td-se-2026-pdf-225fdd66",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-17-lo03-td-se-2026-md-e76e95bf",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-project-readme-syncfs-md-62e30e35",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-project-chat-4cc1e6ba",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-project-syncfs-sh-21b9c7aa",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-project-md-b0688767",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-project-pdf-b570ea5e",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-from-teacher-36fed1122923ee61bba06c0048f285ce-mp4-f47c3cf6",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "base-files-from-teacher-20260410130233-97-71-jpg-9a9cec46",
+    "chapterSlug": "sync-deadlock-scheduling",
+    "sectionId": "concurrency-and-scheduling",
+    "usage": "primary"
+  },
+  {
+    "sourceId": "notes-04-td2-md-d030a92e",
+    "chapterSlug": "shell-control",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-02-dir1-dir2-debut-txt-b085733b",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-02-dir1-dir2-file-link-txt-7d33c805",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-02-dir1-dir2-file-moved-txt-a90963ec",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-02-dir1-dir2-file1-txt-4166cab0",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-02-dir1-dir2-fin-txt-121adea3",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-09-2-03-txt-f01f7025",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-09-2-05-txt-a246920a",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-09-2-06-txt-9b3049dc",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-09-2-txt-34d28d9f",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-13-txt-67da07d3",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-fichiernote-txt-05fdd343",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-mock-summary-alpha-report-txt-7c48fd63",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-mock-summary-alpha-todo-md-e878c7e3",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-mock-summary-beta-images-diagram-txt-3d793952",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-mock-summary-beta-summary-txt-c943c0c6",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-palindrometestfile-txt-0031d49a",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-script-sh-35508212",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-test-files-words-txt-2ed1388e",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-sh-642d1d46",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "sandbox-sh-2731f376",
+    "chapterSlug": "course-overview",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "base-files-06-cn-lo03-silde-cours-3-4-pdf-62c8431d",
+    "chapterSlug": "text-processing",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "base-files-13-td5-td6-pdf-139514b6",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  },
+  {
+    "sourceId": "base-files-13-tds-31-et-32-avec-correction-pptx-e68c79e3",
+    "chapterSlug": "logs-rsyslog",
+    "sectionId": "appendix-sources",
+    "usage": "supporting"
+  }
+]

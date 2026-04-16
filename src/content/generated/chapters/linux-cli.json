@@ -1,0 +1,194 @@
+{
+  "slug": "linux-cli",
+  "number": "02",
+  "track": "Linux/Unix 实操线",
+  "title": "Linux 与命令行入门",
+  "summary": "从发行版、Shell、本地环境、提示符与帮助系统开始，建立 Linux 学习入口。",
+  "searchKeywords": [
+    "Linux",
+    "Shell",
+    "命令行",
+    "prompt",
+    "man",
+    "发行版"
+  ],
+  "sourceIds": [
+    "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
+    "base-files-01-linux-docx-a571b321",
+    "base-files-01-lo03-linux-2026-cours1-2-md-8e4df8da",
+    "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
+    "notes-01-02-md-d7aa8120",
+    "notes-01-03-shell-md-3f3d265e",
+    "sandbox-01-03-sh-4bdbe395",
+    "sandbox-01-03-sh-66aad953",
+    "sandbox-01-03-sh-ad91765a"
+  ],
+  "sandboxIds": [
+    "shell-flow"
+  ],
+  "sections": [
+    {
+      "id": "linux-basics",
+      "title": "Linux 发行版与本地运行环境",
+      "anchor": "linux-basics",
+      "sourceIds": [
+        "notes-01-02-md-d7aa8120",
+        "notes-01-03-shell-md-3f3d265e",
+        "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
+        "base-files-01-lo03-linux-2026-cours1-2-md-8e4df8da",
+        "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
+        "base-files-01-linux-docx-a571b321",
+        "sandbox-01-03-sh-4bdbe395",
+        "sandbox-01-03-sh-ad91765a",
+        "sandbox-01-03-sh-66aad953"
+      ],
+      "glossaryIds": [
+        "shell"
+      ],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "这一部分回答“我在哪里运行 Linux、不同发行版有何差异、Shell 为什么是课程第一站”。"
+        },
+        {
+          "type": "key-points",
+          "items": [
+            "发行版共享同一内核，但在软件选择、默认配置、更新节奏上不同。",
+            "课程强调多种本地环境：双系统、U 盘、虚拟机、WSL、macOS Zsh。",
+            "Shell 既是交互界面，也是脚本语言，是进入 Linux 世界的第一道门。"
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "易错点",
+          "content": "把 Shell 只理解成一组命令，而忽略它也是编程语言。"
+        },
+        {
+          "type": "diagram-list",
+          "items": [
+            "本地环境对比图：虚拟机、WSL、原生安装。"
+          ]
+        },
+        {
+          "type": "exercise-list",
+          "items": [
+            {
+              "id": "linux-basics-exercise-1",
+              "prompt": "列出你当前机器上最适合本课程的 Linux 运行方式，并说明理由。",
+              "answer": "",
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "notes-01-02-md-d7aa8120",
+              "title": "01-02-发行版",
+              "path": "notes/01-02-发行版.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 01-02-发行版\n\n发行版不等同于操作系统，很多发行版共享一个Linux内核，只是在软件选择、默认配置和图形界面上有所差异\n\n#### 市面上的Linux系统\n\n- Ubuntu：它是由Canonical公司免费发行、面向普通大众的商业发行版，该公司每六个月推出一个稳定版本（版本维护周期为9个月）。\n- Fedora：它是由红帽（Red Hat）公司监管的社区发行版，基于RPM软件包管理系统。该发行版主打新技术、新特性，这意味着其内置软件会得到非常频繁的更新。\n- openSUSE：它是同时面向普通用户与专业用途的社区发行版，作为一款独立发行版，它以配置工具完善和系统运行稳定而闻名。",
+              "excerpt": "发行版不等同于操作系统，很多发行版共享一个Linux内核，只是在软件选择、默认配置和图形界面上有所差异 # 一切皆文件 是一种范式 操作系统的所有功能均可通过普通文件进行访问：外设、进程、内存等 # 市面上的Linux系统 - Ubuntu：它是由Canonical公司免费发行、面向普通大众的商业发行版，该公司每六个月推出一个稳定版本（版本维护周期为9个月）。 - Fedora：它是由红帽（Red Hat）公司监管的社区发行版，基于RPM软件包管理系统。该发行版主打新技术、新特性，这意味着其内置软件会得到非常频繁的更新。 - openSUSE：它是同时面"
+            },
+            {
+              "sourceId": "notes-01-03-shell-md-3f3d265e",
+              "title": "01-03-Shell与命令行",
+              "path": "notes/01-03-Shell与命令行.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### Shell\n\nShell既是命令解释器，也是脚本语言\n\n命令解释器：充当用户与操作系统之间的交互接口\n\n解释器：用户输入命令，先经过语法检查、然后被运行\n\nLinux中存在多种 Shell 解释器: \n\n- bash - Bourne again shell\n- C shell\n- Korn shell\n- Z shell\n\n所有 Shell 均可在同一 Linux 系统中共存，管理员会在用户配置文件\n\n`/etc/passwd`\n\n中，为每个用户设定默认 Shell\n\n每个 Shell 都有独立的工作环境与编程语言\n\n#### Unix Shell 对比 Windos PowerShell\n\n![image.png](attachment:3a4e4437-d836-44d1-a331-efbda4bdb305:image.png)\n\n#### 工作环境\n\n支持以交互模式执行命令，也可以通过命令文件（脚本文件）执行命令\n\n在交互模式下，bash 会在屏幕上显示一个命令提示符号（也称为 prompt/invite）对于管理员root用户，该提示符默认以 `#` 加一个空格结尾，其他普通用户默认以 `$` 加一个空格\n\n命令提示符由三部分构成：用户登录名 + 主机名 + 当前目录的绝对路径\n\n若希望缩短命令提示符串，那么只需要修改 Shell 预定义变量 **PS1** 即可\n\n#### bash Shell\n\n- 调用历史记录，避免重复输入相同命令\n    \n    缓存\n    \n- 对当前输入的命令文本进行行内编辑\n- 管理后台运行任务 jobs\n- 初始化配置变量，包括编辑器的提示符字符串、默认搜索路径，创建命令别名（快捷命令 - 用 alias ）",
+              "excerpt": "# Shell Shell既是命令解释器，也是脚本语言 命令解释器：充当用户与操作系统之间的交互接口 解释器：用户输入命令，先经过语法检查、然后被运行 Linux中存在多种 Shell 解释器: - bash - Bourne again shell - C shell - Korn shell - Z shell 所有 Shell 均可在同一 Linux 系统中共存，管理员会在用户配置文件 `/etc/passwd` 中，为每个用户设定默认 Shell 每个 Shell 都有独立的工作环境与编程语言 ## Unix Shell 对比 Windos Po"
+            },
+            {
+              "sourceId": "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
+              "title": "01_CN-LO03_Silde_Cours_1&2",
+              "path": "base-files/01_CN-LO03_Silde_Cours_1&2.pdf",
+              "kind": "pdf",
+              "language": "mixed",
+              "content": "#### Page 1\n\n目录\n\n\n第一章 引言                   5\n\n第二章 Linux 的哲学与发行版        7\n\n第三章 Shell 与命令行基础         9\n\n第四章 Linux 文件系统           17\n\n第五章 重定向、管道与错误处理          29\n\n第六章 Shell 脚本与参数          35\n\n第七章 流程控制与条件测试            47\n\n第八章 算术扩展、函数与数组           57\n\n\n\n\n                    1\n\n#### Page 3\n\n第一章 引言\n\n  本书后续章节大致按照「系统背景 → Shell 入门 → 文件系统 → 权限与链接 → 重定向与管道 → 脚本与控制结\n构 → 高级特性」的顺序展开，便于课堂教学与自学。\n\nsilde 1\n\n\n                              Introduction au système Linux\n   ◦ Système d’exploitation multi-utilisateurs (connexion simultanée de plusieurs utilisateurs) et multi-tâches\n     (décomposition d’une application en plusieurs tâches qui s’exécutent simultanément).\n   ◦ L’environnement standard de programmation est le C et plus récemment le C++.\n   ◦ L’environnement réseau est construit sur les protocoles TCP/IP.\n\n\n\n\n                                           Linux 系统导论\n   ◦ 这是一款多用户与多任务操作系统。\n   ◦ 多用户特性：支持多个用户同时连接登录系统；多任务特性：可将单个应用程序拆解为多个任务，这些任务\n     能够同时并发执行。\n   ◦ 标准编程环境为 C 语言，近年来 C++ 也纳入其核心标准编程体系；其网络环境基于 TCP/IP 协议栈构建。\n\n\n\n\n                                                      3\n\n#### Page 5\n\n第二章                 Linux 的哲学与发行版\n\n  在本章中，我们从宏观视角理解 Linux：它为何被设计成「一切皆文件」的世界，又为何会出现众多发行版。阅读\n本章时，可以思考三个问题：\n\n • Linux 与传统的单机操作系统（如早期的 MS-DOS）相比，设计目标有何不同？\n •「一切皆文件」这一抽象思想，如何帮助我们统一地看待设备、进程和配置？\n • 面对 Ubuntu、Fedora、openSUSE 等不同发行版，应该从哪些维度（目标用户、更新策略、稳定性等）来做选择？\n\n\nRemark 从教学实践来看，很多同学在学习 Linux 时，会把「发行版」等同于「操作系统本身」\n                                                。实际上，大多数\n发行版共享同一个 Linux 内核，只是在软件选择、默认配置和图形界面上有所差异。在阅读接下来的几页 silde\n时，可以有意识地区分：哪些内容是 Linux 内核的共性，哪些是发行版的个性。\n\n\nsilde 2\n\n\n                                       Philosophie de Linux\n   ◦ Un ensemble de règles assurent le fonctionnement et le succès de Linux. Le fameux paradigme « tout\n     est fichier ». Toutes les fonctionnalités du système d’exploitation sont accessibles via de simples fichiers :\n     périphériques, processus, mémoire, etc.\n   ◦ Fini le développement seul dans son coin, la moindre petite ébauche de votre projet doit être soumise à la\n     communauté afin d’avertir un maximum de personnes pouvant intervenir de différente manière au niveau du\n     développement, soit en soulevant les bugs que vous vous attacherez à corriger le plus rapidement possible.\n\n\n\n\n                                            Linux 设计理念\n   ◦ 一系列准则保障了 Linux 的运行与成功。其中最著名的范式便是 「一切皆文件」。操作系统的所有功能均可\n     通过普通文件进行访问：外设、进程、内存等。\n   ◦ 摒弃闭门造车式的独立开发，你的项目哪怕只是最微小的雏形，也必须提交至社区，让尽可能多的相关人员\n     能够以不同方式参与开发工作，例如指出程序漏洞，而你需尽快着手修复这些问题。\n\n\nsilde 3\n\n\n                                       La création de Linux\n   ◦ En 1991, un étudiant finlandais nommé Linus Torvalds décide de créer un nouveau noyau basé sur Minix\n     (un dérivé d’UNIX) afin de contourner ses limitations et celles de MS-DOS. Ce nouveau noyau est distribué\n     gratuitement sur Internet en août 1991 dès sa version 0.1 sous le nom de «Linux».\n   ◦ Actuellement, le noyau de Linux est à la révision 6.12.71 (12/02/2026) et est librement téléchargeable.\n\n\n\n\n                                                        5\n\n#### Page 6\n\n6                                                                                      第二章      LINUX 的哲学与发行版\n\n\n                                                   Linux 的诞生\n       ◦ 1991 年，芬兰大学生林纳斯 �\n                         托瓦兹（Linus Torvalds）决定基于 Minix（一种 UNIX 衍生系统）开发一款\n         全新内核，以突破 Minix 与 MS-DOS 自身的局限。这款新内核于 1991 年 8 月以 0.1 版本在互联网上免费\n         发布，并定名为「Linux」。\n       ◦ 目前，Linux 内核版本为 6.12.71（2026 年 2 月 12 日），可自由下载使用。\n\n    silde 4\n\n\n                                   Les systèmes Linux du marché\n       ◦ Ubuntu C’est une distribution commerciale orientée vers le grand public distribué gratuitement par Canon-\n         ical, qui édite des versions stables tous les six mois (maintenues 9 mois).\n       ◦ Fedora est une distribution communautaire supervisée par Red Hat, basée sur le système de gestion de\n         paquetages logiciels RPM C’est une distribution qui met l’accent sur la nouveauté, ce qui signifie que ses\n         logiciels sont très fréquemment mis à jour.\n       ◦ openSUSE est une distribution communautaire destinée tant à un usage grand public qu’à un usage profes-\n         sionnel. C’est une distribution indépendante réputée pour ses outils de configurations et sa stabilité.\n\n\n\n\n                                             市面上的 Linux 系统\n       ◦ Ubuntu：它是由 Canonical 公司免费发行、面向普通大众的商业发行版，该公司每六个月推出一个稳定版本\n        （版本维护周期为 9 个月）\n                     。\n       ◦ Fedora：它是由红帽（Red Hat）公司监管的社区发行版，基于 RPM 软件包管理系统。该发行版主打新技\n         术、新特性，这意味着其内置软件会得到非常频繁的更新。\n       ◦ openSUSE：它是同时面向普通用户与专业用途的社区发行版，作为一款独立发行版，它以配置工具完善和\n         系统运行稳定而闻名。\n\n    silde 5\n\n\n                                       Linux sur votre ordinateur\n       ◦ Installer Linux sur une partition de votre disque. Double boot Windows-Linux\n       ◦ Utiliser une clé usb bootable Linux.\n       ◦ Virtualiser Linux sur votre PC avec Virtuabox par exemple. Possibilité d’avoir Linux, windows et Mac OS\n         en même temps.\n       ◦ WSL (Windows Subsystem Linux) : Sous-système Windows pour Linux\n       ◦ Sous MacOs:Zsh disponible directement.\n\n\n\n\n                                            在计算机中使用 Linux\n       ◦ 在硬盘的一个分区上安装 Linux，实现 Windows 与 Linux 双系统启动。\n       ◦ 使用 Linux 可启动 U 盘运行系统。\n       ◦ 在电脑上通过 VirtualBox 等工具对 Linux 进行虚拟化，可同时运行 Linux、Windows 与 Mac OS 系统。\n       ◦ WSL（Windows Subsystem for Linux）\n                                        ：Windows Linux 子系统。\n       ◦ 在 macOS 系统下：可直接使用 Zsh。\n\n#### Page 7\n\n第三章                 Shell 与命令行基础\n\n   有了对 Linux 系统背景和主要发行版的认识，本章开始聚焦于「如何与 Linux 交互」。在多数教学和实际运维场\n景中，命令行 Shell 比图形界面更高效、更可组合。本章将围绕以下主线展开：\n\n • 认识 Shell 的角色：既是命令解释器，也是脚本语言；\n • 掌握基本命令（ls、pwd、cal、date 等）以及 man、whatis、apropos 等文档工具；\n • 理解命令行的基本语法：命令、选项、参数的组合方式，以及提示符 PS1 的含义。\n\n\nRemark 建议在学习本章内容时，同步打开一个真实的终端环境（Linux、WSL 或远程服务器均可）。每出现一\n个新命令，都亲自在终端输入并观察输出差异，例如对比 ls 与 ls -l，感受选项对输出格式的影响。只有「边学\n边敲」，Shell 的语法和习惯用法才会真正内化为自己的技能。\n\n\n silde 6\n\n\n                                                    Le Shell\n    ◦ Sous Linux, on appelle Shell l’interpréteur de commandes qui fait oﬀice d’interface entre l’utilisateur et le\n      système d’exploitation. Les shells sont des interpréteurs : cela signifie que chaque commande saisie par l’\n      utilisateur (ou lue à partir d’un fichier) est syntaxiquement vérifiée puis exécutée.\n    ◦ Il existe plusieurs interpréteurs Shell sous Linux : Bourne again shell (bash), Cshell, Korn shell, Z shell etc\n      …\n    ◦ Enconnaître un, permet d’accéder aisément aux autres.\n    ◦ Tous les Shells peuvent cohabiter à l’intérieur d’un même système Linux. L’administrateur fixe le Shell\n      initial de chaque utilisateur dans le fichier de définition des utilisateurs : /etc/passwd\n    ◦ Un shell possède un environnement de travail et un langage de programmation.\n\n\n\n\n                                            命令行终端（Shell）\n    ◦ 在 Linux 系统中，Shell 是指命令解释器，它充当用户与操作系统之间的交互接口。Shell 属于解释器：即用\n      户输入的每一条命令（或从文件中读取的命令），都会先经过语法检查，随后被执行。\n    ◦ Linux 系统中存在多种 Shell 解释器：Bourne again shell（bash）、C shell、Korn shell、Z shell 等。\n    ◦ 掌握其中一种，即可轻松上手其他各类 Shell。\n    ◦ 所有 Shell 均可在同一 Linux 系统中共存。管理员会在用户配置文件 /etc/passwd 中，为每个用户设定默认\n      初始 Shell。\n    ◦ 每个 Shell 都拥有独立的工作环境与编程语言。\n\n\n silde 7\n\n                          Unix Shell / Windows PowerShell 对比\n\n                                                          7",
+              "excerpt": "## Page 1 目录 第一章 引言 5 第二章 Linux 的哲学与发行版 7 第三章 Shell 与命令行基础 9 第四章 Linux 文件系统 17 第五章 重定向、管道与错误处理 29 第六章 Shell 脚本与参数 35 第七章 流程控制与条件测试 47 第八章 算术扩展、函数与数组 57 1 ## Page 2 2 目录 ## Page 3 第一章 引言 本书后续章节大致按照「系统背景 → Shell 入门 → 文件系统 → 权限与链接 → 重定向与管道 → 脚本与控制结 构 → 高级特性」的顺序展开，便于课堂教学与自学。 silde 1 "
+            },
+            {
+              "sourceId": "base-files-01-lo03-linux-2026-cours1-2-md-8e4df8da",
+              "title": "01_LO03_Linux_2026_Cours1&2",
+              "path": "base-files/01_LO03_Linux_2026_Cours1&2.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 01_LO03_Linux_2026_Cours1&2\n\n我帮你系统性地分析了一下这个 PPT《LO03_Linux_2026_Cours1&2》 ￼，它整体是一个Linux + Bash Shell 编程入门到进阶的完整课程体系。下面我从「结构逻辑」「知识层级」「重点能力」「和你学习路径的关系」几个维度帮你拆解。\n\n⸻\n\n一、整体结构分析（课程逻辑非常清晰）\n\n整份 PPT 可以分成 5 大模块：\n\n⸻\n\n🟦 第一部分：Linux 基础认知（1–5 页）\n\n核心目标：建立系统认知\n• Linux 是多用户、多任务系统（第1页）\n• “一切皆文件”哲学（第2页）\n• Linux 起源（Torvalds 1991）（第3页）\n• 主流发行版 Ubuntu / Fedora / openSUSE（第4页）\n• 如何在电脑上使用 Linux（第5页）\n\n👉 这一部分是操作系统概念层面，不是命令细节。\n\n⸻\n\n🟦 第二部分：Shell 基础（6–17 页）\n\n核心目标：理解 Shell 是什么\n\n1️⃣ Shell 本质（第6页）\n• Shell 是命令解释器\n• 可以交互式执行\n• 也是编程语言\n\n2️⃣ Prompt 机制（8–9页）\n• root 是 #\n• 普通用户是 $\n• PS1 可修改\n\n3️⃣ Bash 能做什么（第10页）\n• 历史命令\n• 后台作业（jobs）\n• alias\n• 变量初始化\n\n4️⃣ Shell 优缺点（11–12页）\n\n这里其实在讲：\n\nShell 适合“胶水语言”，不适合复杂工程。\n\n⸻\n\n🟦 第三部分：文件系统 + 权限模型（18–35 页）\n\n这部分非常重要，是 Linux 的核心思想。\n\n⸻\n\n🔹 文件系统结构（18–23页）\n\n重点：\n• 根目录 /\n• /home\n• /dev\n• /proc\n• /var\n• 绝对路径 vs 相对路径\n• . 和 ..\n• ~\n\n这是 Linux 的“空间结构模型”。\n\n⸻\n\n🔹 文件权限模型（25–33页）\n\n重点：\n\n-rwxr-x---\n\n三组权限：\n\nuser | group | others\n\n两种表示方式：\n• 符号表示法：u,g,o + r,w,x\n• 八进制表示法：chmod 751\n\n这是 Linux 安全模型的基础。\n\n⸻\n\n🔹 硬链接 vs 软链接（34–35页）\n• ln → 硬链接\n• ln -s → 软链接\n\n这部分在你未来理解 inode、文件系统结构时非常重要。\n\n⸻\n\n🟦 第四部分：IO 重定向 + 管道（36–42页）\n\n这部分开始进入“Unix 精髓”。\n\n重定向\n\n> 覆盖输出\n>\n> > 追加输出\n> > < 重定向输入\n> > 2> 错误输出\n\n/dev/null 是经典设计。\n\n⸻\n\n管道\n\nls -l | more\n\n👉 Unix 思想：\n\n小工具 + 管道 = 强大系统\n\n⸻\n\n🟦 第五部分：Shell 编程（43–86页）\n\n这是整套 PPT 最核心的内容。\n\n它是一个完整的 Bash 编程小课程。\n\n结构是：\n\n⸻\n\nShell 编程完整知识体系\n\n⸻\n\n🟨 1️⃣ 变量系统（47–54页）\n\n分三类：\n\n类型 示例\n普通变量 x=10\n位置参数 $1\n特殊参数 $?, $#, $@\n\n环境变量：\n\nexport var\n\n⸻\n\n🟨 2️⃣ 参数机制（55–57页）\n• $\\*\n• $@\n• $#\n• shift\n• ${11}\n\n这里涉及 Bash 解析模型。\n\n⸻\n\n🟨 3️⃣ 命令替换（58–60页）\n\n$(command)\n\n你如果学过 JS 模板字符串，这个机制非常像：\n\n`result: ${expr}`\n\n⸻\n\n🟨 4️⃣ 控制结构（62–76页）\n\n完整包含：\n• if\n• case\n• while\n• until\n• for\n• break\n• continue\n• && / ||\n\n这是完整语言结构。\n\n⸻\n\n🟨 5️⃣ 算术系统（77–81页）\n\ndeclare -i\n(( expr ))\n$(( expr ))\n\n这一块是 Bash 的 C 风格运算。\n\n⸻\n\n🟨 6️⃣ 函数（82–84页）\n• function f() {}\n• local\n• return\n• export -f\n\n这个是子 shell 机制的基础。\n\n⸻\n\n🟨 7️⃣ 数组（85–86页）\n\ndeclare -a arr\narr[0]=...\n${arr[*]}\n${#arr[*]}\n\n到这里，Bash 已经是一门完整语言。\n\n⸻\n\n二、这套 PPT 的知识层级\n\n这不是简单“命令教程”。\n\n它实际上是：\n\nLinux 使用 + Shell 编程入门 + 权限模型 + IO 模型 + 进程模型\n\n如果分层看：\n\n⸻\n\n第一层：用户层\n• cd\n• ls\n• cp\n• rm\n\n⸻\n\n第二层：系统模型\n• 文件系统\n• 权限\n• inode\n• 硬链接\n\n⸻\n\n第三层：IO模型\n• stdin\n• stdout\n• stderr\n• 管道\n\n⸻\n\n第四层：语言模型\n• 变量\n• 参数\n• 控制流\n• 函数\n• 数组\n\n⸻\n\n三、这份 PPT 的优点\n\n✅ 结构完整\n✅ 从使用到编程\n✅ 权限讲得很系统\n✅ Shell 语法覆盖全面\n\n⸻\n\n四、它的局限\n\n❌ 没讲进程模型（fork/exec）\n❌ 没讲系统调用\n❌ 没讲内存模型\n❌ 没讲 Bash 执行原理\n\n它偏“应用层”，不是“内核层”。\n\n⸻\n\n五、结合你的技术背景，我的建议\n\n你现在：\n• 学 V8\n• 学执行上下文\n• 学内存模型\n• 学操作系统\n• 学 Git\n• 学源码\n\n这套 PPT 对你来说属于：\n\nLinux 操作系统的表层接口语言\n\n它能帮你：\n• 更好理解 Node 是怎么跑在 Linux 上\n• 更好理解 IO 流模型\n• 理解管道和 stream\n• 理解进程 exit code（你之前问过 $?）\n\n⸻\n\n六、如果按学习深度排序\n\n难度 内容\n⭐ 基础命令\n⭐⭐ 文件权限\n⭐⭐⭐ IO重定向\n⭐⭐⭐⭐ 参数系统\n⭐⭐⭐⭐⭐ 子shell + export -f\n\n⸻\n\n七、总结一句话\n\n这是一份：\n\n从 Linux 使用者 → Linux Shell 程序员 的入门到中级完整课程\n\n⸻\n\n如果你愿意，我可以：\n• 帮你画一个 Shell 执行模型图\n• 或者把整套 PPT 抽象成「Linux 执行模型图」\n• 或者给你做一张 Bash 知识体系图\n• 或者对比 Bash 和 JavaScript 执行模型\n\n你想往哪个方向深入？",
+              "excerpt": "我帮你系统性地分析了一下这个 PPT《LO03_Linux_2026_Cours1&2》 ￼，它整体是一个Linux + Bash Shell 编程入门到进阶的完整课程体系。下面我从「结构逻辑」「知识层级」「重点能力」「和你学习路径的关系」几个维度帮你拆解。 ⸻ 一、整体结构分析（课程逻辑非常清晰） 整份 PPT 可以分成 5 大模块： ⸻ 🟦 第一部分：Linux 基础认知（1–5 页） 核心目标：建立系统认知 • Linux 是多用户、多任务系统（第1页） • “一切皆文件”哲学（第2页） • Linux 起源（Torvalds 1991）（第3页）"
+            },
+            {
+              "sourceId": "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
+              "title": "01_LO03_Linux_2026_Cours1&2",
+              "path": "base-files/01_LO03_Linux_2026_Cours1&2.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 4\n\nLes systèmes Linux du marché\n\n     Ubuntu C'est une distribution commerciale orientée vers le\n     grand public distribué gratuitement par Canonical, qui\nédite des versions stables tous les six mois (maintenues 9 mois).\n\n     Fedora est une distribution communautaire supervisée\n     par Red Hat, basée sur le système de gestion de\npaquetages logiciels RPM C'est une distribution qui met l'accent\nsur la nouveauté, ce qui signifie que ses logiciels sont très\nfréquemment mis à jour.\n\n     openSUSE est une distribution communautaire destinée tant\n     à un usage grand public qu'à un usage professionnel. C'est\nune distribution indépendante réputée pour ses outils de\nconfigurations et sa stabilité.\n\n#### Page 6\n\nLe Shell\n\n•   Sous Linux, on appelle Shell l’interpréteur de commandes qui fait office\n    d'interface entre l'utilisateur et le système d’exploitation. Les shells sont des\n    interpréteurs : cela signifie que chaque commande saisie par l’utilisateur (ou\n    lue à partir d’un fichier) est syntaxiquement vérifiée puis exécutée.\n\n•   Il existe plusieurs interpréteurs Shell sous Linux : Bourne again shell (bash),\n    C shell, Korn shell, Z shell etc…\n\n•   En connaître un, permet d’accéder aisément aux autres.\n\n•   Tous les Shells peuvent cohabiter à l’intérieur d’un même système Linux.\n    L’administrateur fixe le Shell initial de chaque utilisateur dans le fichier de\n    définition des utilisateurs : /etc/passwd\n\n•   Un shell possède un environnement de travail               et un langage de\n    programmation.\n\n#### Page 7\n\nShell Unix / PowerShell Windows\nPowerShell (Cmdlet)   PowerShell (Alias)       Shell Unix    Description\n                                                             Liste les fichiers /\nGet‐ChildItem         gci, dir, ls             ls, dir       répertoires du répertoire\n                                                             (courant)\n                                                             Obtenir le contenu dʹun\nGet‐Content           gc, type, cat            cat\n                                                             fichier\nGet‐Command           gcm                      help, which   Liste des commandes\nGet‐Help              help, man                man           Aide\nClear‐Host            cls, clear               clear         Efface lʹécran\n                                                             Copier un ou plusieurs\nCopy‐Item             cpi, copy, cp            cp            fichiers / lʹarborescence\n                                                             complète\n                                                             Désplacer un fichier/\nMove‐Item             mi, move, mv             mv\n                                                             répertoire\n                      ri, del, erase, rmdir,                 Suprimer un fichier /\nRemove‐Item                                    rm, rmdir\n                      rd, rm                                 répertoire\n                                                             Renomer un fichier/\nRename‐Item           rni, ren, mv             mv\n                                                             répertoire\n                                                             Afficher le répertoire de\nGet‐Location          gl, pwd                  pwd\n                                                             travail courant\n\n#### Page 8\n\nL’environnement de travail du Shell\n\n• Le shell permet d’exécuter une commande en mode interactif\n  ou bien par l'intermédiaire de fichiers de commandes (scripts).\n\n• En mode interactif, le bash affiche à l’écran une chaîne d’appel\n  (appelée également prompt ou invite), qui se termine par défaut\n  par le caractère # suivi d’un caractère espace pour\n  l’administrateur système (utilisateur root) et par le caractère $\n  suivi d’un caractère espace pour les autres utilisateurs. Cette\n  chaîne d’appel peut être relativement longue.\n\n• Ex : retraint@marylin:/home/retraint$\n\n#### Page 9\n\nL’environnement de travail du Shell\n\n• Le prompt est constituée du nom de connexion de l’utilisateur\n  (retraint), du nom de la machine sur laquelle l’utilisateur\n  travaille (marylin) et du chemin absolu du répertoire courant de\n  l’utilisateur (/home/retraint). Il indique que le shell attend que\n  l’utilisateur saisisse une commande et la valide en appuyant sur\n  la touche entrée. Bash exécute alors la commande puis\n  réaffiche la chaîne d’appel.\n\n• Si l’on souhaite raccourcir la chaîne d’appel, il suffit de\n  modifier la valeur de la variable prédéfinie du shell PS1\n  (Prompt Shell 1).\n\n• Ex : retraint@marylin:/home/retraint$ PS1='$ ' .",
+              "excerpt": "## Page 1 Introduction au système Linux • Système d’exploitation multi-utilisateurs (connexion simultanée de plusieurs utilisateurs) et multi-tâches (décomposition d’une application en plusieurs tâches qui s’exécutent simultanément). • L’environnement standard de programmation es"
+            },
+            {
+              "sourceId": "base-files-01-linux-docx-a571b321",
+              "title": "01_Linux_课件中文翻译",
+              "path": "base-files/01_Linux_课件中文翻译.docx",
+              "kind": "docx",
+              "language": "zh",
+              "content": "#### 第 4 页：市面上的 Linux 系统\n\n> • Ubuntu：由 Canonical 免费发布，面向大众用户的商业发行版；每 6\n> 个月发布一个稳定版本，每个版本维护 9 个月。\n>\n> • Fedora：由 Red Hat 监管的社区发行版，基于 RPM\n> 软件包管理系统；强调新特性，因此软件更新非常频繁。\n>\n> •\n> openSUSE：社区发行版，既适合大众使用，也适合专业用途；以配置工具丰富和系统稳定而闻名。\n\n#### 第 6 页：Shell\n\n> • 在 Linux 中，Shell\n> 指命令解释器，它充当用户与操作系统之间的接口。Shell\n> 是解释器：用户输入的每条命令（或从文件中读取的命令）都会先做语法检查，再执行。\n>\n> • Linux 中有多种 Shell：Bash（Bourne Again Shell）、C Shell、Korn\n> Shell、Z Shell 等。\n>\n> • 掌握一种 Shell 后，通常可以较容易地上手其他 Shell。\n>\n> • 多个 Shell 可以在同一个 Linux 系统中共存。管理员会在用户定义文件\n> /etc/passwd 中为每个用户指定其初始 Shell。\n>\n> • Shell 既有自己的工作环境，也是一种编程语言。\n\n#### 第 7 页：Unix Shell 与 Windows PowerShell 对照\n\n> • Get-ChildItem（别名 gci、dir、ls）≈ Unix 中的\n> ls、dir：列出当前目录中的文件和子目录。\n>\n> • Get-Content（别名 gc、type、cat）≈ cat：获取文件内容。\n>\n> • Get-Command（别名 gcm）≈ help、which：列出命令。\n>\n> • Get-Help（别名 help、man）≈ man：查看帮助。\n>\n> • Clear-Host（别名 cls、clear）≈ clear：清屏。\n>\n> • Copy-Item（别名 cpi、copy、cp）≈ cp：复制文件或整个目录树。\n>\n> • Move-Item（别名 mi、move、mv）≈ mv：移动文件/目录。\n>\n> • Remove-Item（别名 ri、del、erase、rmdir、rd、rm）≈\n> rm、rmdir：删除文件/目录。\n>\n> • Rename-Item（别名 rni、ren、mv）≈ mv：重命名文件/目录。\n>\n> • Get-Location（别名 gl、pwd）≈ pwd：显示当前工作目录。\n\n#### 第 8 页：Shell 的工作环境\n\n> • Shell 可以交互式执行命令，也可以通过命令文件（脚本）执行命令。\n>\n> • 在交互模式下，bash 会在屏幕上显示提示符（prompt，也叫\n> invite）。默认情况下，系统管理员（root）的提示符以\"#\n> \"结尾，普通用户的提示符以\"\\$ \"结尾。提示符字符串有时会比较长。\n>\n> • 例：retraint@marylin:/home/retraint\\$\n\n#### 第 9 页：Shell 的工作环境（续）\n\n> •\n> 提示符通常由以下内容组成：用户名（retraint）、机器名（marylin）以及当前目录的绝对路径（/home/retraint）。它表示\n> Shell 正在等待用户输入命令并按回车确认。bash 执行后会重新显示提示符。\n>\n> • 如果想缩短提示符，可以修改 Shell 预定义变量 PS1（Prompt Shell\n> 1）的值。\n>\n> • 例：PS1=\\'\\$ \\'",
+              "excerpt": "**《01_LO03_Linux_2026_Cours1&2》中文翻译** *根据原法语课件逐页整理的中文译文* 说明：为便于阅读，本文按页码给出标题与要点翻译；命令、路径和代码示例保留原貌。 # **第 1 页：Linux 系统简介** > • > 多用户操作系统：支持多个用户同时登录使用；也是多任务操作系统：一个应用可以拆分为多个同时执行的任务。 > > • 标准编程环境主要是 C，近年来也常用 C++。 > > • 网络环境建立在 TCP/IP 协议之上。 # **第 2 页：Linux 的哲学** > • Linux > 的运行与成功建立在一系列"
+            },
+            {
+              "sourceId": "sandbox-01-03-sh-4bdbe395",
+              "title": "01-03-修改命令提示符",
+              "path": "sandbox/01-03-修改命令提示符.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 测试当前提示符\n\necho \"PS1=[$PS1]\"\necho \"PROMPT=[$PROMPT]\"\n\n#### print P \"$PROMPT\"\n\nPROMPT='ceilf7 '",
+              "excerpt": "# source 修改命令提示符.sh # . ./修改命令提示符.sh # 默认是当前交互环境生效，如果想持久化得将这个命令添加入 ~/.zshrc 中 PS1='ceilf6 ' # 测试当前提示符 echo \"PS1=[$PS1]\" echo \"PROMPT=[$PROMPT]\" # print -P \"$PROMPT\" PROMPT='ceilf7 ' # macOS 的 zsh 环境更推荐用 PROMPT"
+            },
+            {
+              "sourceId": "sandbox-01-03-sh-ad91765a",
+              "title": "01-03-命令提示",
+              "path": "sandbox/01-03-命令提示.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### ls help 如果是 macOS 不是 GNU 那么不支持 help\n\nwhatis ls\n\napropos ls",
+              "excerpt": "# manual 打开某个命令或主题的帮助文档 / 使用手册 # 是离线的，因为查的是本地下载好的文档 /opt/homebrew/share/man <<'COMMENT' • NAME：这个命令是干什么的 • SYNOPSIS：基本语法怎么写 • DESCRIPTION：详细说明 • OPTIONS：有哪些参数 • EXAMPLES：有些手册会给例子 • SEE ALSO：相关命令 • Exit status：说明命令执行后的返回值，供Unix编程使用 COMMENT man ls # 命令名 # wq 退出 # ls --help # 如果是 ma"
+            },
+            {
+              "sourceId": "sandbox-01-03-sh-66aad953",
+              "title": "01-03-基础命令",
+              "path": "sandbox/01-03-基础命令.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### . ./01 3 command/基础命令.sh\n\ndate\n\ncal\n\nwho\n\nls\n\nuname\n\npasswd",
+              "excerpt": "# . ./01-3-command/基础命令.sh date cal who ls uname passwd"
+            }
+          ]
+        },
+        {
+          "type": "sandbox-links",
+          "ids": [
+            "shell-flow"
+          ]
+        }
+      ]
+    }
+  ],
+  "review": {
+    "checklist": [
+      "发行版共享同一内核，但在软件选择、默认配置、更新节奏上不同。",
+      "课程强调多种本地环境：双系统、U 盘、虚拟机、WSL、macOS Zsh。",
+      "Shell 既是交互界面，也是脚本语言，是进入 Linux 世界的第一道门。"
+    ],
+    "pitfalls": [
+      "把 Shell 只理解成一组命令，而忽略它也是编程语言。"
+    ],
+    "diagramIdeas": [
+      "本地环境对比图：虚拟机、WSL、原生安装。"
+    ]
+  },
+  "previousSlug": "course-overview",
+  "nextSlug": "filesystem-permissions"
+}

@@ -1,0 +1,479 @@
+{
+  "slug": "text-processing",
+  "number": "05",
+  "track": "Linux/Unix 实操线",
+  "title": "文本处理与 Shell 题解",
+  "summary": "把正则、grep、sed、awk 与一系列 TD 题解串成可迁移的文本处理能力。",
+  "searchKeywords": [
+    "grep",
+    "sed",
+    "awk",
+    "正则",
+    "which",
+    "tree",
+    "wc"
+  ],
+  "sourceIds": [
+    "base-files-06-cn-lo03-silde-cours-3-4-pdf-62c8431d",
+    "base-files-06-lo03-linux-2026-cours3-pdf-569574e6",
+    "base-files-07-lo03-linux-2026-cours4-md-3180a740",
+    "base-files-07-lo03-linux-2026-cours4-pdf-dd13a19d",
+    "base-files-08-lo03-linux-td3-2026-correction-pdf-24099538",
+    "base-files-08-lo03-linux-td3-2026-pdf-9fed7c0c",
+    "base-files-08-lo03-td3-linux-md-3cb146d1",
+    "base-files-09-lo03-linux-td4-1-2026-pdf-d4311f4e",
+    "base-files-09-lo03-linux-td4-2-2026-pdf-6b9812d5",
+    "base-files-09-lo03-td4-linux-md-0b29177c",
+    "base-files-09-lo03-td4-linux-md-187aed1d",
+    "notes-06-grep-sed-md-a3515484",
+    "notes-07-awk-md-38948e0e",
+    "notes-08-td3-md-2db2c1da",
+    "notes-09-td4-md-7b1bd18f",
+    "sandbox-06-regexp-sh-e00eda0e",
+    "sandbox-08-05-set-sh-1d90c6de",
+    "sandbox-08-dico-sh-e6e5ca91",
+    "sandbox-08-palindrome-sh-3865ed7e",
+    "sandbox-08-palindrome4file-sh-a5d9cf11",
+    "sandbox-08-tree-sh-c7f89521",
+    "sandbox-08-which-sh-92217d21",
+    "sandbox-09-01-count-sh-a1e58925",
+    "sandbox-09-03-counteachword-sh-e2613975",
+    "sandbox-09-04-rev-sh-bb6f57b9",
+    "sandbox-09-05-group-sh-ee6a50d4",
+    "sandbox-09-2-01-sh-a8fa441f",
+    "sandbox-09-2-02-sh-4f80be95",
+    "sandbox-09-2-03-sh-a83ce872",
+    "sandbox-09-2-04-sh-bb102c52",
+    "sandbox-09-2-05-sh-16efd06d",
+    "sandbox-09-2-06-sh-937cba41",
+    "sandbox-09-wc-sh-54fc000f"
+  ],
+  "sandboxIds": [
+    "regex-playground"
+  ],
+  "sections": [
+    {
+      "id": "regex-and-tools",
+      "title": "正则表达式、grep、sed 与 awk",
+      "anchor": "regex-and-tools",
+      "sourceIds": [
+        "notes-06-grep-sed-md-a3515484",
+        "notes-07-awk-md-38948e0e",
+        "notes-08-td3-md-2db2c1da",
+        "notes-09-td4-md-7b1bd18f",
+        "base-files-06-lo03-linux-2026-cours3-pdf-569574e6",
+        "base-files-07-lo03-linux-2026-cours4-pdf-dd13a19d",
+        "base-files-07-lo03-linux-2026-cours4-md-3180a740",
+        "base-files-08-lo03-linux-td3-2026-pdf-9fed7c0c",
+        "base-files-08-lo03-linux-td3-2026-correction-pdf-24099538",
+        "base-files-08-lo03-td3-linux-md-3cb146d1",
+        "base-files-09-lo03-linux-td4-1-2026-pdf-d4311f4e",
+        "base-files-09-lo03-linux-td4-2-2026-pdf-6b9812d5",
+        "base-files-09-lo03-td4-linux-md-187aed1d",
+        "base-files-09-lo03-td4-linux-md-0b29177c",
+        "sandbox-06-regexp-sh-e00eda0e",
+        "sandbox-08-05-set-sh-1d90c6de",
+        "sandbox-08-dico-sh-e6e5ca91",
+        "sandbox-08-palindrome-sh-3865ed7e",
+        "sandbox-08-palindrome4file-sh-a5d9cf11",
+        "sandbox-08-tree-sh-c7f89521",
+        "sandbox-08-which-sh-92217d21",
+        "sandbox-09-01-count-sh-a1e58925",
+        "sandbox-09-03-counteachword-sh-e2613975",
+        "sandbox-09-04-rev-sh-bb6f57b9",
+        "sandbox-09-05-group-sh-ee6a50d4",
+        "sandbox-09-wc-sh-54fc000f",
+        "sandbox-09-2-01-sh-a8fa441f",
+        "sandbox-09-2-02-sh-4f80be95",
+        "sandbox-09-2-03-sh-a83ce872",
+        "sandbox-09-2-04-sh-bb102c52",
+        "sandbox-09-2-05-sh-16efd06d",
+        "sandbox-09-2-06-sh-937cba41"
+      ],
+      "glossaryIds": [
+        "grep",
+        "awk"
+      ],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "文本工具不只是命令记忆，而是“输入记录 -> 规则匹配 -> 结构化输出”的统一方法。"
+        },
+        {
+          "type": "key-points",
+          "items": [
+            "grep 负责筛选，sed 负责流编辑，awk 负责字段级计算与报表。",
+            "正则表达式是连接这些工具的共同语言。",
+            "TD3/TD4 把 which、tree、回文、wc、词频与替换问题变成组合式练习。"
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "易错点",
+          "content": "直接把 JS/PCRE 语法照搬到 grep/awk，会踩在 BRE/ERE 与回溯引用差异上。"
+        },
+        {
+          "type": "diagram-list",
+          "items": [
+            "grep/sed/awk 分工矩阵。"
+          ]
+        },
+        {
+          "type": "exercise-list",
+          "items": [
+            {
+              "id": "regex-and-tools-exercise-1",
+              "prompt": "比较 `grep` 和 `awk` 做筛选时的思维差别。",
+              "answer": "",
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "notes-06-grep-sed-md-a3515484",
+              "title": "06-正则、Grep、sed",
+              "path": "notes/06-正则、Grep、sed.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 正则表达式\n\n正则表达式是国际标准，跨越语言\n\n正则表达式是一个规则，用于验证字符串。\n\n#### JS中的应用\n\njs中，正则表达式表现为一个对象，该**对象**是通过**构造函数RegExp**\n\n#### 创建正则对象\n\n1. 字面量模式\n2. 构造函数模式\n\n#### 正则实例成员\n\n- global\n- ignoreCase\n- multiline\n- source\n- test方法：验证某个字符串是否满足规则\n- exec方法：execute，执行匹配，得到匹配结果。\n\n> 正则表达式，默认情况下，适用贪婪模式\n在量词后，加上?，表示进入非贪婪模式\n>\n\n#### 字符串对象中的正则方法\n\n- split\n- replace\n- search\n- match",
+              "excerpt": "# 正则表达式 正则表达式是国际标准，跨越语言 正则表达式是一个规则，用于验证字符串。 ## 基础 1. 字面量匹配 规则中直接书写字面量字符 例如 abc 那么匹配串中必须出现 abc 1. 特殊字符 ``` . 能匹配除换行符之外的所有字符 ^ 匹配字符串的**开始** $ 字符串的末尾 ``` 1. 转义符 ``` \\n 换行符 \\r 回车符 \\t 制表符 \\s 任意空白符：空格、制表、换行 \\S 非空白符：除了空白符外的任意字符 （大写是小写的补集） \\b 单词边界：空格、换行、开头、结尾 \\B 非单词边界 \\d 数字字符：等于 [0-9] \\D"
+            },
+            {
+              "sourceId": "notes-07-awk-md-38948e0e",
+              "title": "07-awk",
+              "path": "notes/07-awk.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 07-awk\n\nawk 中使用正则判断\n\n```bash\n变量 ~ /正则/\n```\n\n> 且 awk 默认是扩展正则，不需要像 grep 一样写反引号 \\(\n> \n\nawk 中不能用回溯引用 \\1\n\nawk 的字符串拼接是直接空格连接变量\n\n数组下标是从 1 开始\n\n“  “ 才是字符串，不能是 ‘ ‘ \n\nShell 中的变量无法 awk 中无法直接用，得通过 -v 传入\n\n```bash\nawk -v bei=\"$bei\" -v zhu=\"$zhu\" '{\n    gsub(bei,zhu,$0)\n    print\n}' \"$p\" > tmp\nmv tmp \"$p\"\n```\n\n[awk](https://www.notion.so/awk-3420f8d8d1fd8058921dc73caa803903?pvs=21)\n\n#### 命令\n\n- `awk` 是一个非常强大的命令，它本身就是一门**编程语言**，可以用于字符串查找，并对各行执行操作。\n它非常适合用来提取信息、生成报告以及转换数据。\n- 它的大部分语法借鉴自 C 语言。`awk` 这个名字来自它的三位创造者姓名的首字母（其中 `k` 来自 Kernighan，他也是 C 语言的发明者之一）。\n\n#### 命令的语法\n\n```bash\nawk [-F] [-v 变量=值] '程序' 文件\nawk [-F] [-v 变量=值] -f 配置文件 文件\n```\n\n- 参数 `F` 后面要跟**字段分隔符 IFS**\n（例如 `F:` 表示用 `:` 作为分隔符）\n- 参数 `f` 后面跟一个配置文件\n- 参数 `v` 用来定义**变量**，之后可以在程序中使用\n\n示例：\n\n```bash\nawk -F: '{printf $1}' /etc/passwd\n```\n\n#### 记录与字段\n\n- `awk` 会把输入数据拆分成**记录**（record），再把记录拆分成**字段**（field）。\n- 一条记录是由**换行符分隔**的一段输入字符串。\n- 一个字段是由**分隔符分隔**的一段字符串。\n- 在一条记录中，各字段分别用 `$1`、`$2`、……、`$NF` 表示。\n- **`$0` 表示整条记录**。\n\n#### 程序\n\n- `awk` 可以编写完整的程序，支持循环、条件判断等结构。\n- 程序可以直接作为参数传给 `awk`（并放在**引号**中），也可以写在**文件**中，再通过 `f` 选项提供给 `awk`。\n\n示例：\n\n```bash\nawk '{print $1, $3 }' mon_fichier\n```\n\n其中：\n\n- `{print $1, $3}` 是传递给 `awk` 的程序\n- 它会在 `mon_fichier` 上执行",
+              "excerpt": "awk 中使用正则判断 ```bash 变量 ~ /正则/ ``` > 且 awk 默认是扩展正则，不需要像 grep 一样写反引号 \\( > awk 中不能用回溯引用 \\1 awk 的字符串拼接是直接空格连接变量 数组下标是从 1 开始 “ “ 才是字符串，不能是 ‘ ‘ Shell 中的变量无法 awk 中无法直接用，得通过 -v 传入 ```bash awk -v bei=\"$bei\" -v zhu=\"$zhu\" '{ gsub(bei,zhu,$0) print }' \"$p\" > tmp mv tmp \"$p\" ``` [awk](https:"
+            },
+            {
+              "sourceId": "notes-08-td3-md-2db2c1da",
+              "title": "08-TD3",
+              "path": "notes/08-TD3.md",
+              "kind": "note",
+              "language": "mixed",
+              "content": "#### echo $1 | grep '^\\ . \\ .?\\1$' 后面不是倒序、不行\n\nstr=\"$1\"\nrevStr=$(printf \"%s\" \"$str\" | rev) # rev命令可以将字符串反转\n\nif [ \"$str\" = \"$revStr\" ]; then\n    echo \"是回文字符串\"\nelse\n    echo \"不是回文字符串\"\nfi\n```\n\n```bash\n\n#### bash ./08 palindrome4file.sh ./test files/palindromeTestFile.txt\n\nwhile read curLine || [ -n \"$curLine\" ]\ndo\n    read -r -a arr <<< \"$curLine\"\n    # -a 是 bash 特有的\n    for str in \"${arr[@]}\"\n    do\n        res=$(bash ./08-palindrome.sh \"$str\")\n        # 判断的应该是接收到的标准输出，而不是返回码\n        if [ \"$res\" = \"是回文字符串\" ]\n        then\n            echo \"$str\"\n        fi\n    done\ndone < \"$1\"\n\necho \"\n=== for i in \\$(cat \"\\$1\")\"\nfor i in $(cat \"$1\")\ndo\n    res=$(bash ./08-palindrome.sh \"$i\")\n    # 判断的应该是接收到的标准输出，而不是返回码\n    if [ \"$res\" = \"是回文字符串\" ]\n    then\n        echo \"$i\"\n    fi\ndone\n```\n\n```bash\n\n#### 2. s 不输出内容，通过返回值表示是否找到 bash ./08 which.sh s git ; echo $?\n\noldIFS=$IFS # 用于后面恢复，答案中直接用的 unset 不如先缓存 oldIFS\nIFS=:\n\n#### sortedArgs=$ printf '%s\\n' \"$@\" | sort k1.2n\n\ncur=0 # 当前到的地方\ntemp=\"^\" # 模式串\nshift 1 # 或者 for i in \"${@:2}\"\nfor i in \"$@\"\ndo\n    # 和 substr 一样 ${str:start:length} 最后是长度\n    chr=\"${i:0:1}\"\n    num=\"${i:1}\" # 剩下的就是数字，不声明长度默认取到末尾\n    leftLen=$((num-cur-1))\n    # $(()) 算数上下文中就不用 $ 声明变量了\n    temp=\"$temp.\\{$leftLen\\}$chr\"\n    # 注意 grep 默认是基础正则 BRE，需要对 { } 进行转义 \\{ \\} \n    # 或者下面用 grep -E\n    cur=\"$num\" # 更新位置\ndone\n\n#### grep Eo ' :alpah +' 可以拿到所有字母单词\n\ngrep -Eo '[[:alpha:]]+' \"$targetPath\" | grep \"$temp\"\n```",
+              "excerpt": "> 以 sandbox 中 08-...sh 为准 ```bash # echo $1 | grep '^\\(.*\\).?\\1$' # 后面不是倒序、不行 str=\"$1\" revStr=$(printf \"%s\" \"$str\" | rev) # rev命令可以将字符串反转 if [ \"$str\" = \"$revStr\" ]; then echo \"是回文字符串\" else echo \"不是回文字符串\" fi ``` ```bash # bash ./08-palindrome4file.sh ./test-files/palindromeTestFil"
+            },
+            {
+              "sourceId": "notes-09-td4-md-7b1bd18f",
+              "title": "09-TD4",
+              "path": "notes/09-TD4.md",
+              "kind": "note",
+              "language": "mixed",
+              "content": "#### 09-TD4\n\n> 以 sandbox 中 09-...sh 为准\n\nwc -c 可以直接拿到字节数\n\n```bash\ndir=\"$1\" # || \"./\"\n\nfileCnt=0\nsizeCnt=0\n\nfor file in \"$dir\"/*\ndo\n    if [ -f \"$file\" ]\n    then\n        curFileSize=$(wc -c < \"$file\")\n        # wc -c 可以直接拿到字节数\n        # 且只能对 -f 普通文件\n        ((fileCnt++))\n        ((sizeCnt+=curFileSize))\n    fi\ndone\n\nif [ \"$fileCnt\" -eq 0 ]\n\n#### 防止除数为0\n\nthen\n    echo 0\nelse\n    echo $((sizeCnt / fileCnt))\nfi\n```\n\n可以通过 `${#str}` 得到字符串长度\n\n```bash\nfilePath=$1\n\nlineCnt=0\nwordCnt=0\nchrCnt=0\n\nwhile read curLine || [ -n \"$curLine\" ]\ndo\n    ((lineCnt++))\n    set -- $curLine\n    ((wordCnt += $#))\n    for w in \"$@\"\n    do\n        ((chrCnt += ${#w}))\n    done\ndone < \"$filePath\"\n\necho \"$lineCnt\" \"$wordCnt\" \"$chrCnt\"\n```\n\n```bash\nls -l | awk '\nNR > 1 { sum[$4] += $5 }\nEND {\n    for (g in sum)\n        print g, sum[g]\n}'\n```",
+              "excerpt": "> 以 sandbox 中 09-...sh 为准 wc -c 可以直接拿到字节数 ```bash dir=\"$1\" # || \"./\" fileCnt=0 sizeCnt=0 for file in \"$dir\"/* do if [ -f \"$file\" ] then curFileSize=$(wc -c < \"$file\") # wc -c 可以直接拿到字节数 # 且只能对 -f 普通文件 ((fileCnt++)) ((sizeCnt+=curFileSize)) fi done if [ \"$fileCnt\" -eq 0 ] # 防止除数为0 "
+            },
+            {
+              "sourceId": "base-files-06-lo03-linux-2026-cours3-pdf-569574e6",
+              "title": "06-LO03_Linux_2026-Cours3",
+              "path": "base-files/06-LO03_Linux_2026-Cours3.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 2\n\nLes expressions régulières\n\no Les expressions régulières servent à décrire de façon\n  concise et sans ambigüité des motifs de caractères comme\n  - par exemple - toutes les chaines de 1 à 8 caractères\n  alphanumériques, le premier étant alphabétique :\n                   [A-Za-z][A-Za-z0-9]{0,7}\n\no Les commandes « grep », « find », « sed » , … utilisent\n  les expressions régulières.\n\no Exemple : ls –l | grep ‘^l’ | wc –l renvoie le nombre de\n  liens dans le répertoire courant.\n\n#### Page 5\n\nCommande Grep\n- Définition : cette commande permet de chercher dans un flot de\n  texte, les lignes qui vérifient une expression régulière, et transmet\n  sur sa sortie standard que ces lignes.\n\n- Syntaxe options : : grep [options] expreg [fichiers]\n\n       • -c compte le nombre de lignes trouvées obéissant au critère\n       • -l donne seulement le nom des fichiers où le critère a été trouvé\n       • -v donne les lignes où le critère n'a pas été trouvé\n       • -i ne tient pas compte de la casse minuscules - majuscules\n       • -n pour n'afficher que les numéros des lignes trouvées\n       • -w pour imposer que le motif corresponde exactement à la\n             recherche\n       • -E pour forcer l’interprétation en tant que expressions\n             régulières étendues\n\n#### Page 6\n\nCommande Grep\n\n• Utilisation : grep est souvent inclus dans un « pipe » qui lui\n  fournit en entrée le flot texte à étudier.\n\n• Dans tous les cas, la commande retourne le code :\n\n   • 0 au moins une ligne satisfaisante\n   • 1 aucune ligne satisfaisante\n   • 2 erreur de syntaxe ou fichier(s) inaccessible(s).\n\n• Exemple : cat /etc/passwd | grep root\n\n#### Page 7\n\nMise en œuvre avec la commande grep\n\n\ngrep ’csh$’ /etc/passwd         # csh en fin de ligne\n\nls –l | grep ’^d’   # le caractère « d » en début de ligne (un\n                         répertoire)\n\nls –l | grep ’^[^d]’ # les fichiers qui ne sont pas des répertoires\n\nls –l | grep ’[0-9] Mar’ # Un chiffre entre 0 et 9 suivi\n                                      de la chaîne « Mar »\n\n#### Page 8\n\nLes possibilités de egrep\n\n\n• Possibilités supplémentaires de « egrep » par rapport à\n  « grep » :\n   o r+ : une ou plusieurs occurrences de l’expression « r »\n   o r? : zéro ou une occurrence de l’expression « r »\n   o r1 | r2 : l’expression « r1 » ou « r2 »\n   o ( r ) : une expression régulière peut être mise entre\n     parenthèses pour grouper des expressions :\n\n       •$ egrep ‘paul(e|ine)‘ /etc/passwd # La chaîne paule ou\n       pauline",
+              "excerpt": "## Page 1 Les expressions régulières • Une expression régulière sert à identifier une chaîne de caractère répondant à un certain critère. Elle permet de décrire des motifs formés de caractères. o Exemple : Recherche de toutes les chaînes de caractères alphabétiques dans : Le fich"
+            },
+            {
+              "sourceId": "base-files-07-lo03-linux-2026-cours4-pdf-dd13a19d",
+              "title": "07_LO03_Linux_2026_Cours4",
+              "path": "base-files/07_LO03_Linux_2026_Cours4.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nLa commande awk\n\n\n   « awk » est une commande très puissante, c’est un langage\n    de programmation à elle seule qui permet une recherche de\n    chaînes et l’exécution d’actions sur des lignes. Elle est très\n    utile pour récupérer de l’information, générer des rapports et\n    transformer des données.\n\n   Une grande partie de la syntaxe a été empruntée au langage\n    C. « awk » est l’abréviation de ces trois créateurs (k pour\n    kernighan l’inventeur du langage C).\n\n#### Page 2\n\nLa commande awk\n\n   Syntaxe\n      Awk [-F] [-v var=valeur] ’programme’ fichier\n\n      Awk [-F] [-v var=valeur] -f fichier_config fichier\n\n\n\n L ’argument « F » doit être suivi d’un séparateur de champ\n  (« -F: » pour « : » comme séparateur)\n L ’argument « f » est suivi d’un fichier de configuration\n L ’argument « v » définit une variable qui sera utilisée par la\n  suite dans le programme\n\n   Exemple : awk -F: ’{printf $1}’ /etc/passwd\n\n#### Page 3\n\nLa commande awk\n\n   Enregistrements et champs\n      « awk » scinde les données d’entrée en enregistrements\n\n       et les enregistrements en champ.\n      Un enregistrement est une chaîne d’entrée délimitée par\n\n       un retour chariot\n      Un champ est une chaîne délimitée par le caractère de\n\n       séparation\n      Dans un enregistrement les champs sont référencés par\n\n       $1, $2, …., $NF\n      $0 désigne l’enregistrement\n\n#### Page 4\n\nLa commande awk\n\n   « awk » permet décrire des programmes complets, avec des\n    structures itératives, des tests, etc..\n\n   Le programme est passé en paramètre (encadré avec des quotes)\n    à « awk » ou écrit dans un fichier dont le nom est fourni par\n    l ’intermédiaire de l’option –f\n\n   Exemples :\n      awk ’{print $1, $3 }’ mon_fichier\n\n      {print $1, $3} est le programme fourni à la commande\n       « awk » et s ’exécute sur « mon_fichier »\n\n#### Page 6\n\nSéparation des champs\n\n\n   Pour utiliser des séparateurs de champs différents de « espace »\n    et de « tabulation », on utilise l ’option « -Fséparateur » ou on\n    positionne la variable FS dans la séquence « BEGIN{ } » du\n    programme.\n\n   Exemple :\n    $ echo ‘‘05/11/92‘‘ | awk -F/ ’{ print $3 }’\n    92\n    $ echo ‘‘05/11/92‘‘ | awk ’BEGIN{ FS=‘’/’’} {print $3 }’\n    92",
+              "excerpt": "## Page 1 La commande awk  « awk » est une commande très puissante, c’est un langage de programmation à elle seule qui permet une recherche de chaînes et l’exécution d’actions sur des lignes. Elle est très utile pour récupérer de l’information, générer des rapports et transforme"
+            },
+            {
+              "sourceId": "base-files-07-lo03-linux-2026-cours4-md-3180a740",
+              "title": "07_LO03_Linux_2026_Cours4_中文翻译",
+              "path": "base-files/07_LO03_Linux_2026_Cours4_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 07_LO03_Linux_2026_Cours4_中文翻译\n\nawk 中使用正则判断\n\n```bash\n变量 ~ /正则/\n```\n\n> 且 awk 默认是扩展正则，不需要像 grep 一样写反引号 \\(\n> \n\nawk 中不能用回溯引用 \\1\n\nawk 的字符串拼接是直接空格连接变量\n\n数组下标是从 1 开始\n\n“  “ 才是字符串，不能是 ‘ ‘ \n\nShell 中的变量无法 awk 中无法直接用，得通过 -v 传入\n\n```bash\nawk -v bei=\"$bei\" -v zhu=\"$zhu\" '{\n    gsub(bei,zhu,$0)\n    print\n}' \"$p\" > tmp\nmv tmp \"$p\"\n```\n\n[awk](https://www.notion.so/awk-3420f8d8d1fd8058921dc73caa803903?pvs=21)\n\n#### 命令\n\n- `awk` 是一个非常强大的命令，它本身就是一门**编程语言**，可以用于字符串查找，并对各行执行操作。\n它非常适合用来提取信息、生成报告以及转换数据。\n- 它的大部分语法借鉴自 C 语言。`awk` 这个名字来自它的三位创造者姓名的首字母（其中 `k` 来自 Kernighan，他也是 C 语言的发明者之一）。\n\n#### 命令的语法\n\n```bash\nawk [-F] [-v 变量=值] '程序' 文件\nawk [-F] [-v 变量=值] -f 配置文件 文件\n```\n\n- 参数 `F` 后面要跟**字段分隔符 IFS**\n（例如 `F:` 表示用 `:` 作为分隔符）\n- 参数 `f` 后面跟一个配置文件\n- 参数 `v` 用来定义**变量**，之后可以在程序中使用\n\n示例：\n\n```bash\nawk -F: '{printf $1}' /etc/passwd\n```\n\n#### 记录与字段\n\n- `awk` 会把输入数据拆分成**记录**（record），再把记录拆分成**字段**（field）。\n- 一条记录是由**换行符分隔**的一段输入字符串。\n- 一个字段是由**分隔符分隔**的一段字符串。\n- 在一条记录中，各字段分别用 `$1`、`$2`、……、`$NF` 表示。\n- **`$0` 表示整条记录**。\n\n#### 程序\n\n- `awk` 可以编写完整的程序，支持循环、条件判断等结构。\n- 程序可以直接作为参数传给 `awk`（并放在**引号**中），也可以写在**文件**中，再通过 `f` 选项提供给 `awk`。\n\n示例：\n\n```bash\nawk '{print $1, $3 }' mon_fichier\n```\n\n其中：\n\n- `{print $1, $3}` 是传递给 `awk` 的程序\n- 它会在 `mon_fichier` 上执行",
+              "excerpt": "awk 中使用正则判断 ```bash 变量 ~ /正则/ ``` > 且 awk 默认是扩展正则，不需要像 grep 一样写反引号 \\( > awk 中不能用回溯引用 \\1 awk 的字符串拼接是直接空格连接变量 数组下标是从 1 开始 “ “ 才是字符串，不能是 ‘ ‘ Shell 中的变量无法 awk 中无法直接用，得通过 -v 传入 ```bash awk -v bei=\"$bei\" -v zhu=\"$zhu\" '{ gsub(bei,zhu,$0) print }' \"$p\" > tmp mv tmp \"$p\" ``` [awk](https:"
+            },
+            {
+              "sourceId": "base-files-08-lo03-linux-td3-2026-pdf-9fed7c0c",
+              "title": "08_LO03_Linux_TD3_2026",
+              "path": "base-files/08_LO03_Linux_TD3_2026.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nLO03\n                                                           TD n°3 Linux\n\n\n\n\n                                                         3. LES PALINDROMES D’UN FICHIER\n1. COMMANDE WHICH\n                                                         Réaliser un script Shell qui permet de trouver tous\n Quand un exécutable est lancé, le système Linux va      les palindromes contenus dans un fichier. Le fichier\nchercher en priorité cet exécutable dans le répertoire   sera passé en paramètre du script.\ncourant, s’il ne l’a pas trouvé, Linux cherchera dans\nles répertoires mentionnés dans la variable $PATH.\n                                                         4. COMMANDE TREE\nroot@serveur# echo $PATH\n/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin             Écrire une commande « tree » (cette commande\n                                                         existe sous linux) qui affiche l'arborescence d’un\nVous disposez ci-dessous du « man » de la                répertoire dont le nom est passé en paramètre. Si la\ncommande which :                                         commande n’a pas d’argument alors c’est le\n                                                         répertoire courant qui est considéré.\n                                                         Pour l’affichage, chaque nom de fichier sera précédé\n                                                         de « +-- » et chaque nom de répertoire sera précédé\n                                                         de « \\-- ».\n\n                                                         Exemple :\n\n                                                         tree /home/chezmoi\n\n                                                         +-- fichier1\n                                                         +-- fichier2\n                                                         \\-- rep1\n                                                         +-- fichier1_rep1\n                                                         +-- fichier2_rep1\n                                                         \\-- rep1_1\n                                                         +-- fichier1_rep1_1\n                                                         +-- fichier2_rep1_1\n                                                         \\-- rep2\n                                                         +-- fichier1_rep2\nÉcrire un script qui simule le comportement de la        +-- fichier2_rep2\ncommande which.\n                                                         Conseil : définir      une   fonction   et      l’appeler\n                                                         récursivement.\n\n2. MOT PALINDROME ?\n                                                         5. LISTE DE MOTS\nRéaliser un script Shell qui permet de vérifier si un\nmot est un palindrome. Le mot sera passé en              Soit le fichier suivant :\nparamètre du script.\n                                                         This is the first document\n      Exemple : bob, serres, rotor, radar, laval         The second document is here\n                                                         This document is the third\n                                                         Here is another document\n\n\n\n                                                         Créer un script qui liste chaque mot du texte",
+              "excerpt": "## Page 1 LO03 TD n°3 Linux 3. LES PALINDROMES D’UN FICHIER 1. COMMANDE WHICH Réaliser un script Shell qui permet de trouver tous Quand un exécutable est lancé, le système Linux va les palindromes contenus dans un fichier. Le fichier chercher en priorité cet exécutable dans le ré"
+            },
+            {
+              "sourceId": "base-files-08-lo03-linux-td3-2026-correction-pdf-24099538",
+              "title": "08_LO03_Linux_TD3_2026_Correction",
+              "path": "base-files/08_LO03_Linux_TD3_2026_Correction.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nLO03\n                                                         TD n°3 Linux Correction\n\n\n\n\n                                                                    for i in $PATH\n1. COMMANDE WHICH\n                                                                    do\n                                                                            if [ -x $i/$2 ]; then\n Quand un exécutable est lancé, le système Linux va\nchercher en priorité cet exécutable dans le répertoire                                if [ $1 == \"-a\" ]; then\ncourant, s’il ne l’a pas trouvé, Linux cherchera dans\nles répertoires mentionnés dans la variable $PATH.                                             echo \"$i/$2\"\n\nroot@serveur# echo $PATH                                                              fi\n\n/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin                                          flag=0\n\nVous disposez ci-dessous du « man » de la                                   fi\ncommande which :\n                                                                    done\n                                                            else\n                                                                    echo \"Le script a besoin de 2 arguments\"\n                                                                    echo \"Usage : which [-as] prog\"\n                                                                    exit\n                                                            fi\n                                                            if [ $1 == \"-s\" ]; then\n                                                                    echo $flag\n                                                            fi\n                                                            unset IFS\n\n                                                            2. MOT PALINDROME ?\nÉcrire un script qui simule le comportement de la\ncommande which.\n                                                            Réaliser un script Shell qui permet de vérifier si un\n                                                            mot est un palindrome. Le mot sera passé en\n                                                            paramètre du script.\nIFS=:\n                                                                   Exemple : bob, serres, rotor, radar, laval\nflag=1\nif [ $# == 2 ]; then                                        if [ $1 == $(echo $1 | rev) ]; then\n                                                                    echo $1 palindrome\n         if [ $1 != \"-a\" -a $1 != \"-s\" ]; then              else\n                                                                    echo $1 non palindrome\n                 echo \"Usage : which [-as] file\"            fi\n                 exit\n         fi\n\n#### Page 2\n\nLO03\n                                                       TD n°3 Linux Correction\n\n\n\n\n3. LES PALINDROMES D’UN FICHIER                           \\-- rep2\n                                                          +-- fichier1_rep2\n                                                          +-- fichier2_rep2\nRéaliser un script Shell qui permet de trouver tous\nles palindromes contenus dans un fichier. Le fichier      Conseil : définir          une    fonction   et    l’appeler\nsera passé en paramètre du script.                        récursivement.\npalin () {\n          if [ $1 == $(echo $1 | rev) ]; then             tree () {\n                   return 0                                           for i in $(ls $1)\n          else                                                        do\n                   return 1                                                   if [ -f $i ]; then\n          fi                                                                           echo \"+-- $i\"\n}                                                                             elif [ -d $i ]; then\nif [ ! -r $1 ]; then                                                                   echo \"/-- $i\"\n          echo \"Le fichier $1 n'est pas accessible\"                                    tree $1/$i\n          exit                                                                fi\nfi                                                                    done\nfor i in $(cat $1)                                        }\ndo\n          palin $i                                        if [ $# -eq 1 ]; then\n          if [ $? -eq 0 ]; then                                    if [ -d $1 ] ; then\n                   echo \"$i est un palindrome\"                              tree $1\n          fi                                                       fi\ndone                                                      else\n                                                                   tree $(pwd)\n                                                          fi\n4. COMMANDE TREE\n                                                          5. LISTE DE MOTS\nÉcrire une commande « tree » (cette commande\nexiste sous linux) qui affiche l'arborescence d’un        Soit le fichier suivant :\nrépertoire dont le nom est passé en paramètre. Si la\ncommande n’a pas d’argument alors c’est le                This is the first document\nrépertoire courant qui est considéré.                     The second document is here\nPour l’affichage, chaque nom de fichier sera précédé      This document is the third\nde « +-- » et chaque nom de répertoire sera précédé       Here is another document\nde « \\-- ».\n\nExemple :                                                 Créer un script qui liste chaque mot du texte\n                                                          Sortie du script :\ntree /home/chezmoi\n                                                          This is the first document second third\n+-- fichier1                                              another\n+-- fichier2\n\\-- rep1                                                  awk '{for (i=1;i<=NF;i++) tab[$i]++} END{ for (mot in tab)\n+-- fichier1_rep1                                         printf\"%s \",mot; printf\"\\n\"}' test\n+-- fichier2_rep1\n\\-- rep1_1\n+-- fichier1_rep1_1\n+-- fichier2_rep1_1\n                                                                                                                       21",
+              "excerpt": "## Page 1 LO03 TD n°3 Linux Correction for i in $PATH 1. COMMANDE WHICH do if [ -x $i/$2 ]; then Quand un exécutable est lancé, le système Linux va chercher en priorité cet exécutable dans le répertoire if [ $1 == \"-a\" ]; then courant, s’il ne l’a pas trouvé, Linux cherchera dans"
+            },
+            {
+              "sourceId": "base-files-08-lo03-td3-linux-md-3cb146d1",
+              "title": "08_LO03_TD3_Linux_中文翻译",
+              "path": "base-files/08_LO03_TD3_Linux_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 1. 命令\n\n当一个可执行文件被启动时，Linux 系统会优先在**当前目录**中查找这个可执行文件；如果没有找到，Linux 就会在变量 `$PATH` 所列出的目录中继续查找。  \n\n示例：\n\n```bash\nroot@serveur# echo $PATH\n/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin\n```\n\n下面给出了 `which` 命令的 man 手册说明。  \n\n请编写一个脚本，用来**模拟 `which` 命令的行为**。\n\n---\n\n#### 2. 回文单词？\n\n编写一个 Shell 脚本，用于检查某个单词是否为**回文**。  \n该单词将作为脚本参数传入。  \n\n示例：`bob`、`serres`、`rotor`、`radar`、`laval`\n\n---\n\n#### 3. 文件中的回文词\n\n编写一个 Shell 脚本，用于找出某个文件中包含的**所有回文词**。  \n该文件将作为脚本参数传入。\n\n---\n\n#### 4. 命令\n\n编写一个 `tree` 命令（该命令在 Linux 下本身就存在），用于显示某个目录的**树状结构**，目录名由参数传入。  \n\n如果命令没有参数，则默认显示**当前目录**。  \n\n显示格式要求如下：\n\n- 每个文件名前加上 `+--`\n- 每个目录名前加上 `\\--`\n\n示例：\n\n```text\ntree /home/chezmoi\n+-- fichier1\n+-- fichier2\n\\-- rep1\n    +-- fichier1_rep1\n    +-- fichier2_rep1\n    \\-- rep1_1\n        +-- fichier1_rep1_1\n        +-- fichier2_rep1_1\n\\-- rep2\n    +-- fichier1_rep2\n    +-- fichier2_rep2\n```\n\n建议：定义一个函数，并对其进行**递归调用**。\n\n---",
+              "excerpt": "# LO03 # 第3次 Linux 习题课（TD n°3） ## 1. `which` 命令 当一个可执行文件被启动时，Linux 系统会优先在**当前目录**中查找这个可执行文件；如果没有找到，Linux 就会在变量 `$PATH` 所列出的目录中继续查找。 示例： ```bash root@serveur# echo $PATH /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin ``` 下面给出了 `which` 命令的 man 手册说明。 请编写一个脚本，用来**模拟 `which` 命令的行为**。 --"
+            },
+            {
+              "sourceId": "base-files-09-lo03-linux-td4-1-2026-pdf-d4311f4e",
+              "title": "09_LO03_Linux_TD4-1_2026",
+              "path": "base-files/09_LO03_Linux_TD4-1_2026.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nLO03\n                                                        TD n°4 Linux – première partie\n\n\n\n\n      EXERCICE 1\n\n\nÉcrire un script qui donne la moyenne de la taille des fichiers du répertoire courant.\n\n      EXERCICE 2\n\n\nÉcrire un script qui simule la commande \"wc\". Il devra lire l’entrée standard et n’afficher qu’une ligne de sortie\ncontenant respectivement le nombre de lignes, de mots, et de caractères lus.\n\n      EXERCICE 3\n\n\nÉcrire un script qui affiche la fréquence des mots d’un fichier.\n\n      EXERCICE 4\n\n\nÉcrire un script qui renverse l’entrée standard: les champs de chaque ligne doivent être affichés sur la sortie\nstandard dans l’ordre inverse dans lequel ils sont lus. On ne fait pas d’hypothèse a priori sur le nombre de champs\nsur une ligne, qui peut varier d’une ligne à l’autre.\n\n      EXERCICE 5\n\n\nÉcrire un script qui donne la taille des fichiers de chaque groupe contenu dans le répertoire courant\n\n      EXERCICE 6\n\n\nLes exercices portent sur le fichier mesure suivant:\n\nNom | lieu de la mesure | date de la mesure | valeur | correction 1 | correction 2 | correction 3 | valeur corrigée |\nPaul    | Marseille    | 18/12/1998         | 12.5 | 1.34           |     1.23     |      -1.5 |          13.47 |\nCharles | Beauvais     | 21/05/1997         | 11.5 |      1.24      |     1.12     |      -1.2 |          12.66 |\nJean    | Troyes       | 04/09/1995         | 9.3 |       0.98      |     1.17     |      -1.12 |         10.33 |\n\n    Le champ valeur corrigée est la somme algébrique de la valeur brute et des 3 corrections.\n\n     Vous avez constaté une erreur sur le signe de la correction 1 et vous avez découvert qu’il fallait ajouter 0.1 à\n      la valeur de la correction 2. Modifier le fichier en prenant en compte ces corrections et faites en sorte que la\n      valeur corrigée soit modifiée en conséquence.\n     Affichez la somme totale des valeurs corrigées et la valeur corrigée moyenne. Ces valeurs doivent être\n      sauvegardées dans un fichier résultat.\n\n      EXERCICE 7\n\nAfficher les mesures ayant une année paire de l’exercice 6.",
+              "excerpt": "## Page 1 LO03 TD n°4 Linux – première partie EXERCICE 1 Écrire un script qui donne la moyenne de la taille des fichiers du répertoire courant. EXERCICE 2 Écrire un script qui simule la commande \"wc\". Il devra lire l’entrée standard et n’afficher qu’une ligne de sortie contenant "
+            },
+            {
+              "sourceId": "base-files-09-lo03-linux-td4-2-2026-pdf-6b9812d5",
+              "title": "09_LO03_Linux_TD4-2_2026",
+              "path": "base-files/09_LO03_Linux_TD4-2_2026.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nLO03\n                                                  TD n°4 Linux – deuxième partie\n\n\n\n\n                                                         EXERCICE 2\n   AIDE-MEMOIRE REGEX\n                                                           1/ Écrire une commande qui trouve dans un fichier\n^     # Début de ligne                                     toutes les chaînes contenant trois occurrences ou plus\n                                                           de la même lettre consécutivement, par exemple,\n$     # Fin de ligne                                       \"aaabbb\" ou \"111\"\n.     # N'importe quel caractère\n*     # 0 ou plusieurs fois                                2/ Écrire une commande pour trouver des phrases\n+     # 1 ou plusieurs fois (avec -E)                      contenant toutes les voyelles (a, e, i, o, u) au moins\n?     # 0 ou 1 fois (avec -E)                              une fois.\n{n}   # Exactement n fois                                  3/ Écrire une commande pour trouver les lignes d’un\n{n,}  # Au moins n fois                                    fichier contenant exactement 3 mots.\n{n,m} # Entre n et m fois\n[]    # Classe de caractères                               4/ Détecter les mots composés d'au moins 10\n[^]   # Négation de classe                                 caractères\n|     # OU logique (avec -E)\n()    # Groupement (avec -E)\n\\     # Échappement                                         EXERCICE 3\n\\b    # Frontière de mot\n[0-9] # Chiffres\n                                                        Écrire un script bash substitution qui remplace toutes les\n[a-z] # Lettres minuscules                              occurrences de la chaine passée en 1er argument par la\n[A-Z] # Lettres majuscules                              chaine passée en deuxième argument, cela dans le\n                                                        fichier passé en troisième argument. Le résultat sera\n                                                        stocké dans le fichier.\n   EXERCICE 1\n\n                                                            EXERCICE 4\nasterix ;\n20 tintin / haddock ;                                   .\n20 tif / tondu ;                                        Comment faire pour rechercher toutes les lignes d’un\n                                                        fichier qui contiennent trois fois le même mot\n30 theodore poussin ;\n40 spirit ;\n30                                                          EXERCICE 5\n\nFaites les modifications suivantes (elles seront\ntraitées indépendamment les unes des autres) :          On considère un fichier de caractères comportant un\n                                                        texte composé de lettres majuscules, de lettres\n1. Supprimer les lignes contenant 30                    minuscules et d'espaces. Ecrire un script en Bash qui\n2. Remplacer les lettres minuscules par des lettres     affiche un message indiquant si ce texte est un\nmajuscules.                                             \"grobalogramme\", c'est-à-dire si chaque mot du texte\n3. Chercher tous les mots dont la seconde lettre est    commence et se termine par la même lettre\nun «s».                                                 majuscule et n’a pas de lettres majuscules entre les\n4.Chercher tous les mots commençant par «t», «s» ou     deux lettres majuscules du début et de la fin du mot.\n«h»                                                     Par exemple, le texte suivant est un\n5.Chercher toutes les lignes ne contenant pas un        \"grobalogramme\" :\nchiffre.\n6. Quelle commande permet d’extraire le premier         BoB EmpruntE TemporairemenT A RogeR                    SeS\ncaractère de chaque ligne de la quatrième ligne à la    SoulierS\nsixième ligne ?",
+              "excerpt": "## Page 1 LO03 TD n°4 Linux – deuxième partie EXERCICE 2 AIDE-MEMOIRE REGEX 1/ Écrire une commande qui trouve dans un fichier ^ # Début de ligne toutes les chaînes contenant trois occurrences ou plus de la même lettre consécutivement, par exemple, $ # Fin de ligne \"aaabbb\" ou \"11"
+            },
+            {
+              "sourceId": "base-files-09-lo03-td4-linux-md-187aed1d",
+              "title": "09_LO03_TD4_Linux_第一部分_中文翻译",
+              "path": "base-files/09_LO03_TD4_Linux_第一部分_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 练习 2\n\n编写一个脚本来模拟 `wc` 命令。  \n它需要读取标准输入，并且只输出一行结果，依次包含：读取到的**行数、单词数、字符数**。",
+              "excerpt": "# LO03 ## Linux 第 4 次习题课（第一部分） ### 练习 1 编写一个脚本，计算当前目录下所有文件大小的平均值。 ### 练习 2 编写一个脚本来模拟 `wc` 命令。 它需要读取标准输入，并且只输出一行结果，依次包含：读取到的**行数、单词数、字符数**。 ### 练习 3 编写一个脚本，统计某个文件中各个单词出现的频率。 ### 练习 4 编写一个脚本，将标准输入的内容倒序输出： 每一行中的各个字段，都要按照与读入时**相反的顺序**输出到标准输出。 不预先假设每一行字段的数量，因为它可能会因行而异。 ### 练习 5 编写一个脚本"
+            },
+            {
+              "sourceId": "base-files-09-lo03-td4-linux-md-0b29177c",
+              "title": "09_LO03_TD4_Linux_第二部分_中文翻译",
+              "path": "base-files/09_LO03_TD4_Linux_第二部分_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 正则表达式速查表\n\n- `^`：行首\n- `$`：行尾\n- `.`：任意单个字符\n- `*`：重复 0 次或多次\n- `+`：重复 1 次或多次（需配合 `-E`）\n- `?`：重复 0 次或 1 次（需配合 `-E`）\n- `{n}`：恰好重复 n 次\n- `{n,}`：至少重复 n 次\n- `{n,m}`：重复 n 到 m 次\n- `[]`：字符类\n- `[^]`：字符类取反\n- `|`：逻辑或（需配合 `-E`）\n- `()`：分组（需配合 `-E`）\n- `\\`：转义\n- `\\b`：单词边界\n- `[0-9]`：数字\n- `[a-z]`：小写字母\n- `[A-Z]`：大写字母\n\n#### 练习 3\n\n编写一个 Bash 脚本 `substitution`：  \n将**第一个参数**传入的字符串的所有出现位置，替换为**第二个参数**传入的字符串，替换操作在**第三个参数**指定的文件中进行。  \n结果需要保存回该文件中。\n\n#### 练习 5\n\n考虑一个文本文件，其内容由**大写字母、小写字母和空格**组成。  \n编写一个 Bash 脚本，判断该文本是否是一个 **“grobalogramme”**。\n\n这里的 **grobalogramme** 指的是：  \n文本中的每个单词都必须满足：\n\n- 以同一个**大写字母**开头和结尾；\n- 在这两个首尾大写字母之间，**不能再出现大写字母**。\n\n例如，下面这段文本就是一个 **grobalogramme**：\n\n```text\nBoB EmpruntE TemporairemenT A RogeR SeS\nSoulierS\n```",
+              "excerpt": "# LO03 ## Linux 第 4 次习题课（第二部分） ### 正则表达式速查表 - `^`：行首 - `$`：行尾 - `.`：任意单个字符 - `*`：重复 0 次或多次 - `+`：重复 1 次或多次（需配合 `-E`） - `?`：重复 0 次或 1 次（需配合 `-E`） - `{n}`：恰好重复 n 次 - `{n,}`：至少重复 n 次 - `{n,m}`：重复 n 到 m 次 - `[]`：字符类 - `[^]`：字符类取反 - `|`：逻辑或（需配合 `-E`） - `()`：分组（需配合 `-E`） - `\\`：转义 - `\\b"
+            },
+            {
+              "sourceId": "sandbox-06-regexp-sh-e00eda0e",
+              "title": "06-RegExp",
+              "path": "sandbox/06-RegExp.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 得通过标准输入通过管道传入进行测试，否则就当成文件名了\n\necho 'str1:str1' | grep '^\\(.*\\):.*\\1' # str1:str1 # 假如没有输出就是匹配失败",
+              "excerpt": "# grep '^\\(.*\\):.*\\1$' 'str1:str1' # grep: str1:str1: No such file or directory # 得通过标准输入通过管道传入进行测试，否则就当成文件名了 echo 'str1:str1' | grep '^\\(.*\\):.*\\1' # str1:str1 # 假如没有输出就是匹配失败"
+            },
+            {
+              "sourceId": "sandbox-08-05-set-sh-1d90c6de",
+              "title": "08-05-set",
+              "path": "sandbox/08-05-set.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### awk 对见过的筛选\n\nprintf \"%s\\n\" \"$1\" | sed 's/[^A-Za-z][^A-Za-z]*/\\n/g' | awk '!seen[$0]++'",
+              "excerpt": "# $1 如果没有 \"\" 会导致单词分割，原先一整个字符串被拆分为很多参数 # printf \"%s\\n\" \"$1\" | tr -cs '[:alnum:]' '\\n' | awk '!seen[$0]++' # • [:alnum:]：字母和数字 # • -c：取反，也就是“不是字母数字的字符” # • -s：把连续的分隔符合并 # • 把这些非字母数字字符都替换成换行 # awk 对见过的筛选 printf \"%s\\n\" \"$1\" | sed 's/[^A-Za-z][^A-Za-z]*/\\n/g' | awk '!seen[$0]++' # sed"
+            },
+            {
+              "sourceId": "sandbox-08-dico-sh-e6e5ca91",
+              "title": "08-dico",
+              "path": "sandbox/08-dico.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### sortedArgs=$ printf '%s\\n' \"$@\" | sort k1.2n\n\ncur=0 # 当前到的地方\ntemp=\"^\" # 模式串\nshift 1 # 或者 for i in \"${@:2}\"\nfor i in \"$@\"\ndo\n    # 和 substr 一样 ${str:start:length} 最后是长度\n    chr=\"${i:0:1}\"\n    num=\"${i:1}\" # 剩下的就是数字，不声明长度默认取到末尾\n    leftLen=$((num-cur-1))\n    # $(()) 算数上下文中就不用 $ 声明变量了\n    temp=\"$temp.\\{$leftLen\\}$chr\"\n    # 注意 grep 默认是基础正则 BRE，需要对 { } 进行转义 \\{ \\} \n    # 或者下面用 grep -E\n    cur=\"$num\" # 更新位置\ndone\n\n#### grep Eo ' :alpah +' 可以拿到所有字母单词\n\ngrep -Eo '[[:alpha:]]+' \"$targetPath\" | grep \"$temp\"",
+              "excerpt": "# bash ./08-dico.sh 5 i2 u4 targetPath=$(pwd)/test-files/words.txt length=$1 # 下面拼接要求的是升序输入，可以手动排序 # sortedArgs=$(printf '%s\\n' \"$@\" | sort -k1.2n) cur=0 # 当前到的地方 temp=\"^\" # 模式串 shift 1 # 或者 for i in \"${@:2}\" for i in \"$@\" do # 和 substr 一样 ${str:start:length} 最后是长度 chr=\"${i:0:1}\""
+            },
+            {
+              "sourceId": "sandbox-08-palindrome-sh-3865ed7e",
+              "title": "08-palindrome",
+              "path": "sandbox/08-palindrome.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### echo $1 | grep '^\\ . \\ .?\\1$' 后面不是倒序、不行\n\nstr=\"$1\"\nrevStr=$(printf \"%s\" \"$str\" | rev) # rev命令可以将字符串反转\n\nif [ \"$str\" = \"$revStr\" ]; then\n    echo \"是回文字符串\"\nelse\n    echo \"不是回文字符串\"\nfi",
+              "excerpt": "# echo $1 | grep '^\\(.*\\).?\\1$' # 后面不是倒序、不行 str=\"$1\" revStr=$(printf \"%s\" \"$str\" | rev) # rev命令可以将字符串反转 if [ \"$str\" = \"$revStr\" ]; then echo \"是回文字符串\" else echo \"不是回文字符串\" fi"
+            },
+            {
+              "sourceId": "sandbox-08-palindrome4file-sh-a5d9cf11",
+              "title": "08-palindrome4file",
+              "path": "sandbox/08-palindrome4file.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### bash ./08 palindrome4file.sh ./test files/palindromeTestFile.txt\n\nwhile read curLine || [ -n \"$curLine\" ]\ndo\n    read -r -a arr <<< \"$curLine\"\n    # -a 是 bash 特有的\n    for str in \"${arr[@]}\"\n    do\n        res=$(bash ./08-palindrome.sh \"$str\")\n        # 判断的应该是接收到的标准输出，而不是返回码\n        if [ \"$res\" = \"是回文字符串\" ]\n        then\n            echo \"$str\"\n        fi\n    done\ndone < \"$1\"\n\necho \"\n=== for i in \\$(cat \"\\$1\")\"\nfor i in $(cat \"$1\")\ndo\n    res=$(bash ./08-palindrome.sh \"$i\")\n    # 判断的应该是接收到的标准输出，而不是返回码\n    if [ \"$res\" = \"是回文字符串\" ]\n    then\n        echo \"$i\"\n    fi\ndone",
+              "excerpt": "# bash ./08-palindrome4file.sh ./test-files/palindromeTestFile.txt while read curLine || [ -n \"$curLine\" ] do read -r -a arr <<< \"$curLine\" # -a 是 bash 特有的 for str in \"${arr[@]}\" do res=$(bash ./08-palindrome.sh \"$str\") # 判断的应该是接收到的标准输出，而不是返回码 if [ \"$res\" = \"是回文字符串\" ] then echo \""
+            },
+            {
+              "sourceId": "sandbox-08-tree-sh-c7f89521",
+              "title": "08-tree",
+              "path": "sandbox/08-tree.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### https://github.com/ceilf6/Lab/commit/99c78093416570a4184ecc3b2799164a28ffbb28\n\ndfs(){\n    # 要求输入缩进数 以及 当前所在目录\n\n    # 先存储，防止被覆盖污染\n    local depth=\"$1\"\n    local dir=\"$2\"\n\n    local preStr=\"\"\n    for ((i=0;i<depth;i++))\n    do\n        preStr=\"    $preStr\"\n    done\n\n    # 防止污染全局\n    local fileName\n    local curStr\n    for file in \"$dir\"/*\n    # 直接从当前 目录/* 读取所有子目录\n    do\n        [ -e \"$file\" ] || continue # 空目录保护\n\n        fileName=$(basename \"$file\")\n        # 通过 basename 拿到文件名\n\n        if [ -d \"$file\" ]\n        then\n            curStr=\"$preStr\\-- $fileName\"\n            # 注意别忘记 \"\" 否则会空白折叠\n            echo \"$curStr\"\n            dfs $(($depth+1)) \"$file\"\n        else\n            curStr=\"$preStr+-- $fileName\"\n            echo \"$curStr\"\n        fi\n    done\n}\n\ndfs 0 \"$(pwd)\"",
+              "excerpt": "# https://github.com/ceilf6/Lab/commit/99c78093416570a4184ecc3b2799164a28ffbb28 dfs(){ # 要求输入缩进数 以及 当前所在目录 # 先存储，防止被覆盖污染 local depth=\"$1\" local dir=\"$2\" local preStr=\"\" for ((i=0;i<depth;i++)) do preStr=\" $preStr\" done # 防止污染全局 local fileName local curStr for file in \"$dir\"/* # 直"
+            },
+            {
+              "sourceId": "sandbox-08-which-sh-92217d21",
+              "title": "08-which",
+              "path": "sandbox/08-which.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 2. s 不输出内容，通过返回值表示是否找到 bash ./08 which.sh s git ; echo $?\n\noldIFS=$IFS # 用于后面恢复，答案中直接用的 unset 不如先缓存 oldIFS\nIFS=:",
+              "excerpt": "# 目标 - 两种用法 # 1. -a 输出所有找到的可执行文件路径 # bash ./08-which.sh -a git # 2. -s 不输出内容，通过返回值表示是否找到 # bash ./08-which.sh -s git ; echo $? oldIFS=$IFS # 用于后面恢复，答案中直接用的 unset 不如先缓存 oldIFS IFS=: # 为了后面分割 $PATH flag=1 # 是否找到命令的标志位，延续 Shell 用 0 表示成功、1 表示失败 # 可以通过 $# 是否为 2 检测输入是否正常 if [ $# -ne 2 "
+            },
+            {
+              "sourceId": "sandbox-09-01-count-sh-a1e58925",
+              "title": "09-01-count",
+              "path": "sandbox/09-01-count.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 09-01-count\n\ndir=\"$1\" # || \"./\"\n\nfileCnt=0\nsizeCnt=0\n\nfor file in \"$dir\"/*\ndo\n    if [ -f \"$file\" ]\n    then\n        curFileSize=$(wc -c < \"$file\")\n        # wc -c 可以直接拿到字节数\n        # 且只能对 -f 普通文件\n        ((fileCnt++))\n        ((sizeCnt+=curFileSize))\n    fi\ndone\n\nif [ \"$fileCnt\" -eq 0 ]",
+              "excerpt": "dir=\"$1\" # || \"./\" fileCnt=0 sizeCnt=0 for file in \"$dir\"/* do if [ -f \"$file\" ] then curFileSize=$(wc -c < \"$file\") # wc -c 可以直接拿到字节数 # 且只能对 -f 普通文件 ((fileCnt++)) ((sizeCnt+=curFileSize)) fi done if [ \"$fileCnt\" -eq 0 ] # 防止除数为0 then echo 0 else echo $((sizeCnt / fileCnt)) fi"
+            },
+            {
+              "sourceId": "sandbox-09-03-counteachword-sh-e2613975",
+              "title": "09-03-countEachWord",
+              "path": "sandbox/09-03-countEachWord.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 直接通过 awk 读取文件，然后在 NF字段数 的范围内通过 $i 下标遍历\n\nawk '{\n    for (i = 1; i <= NF; i++) {\n        seen[$i]++\n    }\n}\nEND {\n    for (w in seen)\n        print w, seen[w]\n}' \"$1\"",
+              "excerpt": "# bash ./09-03-countEachWord.sh ./test-files/words.txt # 如果每个单词在循环中各自 awk 会导致不同进程 seen 无法共用 # for i in $(cat \"$1\") # do # echo \"$i\" | awk '{ # if (i in seen) # seen[i]+=1 # else # seen[i]=0 # }' # done # awk '{ # for (i in seen) # print i seen[i] # }' # 直接通过 awk 读取文件，然后在 NF字段数 的范"
+            },
+            {
+              "sourceId": "sandbox-09-04-rev-sh-bb6f57b9",
+              "title": "09-04-rev",
+              "path": "sandbox/09-04-rev.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 43 fsdcsk ks'\n\nans=\"\"\n\nwhile read curLine\ndo\n    curRevLine=\"\"\n    for w in $curLine\n    do\n        curRevLine=\"$w $curRevLine\"\n    done\n    curRevLine=${curRevLine% }   # 去掉末尾多余空格\n\n    ans=\"$curRevLine\n$ans\"\n\n#### 注意 Shell 不会帮你做空白折叠，自己处理缩进\n\ndone <<< \"$1\"\n\necho \"$ans\"",
+              "excerpt": "# bash ./09-04-rev.sh '1 2 3 4 sas fsasd sasa # 213dsdsccx # sas sas 23asa # 43 fsdcsk ks' ans=\"\" while read curLine do curRevLine=\"\" for w in $curLine do curRevLine=\"$w $curRevLine\" done curRevLine=${curRevLine% } # 去掉末尾多余空格 ans=\"$curRevLine $ans\" # 注意 Shell 不会帮你做空白折叠，自己处理缩进 don"
+            },
+            {
+              "sourceId": "sandbox-09-05-group-sh-ee6a50d4",
+              "title": "09-05-group",
+              "path": "sandbox/09-05-group.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 2. awk\n\nls -l | awk '\nNR > 1 { sum[$4] += $5 }\nEND {\n    for (g in sum)\n        print g, sum[g]\n}'",
+              "excerpt": "# 利用管道化遍历命令结果 # 1. while ## declare -a arr ## -a 下标只能是数字 ## -A 声明关联数组才能实现映射，但是这个要求 bash 版本 # declare -A arr # ls -l | while read curLine # do # set -- $curLine # # 跳过第一行 total # [ \"$1\" = \"total\" ] && continue # # if [ $4 in $arr ] # if [[ -v arr[\"$4\"] ]] # then # (($arr[\"$4\"]+=$5"
+            },
+            {
+              "sourceId": "sandbox-09-wc-sh-54fc000f",
+              "title": "09-wc",
+              "path": "sandbox/09-wc.sh",
+              "kind": "sandbox",
+              "language": "fr",
+              "content": "#### 09-wc\n\nfilePath=$1\n\nlineCnt=0\nwordCnt=0\nchrCnt=0\n\nwhile read curLine || [ -n \"$curLine\" ]\ndo\n    ((lineCnt++))\n    set -- $curLine\n    ((wordCnt += $#))\n    for w in \"$@\"\n    do\n        ((chrCnt += ${#w}))\n    done\ndone < \"$filePath\"\n\necho \"$lineCnt\" \"$wordCnt\" \"$chrCnt\"",
+              "excerpt": "filePath=$1 lineCnt=0 wordCnt=0 chrCnt=0 while read curLine || [ -n \"$curLine\" ] do ((lineCnt++)) set -- $curLine ((wordCnt += $#)) for w in \"$@\" do ((chrCnt += ${#w})) done done < \"$filePath\" echo \"$lineCnt\" \"$wordCnt\" \"$chrCnt\""
+            },
+            {
+              "sourceId": "sandbox-09-2-01-sh-a8fa441f",
+              "title": "09_2-01",
+              "path": "sandbox/09_2-01.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 所以用 gsed 使用 Linux 的 GNU sed\n\ngsed -i '/30/d' \"$p\"\n\nreset\n\n#### }' \"$p\"\n\nawk '{\n    for (i=1;i<=NF;i++){\n        $i = toupper($i)\n    }\n    print\n}' \"$p\" > tmp\n\n#### 或者一口气直接全转了，因为toupper支持\n\nawk '{\n    print toupper($0)\n}' \"$p\" > tmp\nmv tmp \"$p\"\n\nreset\n\n#### 3\n\necho \"=== 3\"\nawk '{\n    for (i=1;i<=NF;i++){\n        if ( $i ~ /^.s.*/)\n            print $i\n    }\n}' \"$p\"\n\n#### 4\n\necho \"\n=== 4\"\nawk '{\n    for (i=1;i<=NF;i++){\n        if ( $i ~ /^[tsh].*/ )\n            print $i\n    }\n}' \"$p\"",
+              "excerpt": "p=$(pwd)/test-files/09_2.txt # 辅助工具，用于在每个小问操作后恢复现场 reset(){ echo \"asterix ; 20 tintin / haddock ; 20 tif / tondu ; 30 theodore poussin ; 40 spirit ; 30\" > \"$p\" } # 1 # -i 直接修改原文件 # sed -i '/30/d' \"$p\" # sed: 1: \"/Users/a86198/Desktop/L ...\": command a expects \\ followed by text #"
+            },
+            {
+              "sourceId": "sandbox-09-2-02-sh-4f80be95",
+              "title": "09_2-02",
+              "path": "sandbox/09_2-02.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### awk 要用 /i+/ 还不如 grep\n\necho \"=== 1 - grep\"\n\n#### 先拆为一个个单词\n\ngrep -Eo '[[:alnum:]_]+' \"$p\" | grep '\\(.\\)\\1\\{2,\\}'\n\necho \"\n=== 1 - awk\"\n\n#### 或者手动判断连续，但是本题应该不是希望手动判断\n\nawk '{\n    for (i = 1; i <= NF; i++) {\n        word = $i\n        cnt = 1\n        found = 0\n\n        for (j = 2; j <= length(word); j++) {\n            if (substr(word, j, 1) == substr(word, j - 1, 1)) {\n                cnt++\n                if (cnt >= 3) {\n                    found = 1\n                    break\n                }\n            } else {\n                cnt = 1\n            }\n        }\n\n        if (found)\n            print word\n    }\n}' \"$p\"\n\n#### grep 配合 管道化\n\ngrep 'a' \"$p\" | grep 'e' | grep 'i' | grep 'o' | grep 'u'\n\nawk '/a/ && /e/ && /i/ && /o/ && /u/' \"$p\"\n\n#### }\" \"$p\"\n\ngrep '^.*\\b.*\\b.*$' \"$p\"",
+              "excerpt": "p=$(pwd)/test-files/09_2.txt # awk '{ # for(i=1;i<=NF;i++) # if ($i ~ /.*/(./)/1{2,}/) # print $i # }' \"$p\" # awk 要用 /i+/ 还不如 grep echo \"=== 1 - grep\" # grep '\\(.\\)\\1\\{2,\\}' \"$p\" # 先拆为一个个单词 grep -Eo '[[:alnum:]_]+' \"$p\" | grep '\\(.\\)\\1\\{2,\\}' echo \" === 1 - awk\" # 或者手动判断连续，但是本题应该"
+            },
+            {
+              "sourceId": "sandbox-09-2-03-sh-a83ce872",
+              "title": "09_2-03",
+              "path": "sandbox/09_2-03.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### Shell 中的变量无法 awk 中无法直接用，得通过 v 传入\n\nawk -v bei=\"$bei\" -v zhu=\"$zhu\" '{\n    gsub(bei,zhu,$0)\n    print\n}' \"$p\" > tmp\nmv tmp \"$p\"",
+              "excerpt": "# p=$(pwd)/test-files/09_2-03.txt p=$3 # 辅助工具，用于在每个小问操作后恢复现场 reset(){ echo \"abbb abbb Asasa b abbbc b c\" > \"$p\" } bei=$1 zhu=$2 # Shell 中的变量无法 awk 中无法直接用，得通过 -v 传入 awk -v bei=\"$bei\" -v zhu=\"$zhu\" '{ gsub(bei,zhu,$0) print }' \"$p\" > tmp mv tmp \"$p\" # reset"
+            },
+            {
+              "sourceId": "sandbox-09-2-04-sh-bb102c52",
+              "title": "09_2-04",
+              "path": "sandbox/09_2-04.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### bash ./09 2 04.sh ./test files/09 2.txt\n\ngrep -E '\\<([[:alnum:]_]+)\\>.*\\<\\1\\>.*\\<\\1\\>' \"$1\"\n\necho \"\n=== awk\"\n\n#### 感觉用 awk 统计更自然\n\nawk '{\n    delete cnt\n    for (i = 1; i <= NF; i++) {\n        cnt[$i]++\n        if (cnt[$i] == 3) {\n            print\n            break\n        }\n    }\n}' \"$1\"",
+              "excerpt": "# bash ./09_2-04.sh ./test-files/09_2.txt grep -E '\\<([[:alnum:]_]+)\\>.*\\<\\1\\>.*\\<\\1\\>' \"$1\" echo \" === awk\" # 感觉用 awk 统计更自然 awk '{ delete cnt for (i = 1; i <= NF; i++) { cnt[$i]++ if (cnt[$i] == 3) { print break } } }' \"$1\""
+            },
+            {
+              "sourceId": "sandbox-09-2-05-sh-16efd06d",
+              "title": "09_2-05",
+              "path": "sandbox/09_2-05.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 09_2-05\n\np=$(pwd)/test-files/09_2-05.txt\n\nawk '{\n    for (i=1;i<=NF;i++){\n        # if( !($i ~ /([A-Z])[a-z]*1/) )\n        # awk 中不能用回溯引用 \\1\n        # 那么就只能先判断格式再 单独判断回溯\n        if( !(($i ~ /^[A-Z][a-z]*[A-Z]$/ || $i ~ /^[A-Z]$/) && substr($i,1,1) == substr($i,length($i),1)))\n            # 注意 $i ~ /^[A-Z]$/ 单个大写字母也是符合要求的\n            exit 1\n    }\n}\n\n#### 通过 返回码 传递判断结果状态\n\nif [ \"$?\" = \"0\" ]\nthen\n    echo \"是grobalogramme\"\nelse\n    echo \"不是grobalogramme\"\nfi",
+              "excerpt": "p=$(pwd)/test-files/09_2-05.txt awk '{ for (i=1;i<=NF;i++){ # if( !($i ~ /([A-Z])[a-z]*1/) ) # awk 中不能用回溯引用 \\1 # 那么就只能先判断格式再 单独判断回溯 if( !(($i ~ /^[A-Z][a-z]*[A-Z]$/ || $i ~ /^[A-Z]$/) && substr($i,1,1) == substr($i,length($i),1))) # 注意 $i ~ /^[A-Z]$/ 单个大写字母也是符合要求的 exit 1 } } # EN"
+            },
+            {
+              "sourceId": "sandbox-09-2-06-sh-937cba41",
+              "title": "09_2-06",
+              "path": "sandbox/09_2-06.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 1 1\n\nawk '{\n    split($0,arr,\":\") # 其实直接 $2 \":\" $1 即可\n    # newStr=\"$arr[1]$arr[0]$arr[2]$arr[3]\"\n    # awk 的字符串拼接是直接空格连接变量\n    # 并且下标是从 1 开始\n    newStr= arr[2] \":\" arr[1] \":\" arr[3] \":\" arr[4]\n    print newStr # 给 tmp\n}' \"$p\" >> tmp\nmv tmp \"$p\"\n\n#### 1 2\n\nawk '{\n    gsub(\":\",\"|\",$0)\n    print\n}' \"$p\" > tmp\nmv tmp \"$p\"\n\nreset\n\n#### 注意要声明 IFS 是 : 即用 F 或 BEGIN{FS=\":\"} 。否则格式会乱\n\nawk -F: '{\n    new= $1 \" \" $2 \"\\n\" \"Tel : \" $3 \"\\n\" \"Email : \" $4\n    print new\n}' \"$p\" > tmp\nmv tmp \"$p\"",
+              "excerpt": "p=$(pwd)/test-files/09_2-06.txt reset(){ echo \"Paul:Dupont :0144567799 :dupont@club.fr Julie:Dalbanot:0469857468:julie@wanadoo.fr George:Martin :0569874587:martin@free.fr\" > \"$p\" } reset # 1-1 awk '{ split($0,arr,\":\") # 其实直接 $2 \":\" $1 即可 # newStr=\"$arr[1]$arr[0]$arr[2]$arr[3]\" # "
+            }
+          ]
+        },
+        {
+          "type": "sandbox-links",
+          "ids": [
+            "regex-playground"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "appendix-sources",
+      "title": "补充原始资料",
+      "anchor": "appendix-sources",
+      "sourceIds": [
+        "base-files-06-cn-lo03-silde-cours-3-4-pdf-62c8431d"
+      ],
+      "glossaryIds": [],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。"
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "base-files-06-cn-lo03-silde-cours-3-4-pdf-62c8431d",
+              "title": "06_CN-LO03_Silde_Cours_3&4",
+              "path": "base-files/06_CN-LO03_Silde_Cours_3&4.pdf",
+              "kind": "pdf",
+              "language": "mixed",
+              "content": "#### Page 1\n\n1\n\nsilde 1\n\n\n                                       Les expressions régulières\n   ◦ Une expression régulière sert à identifier une chaîne de caractère répondant à un certain critère. Elle permet\n     de décrire des motifs formés de caractères.\n   ◦ Exemple : Recherche de toutes les chaînes de caractères alphabétiques dans :\n            Le fichier : « fichier.txt »\n            Tous les fichiers dont l’extension est « .txt »\n            Tous les fichiers dont le nom commence par une majuscule et dont l’extension est « .txt »\n   ◦ Exemples de commandes :\n\n    1     root@serveur:~# grep \"[a-zA-Z]\" fichier.txt\n    2     root@serveur:~# grep \"[a-zA-Z]\" *.txt\n    3     root@serveur:~# grep \"[a-zA-Z]\" [A-Z]*.txt\n\n\n\n\n                                                   正则表达式\n   ◦ 正则表达式用于匹配符合特定规则的字符串，可描述由字符组成的匹配模式。\n   ◦ 示例：在以下文件中查找所有包含字母的字符串：\n            单个文件：fichier.txt\n            所有扩展名为 .txt 的文件\n            所有文件名以大写字母开头、扩展名为 .txt 的文件\n   ◦ 命令示例：\n\n    1     # 在 fichier.txt 中查找包含字母的行\n    2     root@serveur:~# grep \"[a-zA-Z]\" fichier.txt\n    3     # 在所有 .txt 文件中查找包含字母的行\n    4     root@serveur:~# grep \"[a-zA-Z]\" *.txt\n    5     # 在以大写字母开头的 .txt 文件中查找包含字母的行\n    6     root@serveur:~# grep \"[a-zA-Z]\" [A-Z]*.txt\n\n\n\n\nRemark\n  • [a-zA-Z]：正则表达式字符集，匹配所有小写字母（a-z）和大写字母（A-Z）；\n  • *：Shell 通配符，匹配任意长度的任意字符；\n  • [A-Z]*.txt：Shell 通配符，匹配「以大写字母开头、后缀为.txt」的文件名；\n  • grep：Linux 核心命令，用于在文件中查找匹配正则表达式的行。\n\n\nsilde 2\n\n\n                                       Les expressions régulières\n◦ Les expressions régulières servent à décrire de façon concise et sans ambigüité des motifs de caractères comme\n  - par exemple - toutes les chaines de 1 à 8 caractères alphanumériques, le premier étant alphabétique :\n\n  [A-Za-z][A-Za-z0-9]{0,7}\n\n#### Page 2\n\n2\n\n\n    ◦ Les commandes grep, find, sed, …utilisent les expressions régulières.\n\n    ◦ Exemple : ls -l | grep '^l' | wc -l renvoie le nombre de liens dans le répertoire courant.\n\n\n\n\n                                                        正则表达式\n    ◦ 正则表达式用于简洁且无歧义地描述字符模式，例如：匹配所有长度为 1 至 8 位的字母数字字符串（首位为字\n      母）：\n\n      [A-Za-z][A-Za-z0-9]{0,7}\n\n    ◦ grep、find、sed 等命令均支持使用正则表达式。\n\n    ◦ 示例：ls -l | grep '^l' | wc -l 可返回当前目录下链接文件的数量。\n\n\n    silde 3\n\n\n                                        Les expressions régulières\n    ◦ Le méta caractère .\n      ◦ remplace dans une expression régulière un caractère quelconque.\n    ◦ Les méta caractères [ ]\n      ◦ désigne des caractères compris dans un certain intervalle de valeur\n    ◦ [Ff]raise identifie Fraise ou fraise\n    ◦ [1-3-] identifie 1, 2, 3 et -\n    ◦ [a-cI-K1-3] identifie a, b, c, I, J, K, 1, 2, 3\n    ◦ [0̂-9] : identifie autre chose qu’un chiffre\n\n\n\n\n                                                        正则表达式\n    ◦ 元字符 .\n      ◦ 在正则表达式中匹配任意单个字符（无例外）\n                           。\n    ◦ 元字符 [ ]\n      ◦ 表示匹配指定取值区间内的任意单个字符。\n    ◦ [Ff]raise 匹配 Fraise 或 fraise（首字母大小写均可）。\n    ◦ [1-3-] 匹配 1、2、3 和 -（数字 1-3 或连字符）。\n    ◦ [a-cI-K1-3] 匹配 a、b、c、I、J、K、1、2、3（小写 a-c、大写 I-K、数字 1-3）。\n    ◦ [0̂-9]：匹配非数字字符（除 0-9 外的任意字符）\n                                 。\n\n\n    silde 4\n\n\n                                        Les expressions régulières\n    ◦ Les méta caractères ^ et $\n      ◦ ^ identifie un début de ligne\n\n#### Page 3\n\n3\n\n\n   ◦ $ identifie une fin de ligne\n◦ ^chaîne identifie les lignes qui commencent par la chaîne chaîne\n◦ chaîne$ identifie une ligne qui se termine par la chaîne chaîne\n◦ Les méta caractères * (0 fois ou plus) : caractères de répétition. Le critère s’applique au caractère qui le\n  précède.\n◦ le caractère a* correspond aux lignes comportant 0 ou plusieurs caractères a\n\n\n\n\n                                                正则表达式\n◦ 元字符 ^ 和 $\n   ◦ ^ 匹配行的开头（行首锚点）\n   ◦ $ 匹配行的结尾（行尾锚点）\n◦ ^chaîne 匹配所有以字符串 chaîne 开头的行。\n◦ chaîne$ 匹配所有以字符串 chaîne 结尾的行。\n◦ 元字符 *（0 次或多次）：重复限定符，其匹配规则仅作用于紧邻的前一个字符。\n◦ a* 匹配包含 0 个、1 个或多个字符 a 的行（空行、仅含 a、含多个 a 的行都会被匹配）。\n\nsilde 5\n\n\n                                           Commande Grep\n− Définition : cette commande permet de chercher dans un flot de texte, les lignes qui vérifient une expression\n  régulière, et transmet sur sa sortie standard que ces lignes.\n− Syntaxe options : grep [options] expreg [fichiers]\n◦ -c compte le nombre de lignes trouvées obéissant au critère\n◦ -l donne seulement le nom des fichiers où le critère a été trouvé\n◦ -v donne les lignes où le critère n’a pas été trouvé\n◦ -i ne tient pas compte de la casse minuscules - majuscules\n◦ -n pour n’aﬀicher que les numéros des lignes trouvées\n◦ -w pour imposer que le motif corresponde exactement à la recherche\n◦ -E pour forcer l’interprétation en tant que expressions régulières étendues\n\n\n\n\n                                                 Grep 命令\n− 定义：该命令用于在文本流中查找符合正则表达式的行，并将这些行输出到标准输出。\n− 语法格式：\n\n  1       grep [选项] 正则表达式 [文件]\n\n◦ -c 统计符合匹配条件的行数（仅输出数字）\n◦ -l 仅列出包含匹配内容的文件名（不显示具体行）\n◦ -v 反向匹配：输出不符合匹配条件的所有行\n◦ -i 忽略大小写（不区分小写/大写字母）\n◦ -n 显示匹配行的行号（行号 + 匹配内容）\n\n#### Page 4\n\n4\n\n\n        ◦ -w 强制整词匹配：仅匹配与搜索模式完全一致的完整单词\n        ◦ -E 强制将表达式解析为扩展正则表达式（等效于 egrep 命令）\n\n\n    silde 6\n\n\n                                                   Commande Grep\n        ◦ Utilisation : grep est souvent inclus dans un pipe qui lui fournit en entrée le flot texte à étudier.\n        ◦ Dans tous les cas, la commande retourne le code :\n          ◦ 0 au moins une ligne satisfaisante\n          ◦ 1 aucune ligne satisfaisante\n          ◦ 2 erreur de syntaxe ou fichier(s) inaccessible(s).\n        ◦ Exemple :\n\n         1      cat /etc/passwd | grep root\n\n\n\n\n                                                         Grep 命令\n        ◦ 使用场景：grep 常被包含在 pipe 中，管道会将待处理的文本流作为 grep 的输入。\n        ◦ 无论何种情况，该命令都会返回以下退出码：\n          ◦ 0：至少匹配到一行符合条件的内容\n          ◦ 1：未匹配到任何符合条件的内容\n          ◦ 2：语法错误或文件不可访问（如权限不足、文件不存在）。\n        ◦ 示例：\n\n         1      cat /etc/passwd | grep root\n\n\n\n\n    silde 7\n\n\n                                 Mise en œuvre avec la commande grep\n\n    1        grep 'csh\\$' /etc/passwd # csh en fin de ligne\n\n\n    1        ls–l | grep '^d' # le caractère \\texttt{d} en début de ligne (un répertoire)\n\n\n    1        ls–l | grep '^[^d]' # les fichiers qui ne sont pas des répertoires\n\n\n    1        ls–l | grep '[0-9] Mar' # Un chiffre entre 0 et 9 suivi de la chaîne \\texttt{Mar}\n\n\n\n\n                                                 Grep 命令的实战应用\n\n#### Page 5\n\n5\n\n\n\n1    grep 'csh$' /etc/passwd # 匹配行尾为csh的行（/etc/passwd中使用csh Shell的用户）\n\n\n1    ls -l | grep '^d' # 匹配行首为d的行（代表目录文件）\n\n\n1    ls -l | grep '^[^d]' # 匹配行首非d的行（非目录文件）\n\n\n1    ls -l | grep '[0-9] Mar' # 匹配包含0-9数字后紧跟 Mar的行（文件修改时间为3月）\n\n\n\n\nsilde 8\n\n\n                                         Les possibilités de egrep\n    ◦ Possibilités supplémentaires de egrep par rapport à grep :\n    ◦ r+ : une ou plusieurs occurrences de l’expression r\n    ◦ r? : zéro ou une occurrence de l’expression r\n    ◦ r1 | r2 : l’expression r1 ou r2\n    ◦ ( r ) : une expression régulière peut être mise entre parenthèses pour grouper des expressions :\n\n     1   egrep 'paul(e|ine)' /etc/passwd\n     2   # La chaîne paule ou pauline\n\n\n\n\n                                               egrep 的扩展功能\n    ◦ 相对于 grep，egrep 提供的额外功能：\n    ◦ r+：匹配表达式 r 出现一次或多次\n    ◦ r?：匹配表达式 r 出现零次或一次\n    ◦ r1 | r2：匹配表达式 r1 或者 r2\n    ◦ ( r )：可将正则表达式放入括号中，实现表达式分组：\n\n     1   egrep 'paul(e|ine)' /etc/passwd\n     2   # 匹配字符串 paule 或 pauline\n\n\n\n\nsilde 9\n\n\n                               Synthèse des expressions régulières\n    ◦ . : un seul caractère quelconque\n    ◦ ? : l’élément précédent est facultatif\n    ◦ ab?c représente l’ensemble {ac, abc}\n    ◦ * : l’élément précédent est répété 0 ou plusieurs fois\n    ◦ + : l’élément précédent est au moins une fois\n    ◦ {n} : l’élément précédent est répété exactement n fois\n    ◦ ab{3}c représente la chaîne abbbc",
+              "excerpt": "## Page 1 1 silde 1 Les expressions régulières ◦ Une expression régulière sert à identifier une chaîne de caractère répondant à un certain critère. Elle permet de décrire des motifs formés de caractères. ◦ Exemple : Recherche de toutes les chaînes de caractères alphabétiques dans"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "review": {
+    "checklist": [
+      "grep 负责筛选，sed 负责流编辑，awk 负责字段级计算与报表。",
+      "正则表达式是连接这些工具的共同语言。",
+      "TD3/TD4 把 which、tree、回文、wc、词频与替换问题变成组合式练习。"
+    ],
+    "pitfalls": [
+      "直接把 JS/PCRE 语法照搬到 grep/awk，会踩在 BRE/ERE 与回溯引用差异上。"
+    ],
+    "diagramIdeas": [
+      "grep/sed/awk 分工矩阵。"
+    ]
+  },
+  "previousSlug": "shell-control",
+  "nextSlug": "free-software"
+}

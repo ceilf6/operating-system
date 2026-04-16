@@ -1,0 +1,162 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--paper-0);
+    color: var(--ink-0);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    background:
+      linear-gradient(180deg, rgba(255, 252, 247, 0.65), rgba(244, 234, 216, 0.92)),
+      radial-gradient(circle at top left, rgba(52, 106, 144, 0.12), transparent 36%),
+      radial-gradient(circle at bottom right, rgba(192, 109, 44, 0.12), transparent 30%),
+      repeating-linear-gradient(
+        90deg,
+        rgba(15, 31, 49, 0.05) 0,
+        rgba(15, 31, 49, 0.05) 1px,
+        transparent 1px,
+        transparent 72px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(15, 31, 49, 0.04) 0,
+        rgba(15, 31, 49, 0.04) 1px,
+        transparent 1px,
+        transparent 72px
+      ),
+      var(--paper-0);
+    color: var(--ink-0);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.25), transparent 30%),
+      radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.18), transparent 26%),
+      radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.16), transparent 22%);
+    mix-blend-mode: screen;
+    opacity: 0.8;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  code,
+  pre {
+    font-family: var(--font-mono);
+  }
+}
+
+@layer components {
+  .app-shell {
+    position: relative;
+    min-height: 100vh;
+  }
+
+  .glass-card {
+    border: 1px solid var(--card-stroke);
+    background: var(--card-bg);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(18px);
+  }
+
+  .section-frame {
+    border-left: 3px solid rgba(52, 106, 144, 0.35);
+    background: rgba(255, 250, 242, 0.74);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 999px;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid rgba(15, 31, 49, 0.12);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    color: var(--ink-2);
+    background: rgba(255, 252, 247, 0.9);
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+  }
+
+  .markdown-block {
+    color: rgba(15, 31, 49, 0.92);
+    line-height: 1.9;
+  }
+
+  .markdown-block h1,
+  .markdown-block h2,
+  .markdown-block h3,
+  .markdown-block h4 {
+    font-family: var(--font-display);
+    margin-top: 1.4rem;
+    margin-bottom: 0.75rem;
+    color: var(--ink-1);
+  }
+
+  .markdown-block p,
+  .markdown-block li,
+  .markdown-block blockquote {
+    font-size: 0.98rem;
+  }
+
+  .markdown-block pre {
+    overflow-x: auto;
+    border-radius: 1rem;
+    padding: 1rem;
+    background: rgba(15, 31, 49, 0.96);
+    color: #ecf4ff;
+  }
+
+  .markdown-block code {
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.45rem;
+    background: rgba(15, 31, 49, 0.08);
+  }
+
+  .markdown-block pre code {
+    background: transparent;
+    padding: 0;
+  }
+
+  .blueprint-rule {
+    position: relative;
+  }
+
+  .blueprint-rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.6rem;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(52, 106, 144, 0.45), transparent);
+  }
+}

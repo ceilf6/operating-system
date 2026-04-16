@@ -1,0 +1,152 @@
+[
+  {
+    "id": "kernel",
+    "term": "内核",
+    "definition": "操作系统最底层的核心模块，负责管理 CPU、中断、内存与设备。",
+    "chapterSlug": "os-intro"
+  },
+  {
+    "id": "shell",
+    "term": "Shell",
+    "definition": "命令解释器，也是脚本语言，负责连接用户与操作系统。",
+    "chapterSlug": "linux-cli"
+  },
+  {
+    "id": "stdin",
+    "term": "标准输入",
+    "definition": "命令默认读取数据的入口，通常来自键盘或前序管道。",
+    "chapterSlug": "shell-control"
+  },
+  {
+    "id": "stdout",
+    "term": "标准输出",
+    "definition": "命令正常结果的输出通道，可重定向到文件或管道。",
+    "chapterSlug": "shell-control"
+  },
+  {
+    "id": "stderr",
+    "term": "标准错误",
+    "definition": "命令错误信息的输出通道，可单独重定向。",
+    "chapterSlug": "shell-control"
+  },
+  {
+    "id": "inode",
+    "term": "inode",
+    "definition": "文件系统中描述文件元数据的结构，文件名与 inode 分离。",
+    "chapterSlug": "filesystem-permissions"
+  },
+  {
+    "id": "fhs",
+    "term": "FHS",
+    "definition": "Filesystem Hierarchy Standard，Unix 文件系统层次结构标准。",
+    "chapterSlug": "filesystem-permissions"
+  },
+  {
+    "id": "hard-link",
+    "term": "硬链接",
+    "definition": "多个目录项指向同一个 inode，本质上共享同一份文件数据。",
+    "chapterSlug": "filesystem-permissions"
+  },
+  {
+    "id": "soft-link",
+    "term": "符号链接",
+    "definition": "保存目标路径的特殊文件，类似快捷方式。",
+    "chapterSlug": "filesystem-permissions"
+  },
+  {
+    "id": "grep",
+    "term": "grep",
+    "definition": "按模式搜索文本的经典 Unix 工具，可结合管道快速筛选。",
+    "chapterSlug": "text-processing"
+  },
+  {
+    "id": "awk",
+    "term": "awk",
+    "definition": "面向记录与字段的文本处理语言，适合统计、提取和转换。",
+    "chapterSlug": "text-processing"
+  },
+  {
+    "id": "copyleft",
+    "term": "Copyleft",
+    "definition": "要求衍生作品继续保持相同自由许可证的法律机制。",
+    "chapterSlug": "free-software"
+  },
+  {
+    "id": "syslog",
+    "term": "syslog",
+    "definition": "Unix/Linux 的日志收集与分发体系，用 facility 和 priority 描述消息。",
+    "chapterSlug": "logs-rsyslog"
+  },
+  {
+    "id": "logrotate",
+    "term": "logrotate",
+    "definition": "用于控制日志轮转、压缩、保留数量和创建权限的工具。",
+    "chapterSlug": "logs-rsyslog"
+  },
+  {
+    "id": "mount",
+    "term": "挂载",
+    "definition": "把文件系统接入统一目录树，使其可以通过路径访问。",
+    "chapterSlug": "filesystem-admin"
+  },
+  {
+    "id": "swap",
+    "term": "交换空间",
+    "definition": "当物理内存不足时，临时保存页面到磁盘的空间。",
+    "chapterSlug": "filesystem-admin"
+  },
+  {
+    "id": "module",
+    "term": "内核模块",
+    "definition": "可以按需加载、卸载的内核功能单元。",
+    "chapterSlug": "filesystem-admin"
+  },
+  {
+    "id": "process",
+    "term": "进程",
+    "definition": "正在执行的程序实例，是资源分配和调度的基本单位。",
+    "chapterSlug": "os-intro"
+  },
+  {
+    "id": "virtual-memory",
+    "term": "虚拟内存",
+    "definition": "为进程提供比物理内存更大且连续的地址空间抽象。",
+    "chapterSlug": "memory-paging"
+  },
+  {
+    "id": "mmu",
+    "term": "MMU",
+    "definition": "Memory Management Unit，负责虚拟地址到物理地址的转换。",
+    "chapterSlug": "memory-paging"
+  },
+  {
+    "id": "fifo",
+    "term": "FIFO",
+    "definition": "先入先出页面置换算法，可能出现 Belady 异常。",
+    "chapterSlug": "memory-paging"
+  },
+  {
+    "id": "lru",
+    "term": "LRU",
+    "definition": "最近最少使用页面置换算法，依据最近访问历史淘汰页面。",
+    "chapterSlug": "memory-paging"
+  },
+  {
+    "id": "semaphore",
+    "term": "信号量",
+    "definition": "用于互斥与同步的计数型并发原语。",
+    "chapterSlug": "sync-deadlock-scheduling"
+  },
+  {
+    "id": "deadlock",
+    "term": "死锁",
+    "definition": "进程相互等待资源而无法继续推进的状态。",
+    "chapterSlug": "sync-deadlock-scheduling"
+  },
+  {
+    "id": "banker",
+    "term": "银行家算法",
+    "definition": "通过安全性检查避免系统进入不安全状态的死锁避免算法。",
+    "chapterSlug": "sync-deadlock-scheduling"
+  }
+]

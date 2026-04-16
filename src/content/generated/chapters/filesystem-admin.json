@@ -1,0 +1,163 @@
+{
+  "slug": "filesystem-admin",
+  "number": "08",
+  "track": "Linux/Unix 实操线",
+  "title": "文件系统管理、挂载、swap、归档、模块与网络",
+  "summary": "从分区、mkfs、mount、swap、tar 到模块和网络配置，进入系统管理层面。",
+  "searchKeywords": [
+    "mount",
+    "swap",
+    "tar",
+    "module",
+    "route",
+    "ifconfig"
+  ],
+  "sourceIds": [
+    "base-files-12-02-cours-6-et-7-avril-amir-hajjam-md-acac9d37",
+    "base-files-12-02-cours-6-et-7-avril-amir-hajjam-pdf-84805bde",
+    "base-files-16-td7-td8-md-5308c3d1",
+    "base-files-16-td7-td8-pdf-46a44a7f",
+    "notes-12-02-md-79f464d5",
+    "notes-16-md-56059bca"
+  ],
+  "sandboxIds": [
+    "permissions-map"
+  ],
+  "sections": [
+    {
+      "id": "storage-and-network",
+      "title": "存储、归档、模块与网络配置",
+      "anchor": "storage-and-network",
+      "sourceIds": [
+        "notes-12-02-md-79f464d5",
+        "notes-16-md-56059bca",
+        "base-files-12-02-cours-6-et-7-avril-amir-hajjam-pdf-84805bde",
+        "base-files-12-02-cours-6-et-7-avril-amir-hajjam-md-acac9d37",
+        "base-files-16-td7-td8-pdf-46a44a7f",
+        "base-files-16-td7-td8-md-5308c3d1"
+      ],
+      "glossaryIds": [
+        "mount",
+        "swap",
+        "module"
+      ],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "这部分是 Linux 实操线的系统管理上半场：把文件系统、交换空间、模块和网络接口放到同一张运维地图里。"
+        },
+        {
+          "type": "key-points",
+          "items": [
+            "分区、mkfs、mount、fstab 是持久化存储的基本流程。",
+            "swap 文件 / 分区让系统在内存紧张时有缓冲区。",
+            "tar、压缩工具、模块、网络接口和路由配置共同构成基础运维能力。"
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "易错点",
+          "content": "会背命令，却不知道哪些配置是临时生效、哪些写入系统文件才会持久。"
+        },
+        {
+          "type": "diagram-list",
+          "items": [
+            "存储层级图：磁盘 -> 分区 -> 文件系统 -> 挂载点。"
+          ]
+        },
+        {
+          "type": "exercise-list",
+          "items": [
+            {
+              "id": "storage-and-network-exercise-1",
+              "prompt": "比较使用 swap 文件和 swap 分区的差异。",
+              "answer": "",
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "notes-12-02-md-79f464d5",
+              "title": "12-02",
+              "path": "notes/12-02.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 最常用的文件系统与挂载\n\n课件中提到，最常用的文件系统是 **ext3**。要创建一个新的文件系统并将其永久挂载到目录树中，需要：\n\n1. 配置一个块设备；\n2. 用 **`mkfs`** 命令创建文件系统；\n3. 选择一个挂载点；\n4. 用 **`mount`** 命令把文件系统挂载到挂载点；\n5. 在 **`/etc/fstab`** 中添加一行，使系统每次启动时自动挂载。\n\n第一步如何做取决于存储介质类型。多数情况下，它是本地磁盘上的一个分区，通常使用 `fdisk` 创建。\n\n一个“合理安装”的操作系统通常会把磁盘划分为多个分区，例如：\n\n- 系统分区（系统文件、配置文件等）；\n- 用户分区（用户数据）；\n\n这样做的优点：\n\n- 更安全；\n- 可以**只格式化某一个分区，而不影响其他分区**；\n- 某些分区可以**只读挂载**。\n\n#### 磁盘分区与格式化\n\n硬盘处理通常分为：\n\n- **低级格式化**（物理格式化，在工厂完成）；\n- **分区**（通常在安装操作系统时进行）；\n- **高级格式化**（逻辑格式化，与操作系统和目标文件系统有关）。\n\n常见工具：\n\n- DOS：`fips`、`fdisk`、`PartitionMagic`\n- Linux：`fdisk`、`parted`\n- 安装 Linux 时的文本/图形安装菜单\n\n常见格式化命令：\n\n- Windows：`format`（创建 FAT 或 NTFS 文件系统）\n- Unix/Linux：`mkfs`（创建 Ext2、Ext3、FAT 等文件系统）\n\n示例：\n\n```bash\nmkfs -t ext2 /dev/hda1\nmkfs -t vfat /dev/fd0\n```\n\n日志型文件系统（journaled filesystem）对故障更稳健。\n\n#### 不同系统支持的文件系统（课件示意）\n\n- DOS：FAT16\n- Windows 95：FAT16\n- Windows 95 OSR2：FAT16、FAT32\n- Windows 98：FAT16、FAT32\n- Windows NT4：FAT、NTFS v4\n- Windows 2000/XP：FAT、FAT16、FAT32、NTFS v4/v5\n- Linux：Ext2、Ext3、ReiserFS、Linux Swap，以及 FAT、NTFS 等\n- MacOS：HFS、MFS\n- SGI IRIX：XFS\n- FreeBSD / OpenBSD：UFS\n- Sun Solaris：UFS\n- IBM AIX：JFS\n\n#### 某些情况下需要重启\n\nmkfs -t ext3 /dev/hda9\nmount -t ext3 /dev/hda9 /opt\necho /dev/hda9 /opt ext3 defaults 1 2 >> /etc/fstab\n```\n\n#### 在“镜像文件”里创建文件系统\n\n也可以在普通文件中创建文件系统镜像：\n\n```bash\ndd if=/dev/zero of=/var/local/myfs bs=1024 count=102400\nmkfs -t ext3 /var/local/myfs\nmkdir /mnt/tmp\nmount -o loop -t ext3 /var/local/myfs /mnt/tmp\necho /dev/hda9 /opt ext3 loop 1 2 >> /etc/fstab\n```\n\n其中：\n\n- `if`：输入文件\n    \n    input file\n    \n- `of`：输出文件\n    \n    output file\n    \n- `bs`：每次读/写的字节数\n- `count`：复制的块数",
+              "excerpt": "## 文件管理系统 ### Unix 下的文件 在 Unix 中，一个文件： - 总是由一个名称标识； - 拥有唯一的 inode（保存与文件有关的部分信息）； - 具有以下操作能力： - 打开； - 关闭； - 读取（查看）； - 写入（修改）。 一个文件可以是： - 普通文件（有时也称为“普通/正常”文件）； - 目录； - 符号链接； - 伪文件： - 按字符访问的设备； - 通信设备； - 按块访问的设备。 ### 文件系统 文件系统（或文件管理系统）是一种**存储并组织信息为文件**的方式。 它是按照某种给定格式组织起来的一组目录和文件。系统能"
+            },
+            {
+              "sourceId": "notes-16-md-56059bca",
+              "title": "16",
+              "path": "notes/16.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 参考答案\n\n编辑 crontab：\n\n```bash\ncrontab -e\n```\n\n添加如下行：\n\n```bash\n0 3 * * * sudo systemctl restart apache2\n```\n\n检查已计划的 cron 任务：\n\n```bash\ncrontab -l\n```\n\n---\n\n#### 练习 4 —— 归档并压缩文件\n\n学习使用 `tar` 和 `gzip` 对文件进行归档与压缩。\n\n1. 创建一个名为 `projets.tar` 的归档文件，包含 `scripts` 和 `docs` 两个目录。\n2. 将该归档压缩为 `projets.tar.gz`。\n3. 将压缩归档解压到名为 `backup` 的目录中。\n\n#### 参考答案\n\n```bash\ntar -cf projets.tar scripts docs      # 创建归档文件 \"projets.tar\"\ngzip projets.tar                      # 压缩为 \"projets.tar.gz\"\nmkdir backup                          # 创建目录 \"backup\"\ntar -xzf projets.tar.gz -C backup     # 解压到 \"backup\"\n```\n\n---\n\n#### 格式化分区\n\n将新分区格式化为 `ext4` 文件系统：\n\n```bash\nmkfs ext4 /dev/sdb1\n```\n\n检查文件系统：\n\n```bash\nblkid /dev/sdb1\n```\n\n#### 挂载分区\n\n创建挂载目录（例如 `/mnt/data`）：\n\n```bash\nmkdir -p /mnt/data\n```\n\n将分区挂载到该目录：\n\n```bash\nmount /dev/sdb1 /mnt/data\n```\n\n检查分区是否已挂载：\n\n```bash\ndf -h\n```",
+              "excerpt": "## 自动识别系统中开机自启动的服务 要识别你的 Unix 系统中会自动启动的服务： ```bash systemctl list-unit-files --type=service | grep enabled ``` 或者： ```bash chkconfig --list ``` 禁用某个服务，使其不再自动启动： ```bash systemctl disable apache2 ``` 或者： ```bash update-rc.d apache2 disable ``` 确定系统当前的运行级别： ```bash runlevel ``` 将运行"
+            },
+            {
+              "sourceId": "base-files-12-02-cours-6-et-7-avril-amir-hajjam-pdf-84805bde",
+              "title": "12-02_Cours 6 et 7 avril - Amir Hajjam",
+              "path": "base-files/12-02_Cours 6 et 7 avril - Amir Hajjam.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 4\n\nCréer un système de fichiers\n✓ Le système de fichiers le plus utilisé est ext3. Pour créer un nouveau système de fichiers et\n  l'attacher de manière permanente à l'arborescence, il est nécessaire de :\n     1) configurer un périphérique de type bloc ;\n     2) créer le système de fichiers avec la commande mkfs ;\n     3) choisir un point de montage dans l'arborescence ;\n     4) attacher le système de fichiers au point de montage avec la commande mount ;\n     5) ajouter une ligne au fichier /etc/fstab afin que le système de fichiers soit\n         attaché au point de montage à chaque démarrage du système.\n\n✓ Les actions à mener pour réaliser la première étape dépendent du type de support utilisé\n  pour recevoir le système de fichiers. La plupart du temps il s'agit d'une partition sur un\n  disque local qui sera créée avec la commande fdisk.\n\n✓ La plupart des systèmes d'exploitation « correctement » installés utilisent un disque avec\n  plusieurs partitions:\n   • partition « système » (fichiers systèmes, fichiers de configuration ...) ;\n   • partition « utilisateurs » (données des utilisateurs), etc.\n\n              ➢ exploitation plus sécurisée\n              ➢ on peut formater une partition indépendamment des autres\n              ➢ on peut utiliser une partition en lecture seule\n\n#### Page 5\n\nCréer un système de fichiers\n\n\n✓ Partitionnement et formatage du disque dur :\n   - Formatage « bas niveau » (physique, en usine)\n   - Partitionnement (à l'installation de l'OS)\n        • fips, fdisk, PartitionMagic (DOS)\n        • fdisk, parted (linux)\n        • à l'installation de Linux (menu caractère, menu graphique)\n   - « Formatage » « haut niveau » (logique, dépends de l'OS et du FileSystem cible)\n        • format (Windows : créé un filesystem FAT ou NTFS)\n        • mkfs (Unix : créé un filesystem Ext2, Ext3, FAT, ...)\n           exemple :     mkfs t ext2 /dev/hda1\n\n                         mkfs t vfat /dev/fd0\n     - Système de fichiers journalisés : plus robuste aux pannes secteurs\n\n#### Page 6\n\nCréer un système de fichiers\n\n\nSystème d'exploitation   Types de système de fichiers supportés\nDos                      FAT16\nWindows 95               FAT16\nWindows 95 OSR2          FAT16, FAT32\nWindows 98               FAT16, FAT32\nWindows NT4              FAT, NTFS (version 4)\nWindows 2000/XP          FAT, FAT16, FAT32, NTFS (versions 4 et 5)\nLinux                    Ext2, Ext3, ReiserFS, Linux Swap, (FAT, NTFS, ...)\nMacOS                    HFS, MFS\nSGI IRIX                 XFS\nFreeBSD, OpenBSD         UFS (Unix File System)\nSun Solaris              UFS (Unix File System)\nIBM AIX                  JFS (Journaled File System)\n\n#### Page 7\n\nCréer un système de fichiers\n\nExemple de création d'une partition (hda9) et d'un système de fichiers :\n  # fdisk /dev/hda\n  [ Utiliser la commande \"p\" pour afficher la table des partitions, \"n\"\n    pour créer une partition et \"w\" pour écrire les modifications\n    sur le disque. Un redémarrage peut s'avérer nécessaire. ]\n  # mkfs -t ext3 /dev/hda9\n  .../...\n  # mount -t ext3 /dev/hda9 /opt\n  # echo /dev/hda9 /opt ext3 defaults 1 2 >> /etc/fstab\n\nExemple de création d'un système de fichiers dans un « fichier image » :\n  # dd if=/dev/zero of=/var/local/myfs bs=1024 count=102400\n  .../... if=fichier entrée – of=fichier sortie – bs=nb octets lire/ecrire – count=nb blocs à copier\n  # mkfs -t ext3 /var/local/myfs\n  [ Une confirmation est demandée car \"/var/local/myfs\" n'est pas\n    un fichier spécial de type bloc. ]\n  .../...\n  # mkdir /mnt/tmp\n  # mount -o loop -t ext3 /var/local/myfs /mnt/tmp\n  # echo /dev/hda9 /opt ext3 loop 1 2 >> /etc/fstab\n\n#### Page 8\n\nRéparer un système de fichiers\n✓ La commande fsck permet de vérifier l'intégrité d'un système de fichiers et, le\n  cas échéant, d'effectuer une tentative de réparation. Le système de fichier ne doit\n  pas être monter. Pour cette raison ces tests sont souvent effectués en runlevel 1\n  (single) :\n      # init 1\n      # umount /usr\n      # fsck -t ext3 -f /dev/hda7\n      # mount /usr\n      # init 5\n\n✓ Un autre moyen consiste à forcer la vérification de l'intégrité de tous les systèmes\n  de fichiers locaux au démarrage du système. Pour cela, il suffit de créer un fichier\n  vide nommé forcefsck dans la racine de l'arborescence :\n     # touch /forcefsck\n     # init 6\n\n✓ Les blocs de données orphelins retrouvés lors de la réparation de systèmes de\n  fichiers ext2 ou ext3 sont placés dans les répertoires lost+found présents dans\n  la racine de chaque système de fichiers ext2 ou ext3.",
+              "excerpt": "## Page 1 Le système de gestion de fichiers ## Page 2 Les systèmes de gestion de fichiers ✓ Sous Unix un fichier est : - toujours désigné par un nom. - possède un unique inode (certaines informations concernant le fichier). - possède les fonctionnalités suivantes : • ouverture. •"
+            },
+            {
+              "sourceId": "base-files-12-02-cours-6-et-7-avril-amir-hajjam-md-acac9d37",
+              "title": "12-02_Cours_6_et_7_avril_Amir_Hajjam_中文翻译",
+              "path": "base-files/12-02_Cours_6_et_7_avril_Amir_Hajjam_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 最常用的文件系统与挂载\n\n课件中提到，最常用的文件系统是 **ext3**。要创建一个新的文件系统并将其永久挂载到目录树中，需要：\n\n1. 配置一个块设备；\n2. 用 **`mkfs`** 命令创建文件系统；\n3. 选择一个挂载点；\n4. 用 **`mount`** 命令把文件系统挂载到挂载点；\n5. 在 **`/etc/fstab`** 中添加一行，使系统每次启动时自动挂载。\n\n第一步如何做取决于存储介质类型。多数情况下，它是本地磁盘上的一个分区，通常使用 `fdisk` 创建。\n\n一个“合理安装”的操作系统通常会把磁盘划分为多个分区，例如：\n\n- 系统分区（系统文件、配置文件等）；\n- 用户分区（用户数据）；\n\n这样做的优点：\n\n- 更安全；\n- 可以**只格式化某一个分区，而不影响其他分区**；\n- 某些分区可以**只读挂载**。\n\n#### 磁盘分区与格式化\n\n硬盘处理通常分为：\n\n- **低级格式化**（物理格式化，在工厂完成）；\n- **分区**（通常在安装操作系统时进行）；\n- **高级格式化**（逻辑格式化，与操作系统和目标文件系统有关）。\n\n常见工具：\n\n- DOS：`fips`、`fdisk`、`PartitionMagic`\n- Linux：`fdisk`、`parted`\n- 安装 Linux 时的文本/图形安装菜单\n\n常见格式化命令：\n\n- Windows：`format`（创建 FAT 或 NTFS 文件系统）\n- Unix/Linux：`mkfs`（创建 Ext2、Ext3、FAT 等文件系统）\n\n示例：\n\n```bash\nmkfs -t ext2 /dev/hda1\nmkfs -t vfat /dev/fd0\n```\n\n日志型文件系统（journaled filesystem）对故障更稳健。\n\n#### 不同系统支持的文件系统（课件示意）\n\n- DOS：FAT16\n- Windows 95：FAT16\n- Windows 95 OSR2：FAT16、FAT32\n- Windows 98：FAT16、FAT32\n- Windows NT4：FAT、NTFS v4\n- Windows 2000/XP：FAT、FAT16、FAT32、NTFS v4/v5\n- Linux：Ext2、Ext3、ReiserFS、Linux Swap，以及 FAT、NTFS 等\n- MacOS：HFS、MFS\n- SGI IRIX：XFS\n- FreeBSD / OpenBSD：UFS\n- Sun Solaris：UFS\n- IBM AIX：JFS\n\n#### 某些情况下需要重启\n\nmkfs -t ext3 /dev/hda9\nmount -t ext3 /dev/hda9 /opt\necho /dev/hda9 /opt ext3 defaults 1 2 >> /etc/fstab\n```\n\n#### 在“镜像文件”里创建文件系统\n\n也可以在普通文件中创建文件系统镜像：\n\n```bash\ndd if=/dev/zero of=/var/local/myfs bs=1024 count=102400\nmkfs -t ext3 /var/local/myfs\nmkdir /mnt/tmp\nmount -o loop -t ext3 /var/local/myfs /mnt/tmp\necho /dev/hda9 /opt ext3 loop 1 2 >> /etc/fstab\n```\n\n其中：\n\n- `if`：输入文件\n    \n    input file\n    \n- `of`：输出文件\n    \n    output file\n    \n- `bs`：每次读/写的字节数\n- `count`：复制的块数",
+              "excerpt": "## 文件管理系统 ### Unix 下的文件 在 Unix 中，一个文件： - 总是由一个名称标识； - 拥有唯一的 inode（保存与文件有关的部分信息）； - 具有以下操作能力： - 打开； - 关闭； - 读取（查看）； - 写入（修改）。 一个文件可以是： - 普通文件（有时也称为“普通/正常”文件）； - 目录； - 符号链接； - 伪文件： - 按字符访问的设备； - 通信设备； - 按块访问的设备。 ### 文件系统 文件系统（或文件管理系统）是一种**存储并组织信息为文件**的方式。 它是按照某种给定格式组织起来的一组目录和文件。系统能"
+            },
+            {
+              "sourceId": "base-files-16-td7-td8-pdf-46a44a7f",
+              "title": "16_TD7-TD8",
+              "path": "base-files/16_TD7-TD8.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 3\n\nExercice 1 – Programmer une tâche pour redémarrer automatiquement un service chaque nuit à 3h00.\n\n\n1. Configurez une tâche cron pour redémarrer un service (par exemple, apache2).\n2. Vérifiez que la tâche est correctement ajoutée.\n\n\n\n\nSolution\n\nÉditez le crontab :                                  crontab -e\n\nAjoutez la ligne suivante :                          0 3 * * * sudo systemctl restart apache2\n\nVérifiez les tâches cron programmées :               crontab -l\n\n#### Page 7\n\nExercice 4 – Archiver et compresser des fichiers\n\nApprendre à archiver et compresser des fichiers avec tar et gzip.\n1. Créez une archive nommée projets.tar contenant les répertoires scripts et docs.\n2. Compressez cette archive en projets.tar.gz.\n3. Extrayez l’archive compressée dans un répertoire nommé backup.\n\n\n\n\nSolution\n\n           tar -cf projets.tar scripts docs        # Créer une archive \"projets.tar\"\n           gzip projets.tar                        # Compresser l’archive en \"projets.tar.gz\"\n           mkdir backup                            # Créer le répertoire \"backup\"\n           tar -xzf projets.tar.gz -C backup       # Extraire dans \"backup\"\n\n#### Page 10\n\nExercice 7 – Création et gestion de partitions sous Linux\n\nCréer, formater, monter une nouvelle partition sur un disque et configurer le montage automatique au démarrage.\nSolution\nCréer une nouvelle partition\nUtilisez la commande suivante pour lister les disques et leurs partitions :   lsblk\nCréer une nouvelle partition :                                                fdisk /dev/sdb1\n                                                                              Une fois dans fdisk :\n                                                                              • Tapez n pour créer une nouvelle partition.\n                                                                              • Choisissez le type de partition (primary ou extended)\n                                                                              • Spécifiez la taille de la partition (par exemple, +10G pour\n                                                                                une partition de 10 Go).\n                                                                              • Tapez w pour écrire les modifications et quitter fdisk.\nVérifiez que la nouvelle partition a été créée :                              lsblk\nFormater la partition\nFormatez la nouvelle partition avec le système de fichiers ext4 :             mkfs ext4 /dev/sdb1\nVérifiez le système de fichiers avec :                                        blkid /dev/sdb1\nMonter la partition\nCréez un répertoire pour monter la partition (par exemple, /mnt/data) :       mkdir -p /mnt/data\nMontez la partition dans ce répertoire :                                      mount /dev/sdb1 /mnt/data\nVérifiez que la partition est montée :                                        df -h\nConfigurer le montage automatique\nAjoutez une entrée dans le fichier /etc/fstab :                               nano /etc/fstab\nAjoutez une ligne comme celle-ci à la fin du fichier :                        /dev/sdb1 /mnt/data ext4 defaults 0 2\nTestez la configuration sans redémarrer :                                     mount -a\n\n#### Page 11\n\nExercice 8 – Activer et désactiver un fichier de swap\n\nLe swap peut être géré à l’aide de fichiers de swap (au lieu de partitions de swap). Montrer comment créer, activer et\ndésactiver un fichier de swap.\nSolution\n\nCréer un fichier de swap (par exemple, 1 Go) :                        dd if=/dev/zero of=/swapfile bs=1M count=1024\nIf=Input file/of=Outputfile/bs=Block size/Count\nDonner les bonnes permissions :                                       chmod 600 /swapfile\n\nConfigurer le fichier comme un espace de swap :                       mkswap /swapfile\n\nActiver le swap :                                                     swapon /swapfile\n\nVérifier que le swap est activé :                                     swapon –s\n\nDésactiver le swap lorsque vous n’en avez plus besoin :               swapoff /swapfile\n\nSupprimer le fichier de swap :                                        rm /swapfile\n\n#### Page 12\n\nExercice 9 – Activer et désactiver une partition swap\n\nLe swap peut être géré à l’aide de fichiers de swap ou de partitions de swap. Montrer comment créer, activer et désactiver\nune partition swap.\nSolution\n\nUtiliser fdisk pour créer une partition sur un disque :    fdisk /dev/sdb\n                                                              Puis :\n                                                              • Tapez n pour créer une nouvelle partition.\n                                                              • Choisissez le type de partition comme Linux swap en\n                                                              tapant t et en sélectionnant le type 82 (Linux swap).\n\n                                                              Puis enregistrer avec la commande :           w\n\nFormater la partition comme swap :                         mkswap /dev/sdb1\n\nActiver la partition swap :                                swapon /dev/sdb1\n\nVérifiez que la partition swap est activée :               swapon –show\n\nAjouter la partition swap au fichier /etc/fstab pour qu’elle soit activée au démarrage :       /dev/sdb1 none swap sw 0 0",
+              "excerpt": "## Page 1 TD 4.1 ## Page 2 Arrêter et démarrer des services Pour identifiez les services qui démarrent automatiquement sur votre système Unix : systemctl list-unit-files --type=service | grep enabled Ou chkconfig –list Désactiver un service pour qu’il ne démarre plus automatiquem"
+            },
+            {
+              "sourceId": "base-files-16-td7-td8-md-5308c3d1",
+              "title": "16_TD7-TD8_中文翻译",
+              "path": "base-files/16_TD7-TD8_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 参考答案\n\n编辑 crontab：\n\n```bash\ncrontab -e\n```\n\n添加如下行：\n\n```bash\n0 3 * * * sudo systemctl restart apache2\n```\n\n检查已计划的 cron 任务：\n\n```bash\ncrontab -l\n```\n\n---\n\n#### 练习 4 —— 归档并压缩文件\n\n学习使用 `tar` 和 `gzip` 对文件进行归档与压缩。\n\n1. 创建一个名为 `projets.tar` 的归档文件，包含 `scripts` 和 `docs` 两个目录。\n2. 将该归档压缩为 `projets.tar.gz`。\n3. 将压缩归档解压到名为 `backup` 的目录中。\n\n#### 参考答案\n\n```bash\ntar -cf projets.tar scripts docs      # 创建归档文件 \"projets.tar\"\ngzip projets.tar                      # 压缩为 \"projets.tar.gz\"\nmkdir backup                          # 创建目录 \"backup\"\ntar -xzf projets.tar.gz -C backup     # 解压到 \"backup\"\n```\n\n---\n\n#### 格式化分区\n\n将新分区格式化为 `ext4` 文件系统：\n\n```bash\nmkfs ext4 /dev/sdb1\n```\n\n检查文件系统：\n\n```bash\nblkid /dev/sdb1\n```\n\n#### 挂载分区\n\n创建挂载目录（例如 `/mnt/data`）：\n\n```bash\nmkdir -p /mnt/data\n```\n\n将分区挂载到该目录：\n\n```bash\nmount /dev/sdb1 /mnt/data\n```\n\n检查分区是否已挂载：\n\n```bash\ndf -h\n```",
+              "excerpt": "## 自动识别系统中开机自启动的服务 要识别你的 Unix 系统中会自动启动的服务： ```bash systemctl list-unit-files --type=service | grep enabled ``` 或者： ```bash chkconfig --list ``` 禁用某个服务，使其不再自动启动： ```bash systemctl disable apache2 ``` 或者： ```bash update-rc.d apache2 disable ``` 确定系统当前的运行级别： ```bash runlevel ``` 将运行"
+            }
+          ]
+        },
+        {
+          "type": "sandbox-links",
+          "ids": [
+            "permissions-map"
+          ]
+        }
+      ]
+    }
+  ],
+  "review": {
+    "checklist": [
+      "分区、mkfs、mount、fstab 是持久化存储的基本流程。",
+      "swap 文件 / 分区让系统在内存紧张时有缓冲区。",
+      "tar、压缩工具、模块、网络接口和路由配置共同构成基础运维能力。"
+    ],
+    "pitfalls": [
+      "会背命令，却不知道哪些配置是临时生效、哪些写入系统文件才会持久。"
+    ],
+    "diagramIdeas": [
+      "存储层级图：磁盘 -> 分区 -> 文件系统 -> 挂载点。"
+    ]
+  },
+  "previousSlug": "logs-rsyslog",
+  "nextSlug": "user-automation"
+}

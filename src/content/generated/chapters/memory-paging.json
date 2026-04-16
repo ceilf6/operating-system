@@ -1,0 +1,164 @@
+{
+  "slug": "memory-paging",
+  "number": "11",
+  "track": "操作系统理论线",
+  "title": "内存、虚拟内存、分页与页面置换",
+  "summary": "围绕 MMU、地址转换、分页机制和页面置换算法建立内存管理核心认知。",
+  "searchKeywords": [
+    "虚拟内存",
+    "分页",
+    "MMU",
+    "FIFO",
+    "LRU",
+    "Clock"
+  ],
+  "sourceIds": [
+    "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+    "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+    "base-files-17-lo03-td-se-2026-md-e76e95bf",
+    "base-files-17-lo03-td-se-2026-pdf-225fdd66",
+    "notes-15-md-615702dd",
+    "notes-17-md-23ec2de9"
+  ],
+  "sandboxIds": [
+    "page-replacement"
+  ],
+  "sections": [
+    {
+      "id": "paging-core",
+      "title": "地址转换与页面置换",
+      "anchor": "paging-core",
+      "sourceIds": [
+        "notes-15-md-615702dd",
+        "notes-17-md-23ec2de9",
+        "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+        "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+        "base-files-17-lo03-td-se-2026-pdf-225fdd66",
+        "base-files-17-lo03-td-se-2026-md-e76e95bf"
+      ],
+      "glossaryIds": [
+        "virtual-memory",
+        "mmu",
+        "fifo",
+        "lru"
+      ],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "课程从地址位划分、页表、MMU 与页面置换算法逐步搭出虚拟内存模型。"
+        },
+        {
+          "type": "key-points",
+          "items": [
+            "虚拟地址由页号和页内偏移组成，需要页表和 MMU 共同完成转换。",
+            "FIFO、LRU 与 Clock 是最常见的页面置换策略。",
+            "习题课把抽象算法落到具体地址和访问序列计算。"
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "易错点",
+          "content": "只记算法名字，不手算缺页过程，就很难真正理解置换差异。"
+        },
+        {
+          "type": "diagram-list",
+          "items": [
+            "地址位分解图、页表映射图、三种页面置换状态对比图。"
+          ]
+        },
+        {
+          "type": "exercise-list",
+          "items": [
+            {
+              "id": "paging-core-exercise-1",
+              "prompt": "手动比较同一访问序列在 FIFO、LRU、Clock 下的缺页次数。",
+              "answer": "",
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "notes-15-md-615702dd",
+              "title": "15",
+              "path": "notes/15.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 第 17 页：高速缓存结构图（SRAM）\n\n**图像内容解析：**\n\n图中给出了 CPU、L1 Cache、L2 Cache、MMU、主存和磁盘之间的关系：\n\n- 左侧是 **CPU**\n- CPU 先访问 **一级缓存（cache niveau 1）**\n- 再通过 **MMU（内存管理单元）**\n- 然后可能访问 **二级缓存（cache niveau 2）**\n- 再往后是**主存（mémoire centrale）**\n- 更后面是**磁盘（disque）**\n- 图中同时标出了：\n    - 地址总线（bus d’adresse）\n    - 数据总线（bus de données）\n    - 虚拟地址（adresses virtuelles）\n\n**图意总结：**\n\n- Cache 是一种**缓冲存储器（mémoire tampon）**\n- 它的作用是部分缓解 CPU 与主存之间的速度差\n- MMU 负责地址转换，使 CPU 使用虚拟地址访问内存\n\n---\n\n#### 第 19 页：虚拟内存\n\n原理：\n\n- 将物理内存划分为固定大小的块（或页框）\n- 每个进程的逻辑地址空间也被划分为同样大小的页\n- 处理器中有一个专用寄存器，保存页表（映射表）的物理地址\n\n---\n\n#### 第 20 页：虚拟内存补充\n\n- 每个进程的块表（对应表）指出哪些块在内存中。\n- 表中每项包含：\n    - 是否在内存中的存在位\n    - 物理块起始地址\n    - 其他信息\n- 块表地址是进程上下文的一部分，在上下文切换时需要保存与恢复。\n- 因此需要：\n    - 一个快速的虚拟地址到物理地址转换机制\n    - 一种页替换策略\n\n---\n\n#### 第 21 页：虚拟内存——分页\n\n- 虚拟内存和物理内存分别被组织为：\n    - **页（pages）**\n    - **页框 / 物理块（cases）**\n- 页大小固定，且等于页框大小，一般在 **512 字节到 8 KB** 之间。\n\n**示例：**\n\n- 一个 **64 KB** 的程序\n- 运行在一台只有 **32 KB 物理内存** 的机器上\n- 页大小为 **4 KB**\n- 指令大小为 **1 字节**\n\n**图像内容解析：**\n\n图中左侧画的是虚拟地址空间，右侧画的是物理内存。箭头表示：\n\n- 虚拟空间中的若干页并不需要同时全部放进物理内存\n- 只需把当前活跃页装入物理页框即可\n\n这正是分页机制能让“大程序运行在小内存机器上”的核心原因。\n\n---\n\n#### 第 22 页：虚拟地址转换\n\n- 当前执行指令引用的虚拟地址必须被转换成物理地址。\n- 页与页框之间的映射关系存储在**页表（table des pages）**中。\n- 页表项数量等于虚拟页数。\n- 进程执行时，其页表必须位于主存中。\n- 每个页表项通常包含：\n    - 存在位（是否在内存中）\n    - 引用位 `R`\n    - 修改位 `M`\n    - 对应页框号\n    - 该页在磁盘上的位置\n\n---",
+              "excerpt": "## 第 1 页：操作系统体系结构与理论 **原题：** Architecture et théorie des systèmes d’exploitation **中文：** 操作系统体系结构与理论 --- ## 第 2 页：课程计划 - 操作系统导论 - 体系结构与内存管理 - 进程管理与调度 - 进程错误检测与死锁 - 资源管理 --- ## 第 3 页：操作系统导论 - 操作系统是用户与物理机器之间的接口，它使用户能够使用计算机的功能。 - 它提供一个称为“虚拟机”的基础，程序和工具将在其上构建。 - 操作系统的目标是让开发应用程序时，无需关心硬"
+            },
+            {
+              "sourceId": "notes-17-md-23ec2de9",
+              "title": "17",
+              "path": "notes/17.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 1. 地址（Adresse）\n\n假设一个**分页虚拟内存地址**需要 **20 位**，其组织方式如下：\n\n- **页号（page）**：第 19 位到第 12 位\n- **页内偏移（offset）**：第 11 位到第 0 位\n1. 这个虚拟内存的大小是多少？请分别用**字数（mots）**和**页数（pages）**表示。\n2. 第 **213 页**中第 **970 个字**的**八进制地址**是多少？\n\n---\n\n#### 2. 内存管理（Gestion de la mémoire）\n\n某操作系统为一个进程提供大小为 **2^32 个字**的虚拟地址空间。\n\n计算机的物理内存大小为 **2^18 个字**。\n\n内存管理采用**分页机制**，页大小为 **4096 个字**。\n\n- 该进程的**页表**包含多少个表项？\n- 假设该进程生成了一个任意虚拟地址（例如十进制的 **12345678**），其二进制表示占 **32 位**。即使**不需要**把 12345678 真正写成二进制，也请说明操作系统是如何建立**虚拟地址**与**物理地址**之间对应关系的。\n\n---\n\n#### 3. 分页（La pagination）\n\n现有一个系统，使用**请求分页（pagination à la demande）**，并采用两种算法 **A1** 和 **A2**。\n\n在程序执行过程中，页面访问序列依次为：\n\n`1, 5, 2, 5, 1, 4, 1, 5, 3`\n\n系统为该程序分配了 **3 个物理页框（cases）**。\n\n#### 算法 A2\n\n| 帧1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 帧2 |  | 5 | 5 | 5 | 5 | 5 | 5 | 5 | 5 |\n| 帧3 |  |  | 2 | 2 | 2 | 4 | 4 | 4 | 3 |\n1. 你认为这两个算法中，哪个是 **FIFO**，哪个是 **LRU**？\n2. 分别求出两种情况下的**缺页次数**。\n3. 将上述结果与**时钟算法（algorithme de l’horloge）**得到的结果进行比较。\n\n---\n\n#### 4.2 缺页次数计算\n\n该程序在中央内存中可用 **300 个字**。\n\n在假设**内存初始为空**的条件下，分别计算以下页面置换算法产生的**缺页次数**：\n\n- **Belady 最优算法**\n- **FIFO**\n- **LRU**\n\n---",
+              "excerpt": "## 操作系统理论（习题课） --- ## 1. 地址（Adresse） 假设一个**分页虚拟内存地址**需要 **20 位**，其组织方式如下： - **页号（page）**：第 19 位到第 12 位 - **页内偏移（offset）**：第 11 位到第 0 位 1. 这个虚拟内存的大小是多少？请分别用**字数（mots）**和**页数（pages）**表示。 2. 第 **213 页**中第 **970 个字**的**八进制地址**是多少？ --- ## 2. 内存管理（Gestion de la mémoire） 某操作系统为一个进程提供大小为"
+            },
+            {
+              "sourceId": "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+              "title": "15_LO03_SE_2025_2026",
+              "path": "base-files/15_LO03_SE_2025_2026.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 5\n\nStructure d’un système d’exploitation\n\n   Le système d’exploitation est structuré en couches : chaque couche\n    utilise les fonctions des couches inférieures. On l’organise\n    généralement en 5 couches :\n\n        Au plus bas niveau on trouve le noyau, l’interface entre le\n         matériel et le logiciel, il se charge de gérer le CPU, les\n         interruptions, la communication et la synchronisation entre les\n         processus. Il réside entièrement en mémoire.\n\n        Au second niveau, on trouve le gestionnaire de la mémoire qui se\n         charge du partage de la mémoire entre les processus.\n\n#### Page 17\n\nMémoire cache (SRAM)\n\n                        Mémoire tampon\n\n                                 bus de données\n\nunité\n           cache          unité de    cache           mémoire\ncentrale                                                          disque\n           niveau 1       gestion     niveau 2        centrale\n(CPU)\n                          mémoire\n                          (MMU)\n           adresses                               bus d'adresse\n           virtuelles\n\n    Permet de gérer en partie la différence de\n    vitesse entre l’unité centrale et la mémoire\n                       centrale\n\n#### Page 24\n\nConversion d’adresses virtuelles :\n                       Le MMU\n\n   La conversion d’adresse est effectuée par un composant matériel du\n    processeur le MMU : Memory Management Unit.\n\n   Le MMU vérifie si l’adresse virtuelle reçue correspond à une adresse\n    mémoire physique en consultant la table des pages.\n\n   Si c’est le cas, le MMU transmet, sur le bus de la mémoire, l’adresse\n    réelle, sinon il y a un défaut de page.\n\n   Un défaut de page provoque un déroutement dont le rôle est de\n    ramener à partir du disque la page manquante référencée.\n\n#### Page 25\n\nConversion d’adresses virtuelles :\n                    Le MMU\n\n      Le CPU envoie l ’adresse virtuelle au MMU\n\n\nCPU\n                            Mémoire           Disque\nMMU\n\n\n\n\n                                                       Bus\n Le MMU envoie l ’adresse physique à la mémoire\n\n#### Page 26\n\nAlgorithmes de remplacement des pages\n   A la suite d ’un défaut de page, le système d ’exploitation doit ramener en mémoire la page\n    manquante à partir du disque.\n\n   S’il n ’y a pas de cases libres en mémoire, il doit retirer une page de la mémoire pour la\n    remplacer par celle demandée.\n\n   Si la page à retirer à été modifiée depuis son chargement en mémoire, il faut la récrire sur le\n    disque.\n\n   Les algorithmes mémorisent les références passées aux pages. Le choix de la page à retirer\n    dépend des références passées. Il existe différents algorithmes :\n        l’algorithme optimal de Belady\n        La non récemment utilisé (NRU)\n        l’algorithme FIFO\n        l’algorithme de l’horloge\n        La moins récemment utilisé (LRU)",
+              "excerpt": "## Page 1 Architecture et théorie des systèmes d’exploitation ## Page 2 Plan du cours  Introduction aux systèmes d'exploitation  Architecture et gestion de la mémoire  Gestion et ordonnancement des processus  Détection d'erreurs et inter-blocages des processus  Gestion des r"
+            },
+            {
+              "sourceId": "base-files-15-lo03-se-2025-2026-md-3784dfdd",
+              "title": "15_LO03_SE_2025_2026_中文翻译",
+              "path": "base-files/15_LO03_SE_2025_2026_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 第 17 页：高速缓存结构图（SRAM）\n\n**图像内容解析：**\n\n图中给出了 CPU、L1 Cache、L2 Cache、MMU、主存和磁盘之间的关系：\n\n- 左侧是 **CPU**\n- CPU 先访问 **一级缓存（cache niveau 1）**\n- 再通过 **MMU（内存管理单元）**\n- 然后可能访问 **二级缓存（cache niveau 2）**\n- 再往后是**主存（mémoire centrale）**\n- 更后面是**磁盘（disque）**\n- 图中同时标出了：\n    - 地址总线（bus d’adresse）\n    - 数据总线（bus de données）\n    - 虚拟地址（adresses virtuelles）\n\n**图意总结：**\n\n- Cache 是一种**缓冲存储器（mémoire tampon）**\n- 它的作用是部分缓解 CPU 与主存之间的速度差\n- MMU 负责地址转换，使 CPU 使用虚拟地址访问内存\n\n---\n\n#### 第 19 页：虚拟内存\n\n原理：\n\n- 将物理内存划分为固定大小的块（或页框）\n- 每个进程的逻辑地址空间也被划分为同样大小的页\n- 处理器中有一个专用寄存器，保存页表（映射表）的物理地址\n\n---\n\n#### 第 20 页：虚拟内存补充\n\n- 每个进程的块表（对应表）指出哪些块在内存中。\n- 表中每项包含：\n    - 是否在内存中的存在位\n    - 物理块起始地址\n    - 其他信息\n- 块表地址是进程上下文的一部分，在上下文切换时需要保存与恢复。\n- 因此需要：\n    - 一个快速的虚拟地址到物理地址转换机制\n    - 一种页替换策略\n\n---\n\n#### 第 21 页：虚拟内存——分页\n\n- 虚拟内存和物理内存分别被组织为：\n    - **页（pages）**\n    - **页框 / 物理块（cases）**\n- 页大小固定，且等于页框大小，一般在 **512 字节到 8 KB** 之间。\n\n**示例：**\n\n- 一个 **64 KB** 的程序\n- 运行在一台只有 **32 KB 物理内存** 的机器上\n- 页大小为 **4 KB**\n- 指令大小为 **1 字节**\n\n**图像内容解析：**\n\n图中左侧画的是虚拟地址空间，右侧画的是物理内存。箭头表示：\n\n- 虚拟空间中的若干页并不需要同时全部放进物理内存\n- 只需把当前活跃页装入物理页框即可\n\n这正是分页机制能让“大程序运行在小内存机器上”的核心原因。\n\n---\n\n#### 第 22 页：虚拟地址转换\n\n- 当前执行指令引用的虚拟地址必须被转换成物理地址。\n- 页与页框之间的映射关系存储在**页表（table des pages）**中。\n- 页表项数量等于虚拟页数。\n- 进程执行时，其页表必须位于主存中。\n- 每个页表项通常包含：\n    - 存在位（是否在内存中）\n    - 引用位 `R`\n    - 修改位 `M`\n    - 对应页框号\n    - 该页在磁盘上的位置\n\n---",
+              "excerpt": "## 第 1 页：操作系统体系结构与理论 **原题：** Architecture et théorie des systèmes d’exploitation **中文：** 操作系统体系结构与理论 --- ## 第 2 页：课程计划 - 操作系统导论 - 体系结构与内存管理 - 进程管理与调度 - 进程错误检测与死锁 - 资源管理 --- ## 第 3 页：操作系统导论 - 操作系统是用户与物理机器之间的接口，它使用户能够使用计算机的功能。 - 它提供一个称为“虚拟机”的基础，程序和工具将在其上构建。 - 操作系统的目标是让开发应用程序时，无需关心硬"
+            },
+            {
+              "sourceId": "base-files-17-lo03-td-se-2026-pdf-225fdd66",
+              "title": "17_LO03-TD_SE_2026",
+              "path": "base-files/17_LO03-TD_SE_2026.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nTD L003\n                                                  THEORIE DES SYSTÈMES D’EXPLOITATION\n\n\n\n\n                                                                            l’algorithme de l’horloge.\n1    ADRESSE\n                                                                   4        MÉMOIRE VIRTUELLE\nSupposons qu’une adresse en mémoire virtuelle paginée,\nnécessite 20 bits organisés de la façon suivante :                 1/ Un programme possède un espace virtuel de 600 mots. On\n                                                                   considère la suite des adresses virtuelles (en base 10) qui suit :\n                   page            offset\n                  19 … 12          11 … 0                                   24 ; 103 ; 125 ; 520 ; 466 ; 365 ; 422 : 10 ; 224 ; 68\n\n     1. Quelle est la taille de cette mémoire virtuelle,           Donner la suite des numéros de pages référencées, sachant\n        exprimée en nombre de mots et de pages ?                   qu'elles comportent 100 mots.\n     2. Quelle est l’adresse octale du 970ème mot de la page\n        213 ?                                                      2/ Le programme dispose de 300 mots en mémoire centrale.\n\n2    GESTION DE LA MÉMOIRE                                         Calculer le nombre de défauts de page (en supposant la\n                                                                   mémoire initialement vide) pour les algorithmes :\nUn système d’exploitation fournit à un processus un espace                      Optimal de Belady\nd’adressage virtuel de 232 mots. L’ordinateur dispose de 218                    FIFO\nmots en mémoire physique. La gestion mémoire est paginée                        LRU\navec des pages de taille 4096 mots.\n                                                                   5        ALGORITHME DE LA SECONDE CHANCE\n     -   De combien d’entrées dispose la table des pages du\n         processus ?\n     -   Supposons que le processus génère une adresse             Soit la liste des pages virtuelles référencées aux instants t = 1,\n         virtuelle quelconque (par exemple 12345678 en base        2, ..., 11\n         10) qui en binaire s’écrit sur 32 bits. Sans même avoir                1 2 3 5 6 8 3 7 9 6 12 3 6 5 4 10 11\n         besoin de savoir comment 12345678 s’écrit en binaire,\n         dire comment le système d’exploitation établit la         La mémoire centrale est composée de 4 cases initialement\n         correspondance entre l’adresse virtuelle et l’adresse     vides. Représentez l'évolution de la mémoire centrale au fur et à\n         physique.                                                 mesure des accès pour la politique de remplacement de pages\n                                                                   effectuée par l’algorithme de la deuxième chance.\n3    LA PAGINATION\n\n\n          On dispose d’un système doté d’une pagination à la\n                                                                   6        PARALLÉLISATION\ndemande, suivant deux algorithmes A1 et A2. Au cours de son\nexécution un programme accède successivement aux pages 1, 5,\n2, 5, 1, 4, 1, 5, 3. Le système alloue à ce programme un espace    Implanter le graphe de précédence ci-contre en utilisant\nde trois cases en mémoire.                                         plusieurs processeurs en parallèle\n\n                                                                                                         T1\n                        Algorithme A1\n         1    1    1     1    1    4    4     4    3                              T4\n              5    5     5    5    5    1     1    1                                                      T3        T2\n                   2     2    2    2    2     5    5\n                                                                       T8               T6       T5\n                                                                                                                    T7\n                        Algorithme A2\n         1    1    1     1    1    1    1     1    1                                                      T9\n              5    5     5    5    5    5     5    5\n                   2     2    2    4    4     4    3                          T10\n                                                                                                                    T11\n\n1.   A votre avis lequel des deux algorithmes est l’algorithme\n     FIFO, lequel est LRU ?                                        7        BLOCAGE ?\n2.   Déterminer dans chacun des cas le nombre de défauts de\n     pages                                                         Soit le programme suivant :\n3.   Comparer ces résultats avec le résultat obtenu à partir de",
+              "excerpt": "## Page 1 TD L003 THEORIE DES SYSTÈMES D’EXPLOITATION l’algorithme de l’horloge. 1 ADRESSE 4 MÉMOIRE VIRTUELLE Supposons qu’une adresse en mémoire virtuelle paginée, nécessite 20 bits organisés de la façon suivante : 1/ Un programme possède un espace virtuel de 600 mots. On consi"
+            },
+            {
+              "sourceId": "base-files-17-lo03-td-se-2026-md-e76e95bf",
+              "title": "17_LO03-TD_SE_2026_中文翻译",
+              "path": "base-files/17_LO03-TD_SE_2026_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 1. 地址（Adresse）\n\n假设一个**分页虚拟内存地址**需要 **20 位**，其组织方式如下：\n\n- **页号（page）**：第 19 位到第 12 位\n- **页内偏移（offset）**：第 11 位到第 0 位\n1. 这个虚拟内存的大小是多少？请分别用**字数（mots）**和**页数（pages）**表示。\n2. 第 **213 页**中第 **970 个字**的**八进制地址**是多少？\n\n---\n\n#### 2. 内存管理（Gestion de la mémoire）\n\n某操作系统为一个进程提供大小为 **2^32 个字**的虚拟地址空间。\n\n计算机的物理内存大小为 **2^18 个字**。\n\n内存管理采用**分页机制**，页大小为 **4096 个字**。\n\n- 该进程的**页表**包含多少个表项？\n- 假设该进程生成了一个任意虚拟地址（例如十进制的 **12345678**），其二进制表示占 **32 位**。即使**不需要**把 12345678 真正写成二进制，也请说明操作系统是如何建立**虚拟地址**与**物理地址**之间对应关系的。\n\n---\n\n#### 3. 分页（La pagination）\n\n现有一个系统，使用**请求分页（pagination à la demande）**，并采用两种算法 **A1** 和 **A2**。\n\n在程序执行过程中，页面访问序列依次为：\n\n`1, 5, 2, 5, 1, 4, 1, 5, 3`\n\n系统为该程序分配了 **3 个物理页框（cases）**。\n\n#### 算法 A2\n\n| 帧1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 帧2 |  | 5 | 5 | 5 | 5 | 5 | 5 | 5 | 5 |\n| 帧3 |  |  | 2 | 2 | 2 | 4 | 4 | 4 | 3 |\n1. 你认为这两个算法中，哪个是 **FIFO**，哪个是 **LRU**？\n2. 分别求出两种情况下的**缺页次数**。\n3. 将上述结果与**时钟算法（algorithme de l’horloge）**得到的结果进行比较。\n\n---\n\n#### 4.2 缺页次数计算\n\n该程序在中央内存中可用 **300 个字**。\n\n在假设**内存初始为空**的条件下，分别计算以下页面置换算法产生的**缺页次数**：\n\n- **Belady 最优算法**\n- **FIFO**\n- **LRU**\n\n---",
+              "excerpt": "## 操作系统理论（习题课） --- ## 1. 地址（Adresse） 假设一个**分页虚拟内存地址**需要 **20 位**，其组织方式如下： - **页号（page）**：第 19 位到第 12 位 - **页内偏移（offset）**：第 11 位到第 0 位 1. 这个虚拟内存的大小是多少？请分别用**字数（mots）**和**页数（pages）**表示。 2. 第 **213 页**中第 **970 个字**的**八进制地址**是多少？ --- ## 2. 内存管理（Gestion de la mémoire） 某操作系统为一个进程提供大小为"
+            }
+          ]
+        },
+        {
+          "type": "sandbox-links",
+          "ids": [
+            "page-replacement"
+          ]
+        }
+      ]
+    }
+  ],
+  "review": {
+    "checklist": [
+      "虚拟地址由页号和页内偏移组成，需要页表和 MMU 共同完成转换。",
+      "FIFO、LRU 与 Clock 是最常见的页面置换策略。",
+      "习题课把抽象算法落到具体地址和访问序列计算。"
+    ],
+    "pitfalls": [
+      "只记算法名字，不手算缺页过程，就很难真正理解置换差异。"
+    ],
+    "diagramIdeas": [
+      "地址位分解图、页表映射图、三种页面置换状态对比图。"
+    ]
+  },
+  "previousSlug": "os-intro",
+  "nextSlug": "sync-deadlock-scheduling"
+}

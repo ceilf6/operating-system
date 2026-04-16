@@ -3,3 +3,14 @@
 _PROMPT
 
 PRD.md
+node_modules/
+dist/
+.vite/
+.venv/
+.cache/
+__pycache__/
+coverage/
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+src/content/generated/extracted/

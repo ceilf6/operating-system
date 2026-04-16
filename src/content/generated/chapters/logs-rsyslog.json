@@ -1,0 +1,257 @@
+{
+  "slug": "logs-rsyslog",
+  "number": "07",
+  "track": "Linux/Unix 实操线",
+  "title": "日志、轮转、服务启动与 rsyslog",
+  "summary": "围绕 syslog/rsyslog、logrotate、runlevel、cron 与远程日志构建系统运维视角。",
+  "searchKeywords": [
+    "syslog",
+    "rsyslog",
+    "logrotate",
+    "runlevel",
+    "cron"
+  ],
+  "sourceIds": [
+    "base-files-12-01-cours-30-et-31-mars-amir-hajjam-md-0e0d58ba",
+    "base-files-12-01-cours-30-et-31-mars-amir-hajjam-pdf-48cc08bf",
+    "base-files-13-td5-td6-md-b13b0e61",
+    "base-files-13-td5-td6-pdf-139514b6",
+    "base-files-13-tds-31-et-32-avec-correction-md-41e012cd",
+    "base-files-13-tds-31-et-32-avec-correction-pptx-e68c79e3",
+    "base-files-14-td-fri-1-md-8a8ebd67",
+    "base-files-14-td-fri-1-pdf-c699a325",
+    "base-files-16-td7-td8-md-5308c3d1",
+    "base-files-16-td7-td8-pdf-46a44a7f",
+    "notes-12-01-md-81ea98db",
+    "notes-13-td6-md-d8fa0eea",
+    "notes-16-md-56059bca"
+  ],
+  "sandboxIds": [
+    "syslog-rule-matcher"
+  ],
+  "sections": [
+    {
+      "id": "syslog-stack",
+      "title": "syslog / rsyslog 与日志轮转",
+      "anchor": "syslog-stack",
+      "sourceIds": [
+        "notes-12-01-md-81ea98db",
+        "notes-13-td6-md-d8fa0eea",
+        "notes-16-md-56059bca",
+        "base-files-12-01-cours-30-et-31-mars-amir-hajjam-pdf-48cc08bf",
+        "base-files-12-01-cours-30-et-31-mars-amir-hajjam-md-0e0d58ba",
+        "base-files-13-td5-td6-md-b13b0e61",
+        "base-files-13-tds-31-et-32-avec-correction-md-41e012cd",
+        "base-files-14-td-fri-1-pdf-c699a325",
+        "base-files-14-td-fri-1-md-8a8ebd67",
+        "base-files-16-td7-td8-pdf-46a44a7f",
+        "base-files-16-td7-td8-md-5308c3d1"
+      ],
+      "glossaryIds": [
+        "syslog",
+        "logrotate"
+      ],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "日志不是附属功能，而是系统观测、审计和故障排查的核心基础设施。"
+        },
+        {
+          "type": "key-points",
+          "items": [
+            "syslog 用 facility 与 priority 描述日志来源和严重级别。",
+            "rsyslog 在兼容 syslog 的基础上扩展了模块、性能与集中式采集能力。",
+            "logrotate 用于控制日志的大小、保留、压缩与权限。"
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "易错点",
+          "content": "只记规则语法，不理解 facility / priority 匹配语义。"
+        },
+        {
+          "type": "diagram-list",
+          "items": [
+            "日志流：内核/服务 -> syslog/rsyslog -> 文件/远程服务器。"
+          ]
+        },
+        {
+          "type": "exercise-list",
+          "items": [
+            {
+              "id": "syslog-stack-exercise-1",
+              "prompt": "解释 `mail.notice` 与 `*.emerg` 这类规则是怎样匹配消息的。",
+              "answer": "",
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "notes-12-01-md-81ea98db",
+              "title": "12-01",
+              "path": "notes/12-01.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 系统事件：syslog\n\n- UNIX 系统用于收集系统或应用程序产生事件的机制非常高效。\n- Unix 使用一种统一的 syslog 系统，这一系统开发于 20 世纪 80 年代。\n- 系统事件的记录由两个程序（**守护进程**）管理：\n    - `klogd`\n    - `syslogd`\n- `klogd` **仅**负责监听来自**内核**的消息。\n- `syslogd` 负责大部分工作。启动时，它会读取 `/etc/syslog.conf` 文件，并据此决定每类消息应记录到哪个文件。\n    \n    conf 配置文件\n    \n- 可以根据消息来源和/或级别，将消息重定向到文件、控制台等，甚至发送到另一台机器的 Syslog。\n- 默认情况下，几乎所有消息都会被写入 **`/var/log`** 目录下的一组文件中。\n    \n    ```bash\n    $ ls /var/log/\n    AccessoryCrash_LeftPrimary_7415F5204100_2026-04-14-18-10-15.bin\n    apache2\n    asl\n    com.apple.wifi.analytics\n    com.apple.wifivelocity\n    com.apple.xpc.launchd\n    connector_log.out\n    CoreDuet\n    cups\n    DiagnosticMessages\n    dm\n    fsck_apfs_error.log\n    fsck_apfs.log\n    fsck_hfs.log\n    install.log\n    \n    system.log\n    \n    wifi.log\n    ```\n\n#### syslog 规则格式\n\n`/etc/syslog.conf` 文件中的一行规则格式如下：\n\n```\nfacility.priority[,facility.priority,...] action\n```\n\n#### 消息来源（facility）\n\n消息来源称为“facility”，包括：\n\n- `auth`：与安全或认证相关的消息\n- `authpriv`：与 `auth` 类似，但可能包含私密信息\n- `cron`：由 `cron` 或 `at` 任务调度器生成的消息\n- `daemon`：系统守护进程生成、但无特别分类的消息\n- `kern`：内核消息\n- `lpr`：打印子系统消息\n- `mail`：邮件子系统消息\n- `mark`：Syslog 产生的时间标记\n- `news`：USENET 管理子系统消息\n- `syslog`：Syslog 内部消息\n- `user`：普通用户消息\n- `uucp`：UUCP 子系统消息\n- `local0` 到 `local7`：供本地管理员自由使用的 facility\n\n#### 优先级（priority）\n\n优先级按严重程度从低到高如下：\n\n- `debug`：调试信息\n- `info`：一般信息\n- `notice`：正常但值得注意的信息\n- `warning`：警告\n- `err`：错误情况\n- `crit`：严重情况\n- `alert`：需要立即处理\n- `emerg`：系统不可用\n\n补充说明：\n\n- 某个优先级也表示所有比它更严重的优先级，除非前面加上 `=`，此时只表示它本身。\n- `none` 表示忽略该 facility 的消息。\n- 表示所有级别。\n- 在优先级前使用 `!` 表示不考虑该级别。\n\n#### 级别不是 debug 且不属于 mail、authpriv、cron 的消息收集到一个文件中\n\n*.info;mail.none;authpriv.none;cron.none /var/log/messages",
+              "excerpt": "## 事件日志服务 ### 系统事件：syslog - UNIX 系统用于收集系统或应用程序产生事件的机制非常高效。 - Unix 使用一种统一的 syslog 系统，这一系统开发于 20 世纪 80 年代。 - 系统事件的记录由两个程序（**守护进程**）管理： - `klogd` - `syslogd` - `klogd` **仅**负责监听来自**内核**的消息。 - `syslogd` 负责大部分工作。启动时，它会读取 `/etc/syslog.conf` 文件，并据此决定每类消息应记录到哪个文件。 conf 配置文件 - 可以根据消息来源和/或"
+            },
+            {
+              "sourceId": "notes-13-td6-md-d8fa0eea",
+              "title": "13-TD6",
+              "path": "notes/13-TD6.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 练习 1\n\n解释 `syslog.conf` 中的以下几行：\n\n```\nmail.notice /var/log/mail\n*.emerg @mothership.mydomain.org\nmail,uucp.notice /var/log/mail\nmail,uucp.notice;uucp.!=alert /var/log/mail\nmail,uucp.notice;uucp.!alert /var/log/mail\n```\n\n对应含义：\n\n1. **`mail.notice /var/log/mail`**\n    \n    来自 **mail** facility、优先级为 **notice 及更高** 的消息，会被写入 `mail` 文件。\n    \n2. **`.emerg @mothership.mydomain.org`**\n    \n    来自 **所有 facility**、优先级为 **emerg 及更高** 的消息，会被发送到主机 `mothership.mydomain.org`。\n    \n3. **`mail,uucp.notice /var/log/mail`**\n    \n    来自 **mail** 和 **uucp** facilities、优先级为 **notice 及更高** 的消息，会被写入 `mail` 文件。\n    \n4. **`mail,uucp.notice;uucp.!=alert /var/log/mail`**\n    \n    来自 **mail** 和 **uucp** facilities、优先级为 **notice 及更高** 的消息会被写入 `mail` 文件，\n    \n    但 **uucp 中优先级恰好为 alert 的消息除外**。\n    \n5. **`mail,uucp.notice;uucp.!alert /var/log/mail`**\n    \n    来自 **mail** 和 **uucp** facilities、优先级为 **notice 及更高** 的消息会被写入 `mail` 文件，\n    \n    但 **uucp 中优先级为 alert 及更高的消息除外**。\n    \n\n---\n\n#### 练习 2 —— 日志轮转\n\n1. 配置 `/var/log/warnings.log` 的自动轮转，避免它变得过大（使用 `logrotate`）。\n2. 将日志文件大小限制为 **10 MB**，并保留最近 **5** 个轮转文件。\n\n#### 示例配置\n\n编辑：\n\n```bash\nsudo nano /etc/logrotate.d/warnings\n```\n\n添加：\n\n```\n/var/log/warnings.log {\n    size 10M\n    rotate 5\n    compress\n    missingok\n    notifempty\n    create 640 root root\n}\n```\n\n#### 测试配置\n\n```bash\nsudo logrotate -d /etc/logrotate.conf\n```\n\n#### 执行轮转\n\n```bash\nsudo logrotate /etc/logrotate.conf\n```\n\n---",
+              "excerpt": "## 练习 1 解释 `syslog.conf` 中的以下几行： ``` mail.notice /var/log/mail *.emerg @mothership.mydomain.org mail,uucp.notice /var/log/mail mail,uucp.notice;uucp.!=alert /var/log/mail mail,uucp.notice;uucp.!alert /var/log/mail ``` 对应含义： 1. **`mail.notice /var/log/mail`** 来自 **mail** facility、"
+            },
+            {
+              "sourceId": "notes-16-md-56059bca",
+              "title": "16",
+              "path": "notes/16.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 自动识别系统中开机自启动的服务\n\n要识别你的 Unix 系统中会自动启动的服务：\n\n```bash\nsystemctl list-unit-files --type=service | grep enabled\n```\n\n或者：\n\n```bash\nchkconfig --list\n```\n\n禁用某个服务，使其不再自动启动：\n\n```bash\nsystemctl disable apache2\n```\n\n或者：\n\n```bash\nupdate-rc.d apache2 disable\n```\n\n确定系统当前的运行级别：\n\n```bash\nrunlevel\n```\n\n将运行级别切换到最小使用模式（单用户模式）：\n\n```bash\ninit 1\n```\n\n掌握关闭和重启 Unix 系统的命令：\n\n```bash\nreboot\nshutdown -h now\n```\n\n计划在 15 分钟后关闭系统：\n\n```bash\nshutdown -h +15\n```\n\n取消已计划的关机：\n\n```bash\nshutdown -c\n```\n\n停止和启动服务。\n\n---\n\n#### 练习 1 —— 安排一个任务，使服务每天夜里 3:00 自动重启\n\n1. 配置一个 cron 任务，用于重启某个服务（例如 apache2）。\n2. 检查该任务是否已正确添加。\n\n#### 参考答案\n\n编辑 crontab：\n\n```bash\ncrontab -e\n```\n\n添加如下行：\n\n```bash\n0 3 * * * sudo systemctl restart apache2\n```\n\n检查已计划的 cron 任务：\n\n```bash\ncrontab -l\n```\n\n---",
+              "excerpt": "## 自动识别系统中开机自启动的服务 要识别你的 Unix 系统中会自动启动的服务： ```bash systemctl list-unit-files --type=service | grep enabled ``` 或者： ```bash chkconfig --list ``` 禁用某个服务，使其不再自动启动： ```bash systemctl disable apache2 ``` 或者： ```bash update-rc.d apache2 disable ``` 确定系统当前的运行级别： ```bash runlevel ``` 将运行"
+            },
+            {
+              "sourceId": "base-files-12-01-cours-30-et-31-mars-amir-hajjam-pdf-48cc08bf",
+              "title": "12-01_Cours 30 et 31 mars - Amir Hajjam",
+              "path": "base-files/12-01_Cours 30 et 31 mars - Amir Hajjam.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 2\n\nLes évènements systèmes : syslog\n\n✓ Le mécanisme du système UNIX pour la collecte des évènements générés par le\n  système ou les applications est performant.\n\n✓ Unix utilise un système uniforme syslog développé dans les années 1980.\n\n✓ L'enregistrement des événements systèmes est géré par deux programmes (démons) :\n  klogd et syslogd.\n\n✓ klogd est simplement à l'écoute des messages en provenance du noyau. C'est\n  syslogd qui exécute la plus grosse partie du travail. Lors de son lancement, syslogd\n  lit le fichier /etc/syslog.conf, et en déduit dans quel fichier doit être enregistré\n  chaque message.\n\n✓ Il est possible de rediriger ces messages selon leur origine et/ou leur niveau vers\n  des fichiers, la console, etc. voire vers le Syslog d'une autre machine.\n\n✓ Par défaut, la quasi-totalité des messages sont dirigés vers un ensemble de fichiers\n  situés dans le répertoire /var/log.\n\n#### Page 3\n\nLes évènements systèmes : syslog\n\n✓ Une ligne du fichier /etc/syslog.conf est une règle de la forme :\n    facility.priority[,facility.priority,...] action\n\n✓ Les sources des messages sont appelées « facilités ». En voici la liste :\n\n    auth authpriv   - message relatif à la sécurité ou l'authentification\n                    comme auth mais susceptible de contenir des informations privées\n    cron daemon     - messages générés par les planificateurs de tâches cron ou at\n                    un des démons du système sans classification particulière\n    Kern            - messages du noyau\n    lpr             - messages du sous-système d'impression messages du sous-système\n                    de messagerie marqueurs de temps générés par Syslog\n    mail mark news - messages du sous-système de gestion USENET\n    syslog          - messages internes de Syslog\n    user            - messages utilisateur génériques\n    uucp            - messages du sous-système UUCP\n    local0 à local7 - facilités utilisées à la discrétion de l'administrateur local\n\n#### Page 4\n\nLes évènements systèmes : syslog\n\n\n✓ Les niveaux de priorités (par ordre de gravité)\n  sont : debug     - messages destinés au débuggage\n         info        - informations\n         notice      - normal mais significatif\n         warning     - avertissement\n         err         - conditions d'erreur\n         crit        - conditions critiques\n         alert       - action à gérer immédiatement\n         emerg       - système inutilisable\n\n✓ Une priorité représente également toutes les priorités qui lui sont supérieures excepté si\n  elle est précédée du signe « = » (dans ce cas, elle ne représente qu'elle-même).\n✓ La priorité « none » indique de ne pas tenir compte du message pour la facilité\n  concernée tandis que « * » représente tous les niveaux.\n✓ Le caractère « ! » utilisé devant la priorité indique de ne pas en tenir compte.\n\n#### Page 5\n\nLes évènements systèmes : exemple syslog.conf\n\n#### les facilités mail, authpriv et cron sont collectés dans un fichier.\n\n*.info;mail.none;authpriv.none;cron.none /var/log/messages",
+              "excerpt": "## Page 1 Services de journaux d’évènements ## Page 2 Les évènements systèmes : syslog ✓ Le mécanisme du système UNIX pour la collecte des évènements générés par le système ou les applications est performant. ✓ Unix utilise un système uniforme syslog développé dans les années 198"
+            },
+            {
+              "sourceId": "base-files-12-01-cours-30-et-31-mars-amir-hajjam-md-0e0d58ba",
+              "title": "12-01_Cours_30_et_31_mars_Amir_Hajjam_中文翻译",
+              "path": "base-files/12-01_Cours_30_et_31_mars_Amir_Hajjam_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 系统事件：syslog\n\n- UNIX 系统用于收集系统或应用程序产生事件的机制非常高效。\n- Unix 使用一种统一的 syslog 系统，这一系统开发于 20 世纪 80 年代。\n- 系统事件的记录由两个程序（**守护进程**）管理：\n    - `klogd`\n    - `syslogd`\n- `klogd` **仅**负责监听来自**内核**的消息。\n- `syslogd` 负责大部分工作。启动时，它会读取 `/etc/syslog.conf` 文件，并据此决定每类消息应记录到哪个文件。\n    \n    conf 配置文件\n    \n- 可以根据消息来源和/或级别，将消息重定向到文件、控制台等，甚至发送到另一台机器的 Syslog。\n- 默认情况下，几乎所有消息都会被写入 **`/var/log`** 目录下的一组文件中。\n    \n    ```bash\n    $ ls /var/log/\n    AccessoryCrash_LeftPrimary_7415F5204100_2026-04-14-18-10-15.bin\n    apache2\n    asl\n    com.apple.wifi.analytics\n    com.apple.wifivelocity\n    com.apple.xpc.launchd\n    connector_log.out\n    CoreDuet\n    cups\n    DiagnosticMessages\n    dm\n    fsck_apfs_error.log\n    fsck_apfs.log\n    fsck_hfs.log\n    install.log\n    \n    system.log\n    \n    wifi.log\n    ```\n\n#### syslog 规则格式\n\n`/etc/syslog.conf` 文件中的一行规则格式如下：\n\n```\nfacility.priority[,facility.priority,...] action\n```\n\n#### 消息来源（facility）\n\n消息来源称为“facility”，包括：\n\n- `auth`：与安全或认证相关的消息\n- `authpriv`：与 `auth` 类似，但可能包含私密信息\n- `cron`：由 `cron` 或 `at` 任务调度器生成的消息\n- `daemon`：系统守护进程生成、但无特别分类的消息\n- `kern`：内核消息\n- `lpr`：打印子系统消息\n- `mail`：邮件子系统消息\n- `mark`：Syslog 产生的时间标记\n- `news`：USENET 管理子系统消息\n- `syslog`：Syslog 内部消息\n- `user`：普通用户消息\n- `uucp`：UUCP 子系统消息\n- `local0` 到 `local7`：供本地管理员自由使用的 facility\n\n#### 优先级（priority）\n\n优先级按严重程度从低到高如下：\n\n- `debug`：调试信息\n- `info`：一般信息\n- `notice`：正常但值得注意的信息\n- `warning`：警告\n- `err`：错误情况\n- `crit`：严重情况\n- `alert`：需要立即处理\n- `emerg`：系统不可用\n\n补充说明：\n\n- 某个优先级也表示所有比它更严重的优先级，除非前面加上 `=`，此时只表示它本身。\n- `none` 表示忽略该 facility 的消息。\n- 表示所有级别。\n- 在优先级前使用 `!` 表示不考虑该级别。\n\n#### 级别不是 debug 且不属于 mail、authpriv、cron 的消息收集到一个文件中\n\n*.info;mail.none;authpriv.none;cron.none /var/log/messages",
+              "excerpt": "## 事件日志服务 ### 系统事件：syslog - UNIX 系统用于收集系统或应用程序产生事件的机制非常高效。 - Unix 使用一种统一的 syslog 系统，这一系统开发于 20 世纪 80 年代。 - 系统事件的记录由两个程序（**守护进程**）管理： - `klogd` - `syslogd` - `klogd` **仅**负责监听来自**内核**的消息。 - `syslogd` 负责大部分工作。启动时，它会读取 `/etc/syslog.conf` 文件，并据此决定每类消息应记录到哪个文件。 conf 配置文件 - 可以根据消息来源和/或"
+            },
+            {
+              "sourceId": "base-files-13-td5-td6-md-b13b0e61",
+              "title": "13_TD5-TD6_中文翻译",
+              "path": "base-files/13_TD5-TD6_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 练习 1\n\n解释 `syslog.conf` 中的以下几行：\n\n```conf\nmail.notice /var/log/mail\n*.emerg @mothership.mydomain.org\nmail,uucp.notice /var/log/mail\nmail,uucp.notice;uucp.!=alert /var/log/mail\nmail,uucp.notice;uucp.!alert /var/log/mail\n```\n\n对应含义：\n\n1. **`mail.notice /var/log/mail`**  \n   来自 **mail** facility、优先级为 **notice 及更高** 的消息，会被写入 `mail` 文件。\n\n2. **`*.emerg @mothership.mydomain.org`**  \n   来自 **所有 facility**、优先级为 **emerg 及更高** 的消息，会被发送到主机 `mothership.mydomain.org`。\n\n3. **`mail,uucp.notice /var/log/mail`**  \n   来自 **mail** 和 **uucp** facilities、优先级为 **notice 及更高** 的消息，会被写入 `mail` 文件。\n\n4. **`mail,uucp.notice;uucp.!=alert /var/log/mail`**  \n   来自 **mail** 和 **uucp** facilities、优先级为 **notice 及更高** 的消息会被写入 `mail` 文件，  \n   但 **uucp 中优先级恰好为 alert 的消息除外**。\n\n5. **`mail,uucp.notice;uucp.!alert /var/log/mail`**  \n   来自 **mail** 和 **uucp** facilities、优先级为 **notice 及更高** 的消息会被写入 `mail` 文件，  \n   但 **uucp 中优先级为 alert 及更高的消息除外**。\n\n---\n\n#### 练习 2 —— 日志轮转\n\n1. 配置 `/var/log/warnings.log` 的自动轮转，避免它变得过大（使用 `logrotate`）。\n2. 将日志文件大小限制为 **10 MB**，并保留最近 **5** 个轮转文件。\n\n#### 示例配置\n\n编辑：\n\n```bash\nsudo nano /etc/logrotate.d/warnings\n```\n\n添加：\n\n```conf\n/var/log/warnings.log {\n    size 10M\n    rotate 5\n    compress\n    missingok\n    notifempty\n    create 640 root root\n}\n```\n\n#### 测试配置\n\n```bash\nsudo logrotate -d /etc/logrotate.conf\n```\n\n#### 执行轮转\n\n```bash\nsudo logrotate /etc/logrotate.conf\n```\n\n---",
+              "excerpt": "# TD 3.1（中文翻译） ## 练习 1 解释 `syslog.conf` 中的以下几行： ```conf mail.notice /var/log/mail *.emerg @mothership.mydomain.org mail,uucp.notice /var/log/mail mail,uucp.notice;uucp.!=alert /var/log/mail mail,uucp.notice;uucp.!alert /var/log/mail ``` 对应含义： 1. **`mail.notice /var/log/mail`** 来自"
+            },
+            {
+              "sourceId": "base-files-13-tds-31-et-32-avec-correction-md-41e012cd",
+              "title": "13_TDs-31-et-32-Avec-Correction_中文翻译",
+              "path": "base-files/13_TDs-31-et-32-Avec-Correction_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 练习 1\n\n解释 `syslog.conf` 中的以下几行：\n\n```conf\nmail.notice /var/log/mail\n*.emerg @mothership.mydomain.org\nmail,uucp.notice /var/log/mail\nmail,uucp.notice;uucp.!=alert /var/log/mail\nmail,uucp.notice;uucp.!alert /var/log/mail\n```\n\n对应含义如下：\n\n1. **`mail.notice /var/log/mail`**  \n   来自 **mail facility**、优先级为 **notice 及以上** 的消息，会被发送到 `mail` 文件中。\n\n2. **`*.emerg @mothership.mydomain.org`**  \n   来自 **所有 facility**、优先级为 **emerg 及以上** 的消息，会被发送到主机 `mothership.mydomain.org`。\n\n3. **`mail,uucp.notice /var/log/mail`**  \n   来自 **mail** 和 **uucp** 这两个 facility、优先级为 **notice 及以上** 的消息，会被发送到 `mail` 文件中。\n\n4. **`mail,uucp.notice;uucp.!=alert /var/log/mail`**  \n   来自 **mail** 和 **uucp** 的、优先级为 **notice 及以上** 的消息会被发送到 `mail` 文件中，  \n   但 **uucp 中优先级恰好为 alert 的消息除外**。\n\n5. **`mail,uucp.notice;uucp.!alert /var/log/mail`**  \n   来自 **mail** 和 **uucp** 的、优先级为 **notice 及以上** 的消息会被发送到 `mail` 文件中，  \n   但 **uucp 中优先级为 alert 以及更高的消息除外**。\n\n---\n\n#### 练习 2 —— 日志轮转\n\n1. 配置 `/var/log/warnings.log` 的自动轮转，防止其变得过大（使用 `logrotate`）。\n2. 将日志文件大小限制为 **10 MB**，并保留最近 **5** 个轮转后的文件。\n\n#### 配置方法\n\n修改配置文件：\n\n```bash\nsudo nano /etc/logrotate.d/warnings\n```\n\n添加以下内容：\n\n```conf\n/var/log/warnings.log {\n    size 10M\n    rotate 5\n    compress\n    missingok\n    notifempty\n    create 640 root root\n}\n```\n\n#### 测试配置\n\n```bash\nsudo logrotate -d /etc/logrotate.conf\n```\n\n#### 应用轮转\n\n```bash\nsudo logrotate /etc/logrotate.conf\n```\n\n---",
+              "excerpt": "# TD 3.1 与 TD 3.2（中文翻译） ## TD 3.1 ## 练习 1 解释 `syslog.conf` 中的以下几行： ```conf mail.notice /var/log/mail *.emerg @mothership.mydomain.org mail,uucp.notice /var/log/mail mail,uucp.notice;uucp.!=alert /var/log/mail mail,uucp.notice;uucp.!alert /var/log/mail ``` 对应含义如下： 1. **`mail.notic"
+            },
+            {
+              "sourceId": "base-files-14-td-fri-1-pdf-c699a325",
+              "title": "14_td-fri-1",
+              "path": "base-files/14_td-fri-1.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nExercise 4 - Configure rsyslog to send logs to a remote server\n\n\n\n\nQuestion:\n\n\n Exercice 4 - Configurer rsyslog pour envoyer des\n journaux à un serveur distant\n\n\n Configurer un serveur Unix pour envoyer tous\n les messages de journal à un serveur distant ayant\n l’adresse IP 192.168.1.100 sur le port UDP 514.\n\n\nAnswer:\n\n\n Ouvrez /etc/rsyslog.conf sur le client et ajoutez la ligne\n suivante pour envoyer les journaux au serveur distant :\n\n\n *.* @192.168.1.100:514\n\n\n\n Si vous voulez utiliser TCP (plus fiable qu’UDP qui ne\n garanti pas la livraison des messages) pour plus de\n fiabilité, utilisez @@ au lieu de @ :\n\n\n *.* @@192.168.1.100:514\n\n\n                                                                                Network (Port 514)\n                                                                                                              Remote Logging Server (192.168.1.100)\n\n                                                                                   UDP Stream\n\n\n\n                                                                                                     rsyslogd Service      Store\n                                                                                                                                    /var/log/remote/client.log\n\n\n\n                                                                                   TCP Stream\n\n\n\n\n                                    Client Machine (Log Sender)\n                                                                    UDP: @\n\n    Applications & Kernel   Local Logs      rsyslogd Service       TCP: @@\n\n                                                                  Read Config\n                                                                                /etc/rsyslog.conf\n\n\n\n\nThis exercise focuses on centralizing log management by configuring a Unix/Linux system (the\nclient) to forward all its log messages to a dedicated remote server. Centralized logging is crucial for\n\n#### Page 2\n\nsecurity analysis, auditing, and troubleshooting multiple systems from a single location.\n\nDetailed Explanation:\n\n  1. Objective: The primary goal is to redirect the local system's logging stream. Instead of (or in\n    addition to) writing logs to files like /var/log/syslog locally, the system's rsyslog daemon\n    will transmit each log entry over the network to a server at IP address 192.168.1.100 .\n  2. Configuration File: The configuration for the rsyslog daemon is primarily stored in\n     /etc/rsyslog.conf . This file contains rules that define what log messages (based on their\n    facility and severity) go to which destination (file, console, remote host, etc.).\n  3. The Forwarding Rule Syntax: The line *.* @192.168.1.100:514 is a forwarding rule.\n          *.* : The first * represents the facility (the subsystem generating the message, e.g.,\n          auth , kern , mail ). The second * represents the severity or priority (e.g., emerg ,\n          alert , crit , err , warning , notice , info , debug ). Using *.* means \"ALL\n         facilities at ALL severity levels.\"\n          @ : The @ symbol is the protocol indicator. A single @ signifies transmission using the\n         UDP (User Datagram Protocol).\n          192.168.1.100:514 : This is the destination. 192.168.1.100 is the remote server's IP\n         address, and 514 is the standard port for the syslog protocol.\n  4. UDP vs. TCP – A Critical Distinction:\n         UDP ( @ ): As stated, UDP does not guarantee delivery. It is a connectionless, \"fire-and-\n         forget\" protocol. This means log messages can be lost due to network congestion without\n         the sender knowing. It is faster and has less overhead but is unreliable. The configuration\n          *.* @192.168.1.100:514 uses UDP.\n         TCP ( @@ ): Using a double @ ( @@ ) instructs rsyslog to use TCP (Transmission Control\n         Protocol). TCP is connection-oriented. It establishes a session with the server and\n         guarantees delivery by requesting acknowledgments and retransmitting lost packets. This\n         is essential for reliable log collection where missing an \"authentication failure\" or \"disk full\"\n         message is unacceptable. The line *.* @@192.168.1.100:514 would enable this more\n         reliable method.\n  5. Steps:\n         Edit the client's configuration file: sudo nano /etc/rsyslog.conf\n         Add the appropriate line ( @ for UDP, @@ for TCP) to the end of the rules section.\n         Restart the rsyslog service to apply changes: sudo systemctl restart rsyslog\n\n\n\n\nExercise 5 - Filter \"warning\" level messages and pipe them to a Bash script\n\nQuestion:\n\n#### Page 3\n\nExercice 5 - Filtrer les messages de niveau “warning”\n et les transmettre à un script Bash pour traitement\n\n\n Configurer rsyslog pour détecter tous les messages de\n niveau warning (ou supérieur) provenant de la facilité\n auth et les envoyer à un script Bash. Ce script doit\n enregistrer les messages dans un fichier\n /var/log/auth_warning.log avec un horodatage du type :\n 2024-12-30 14:35:42 Authentication failure for user 'admin’.\n\n\nAnswer:\n\n#### Page 4\n\nSystem Events / Auth\n                              Attempts\n\n\n                               Generate\n\n\n             rsyslogd Daemon\n\n\n                             Auth Facility\n/etc/rsyslog.conf\n\n\n\n  Defines Rules\n\n\n\n\n         Rsyslog with Filter Engine\n\n\n\n\n           Match: auth.warning\n\n\n            External Processing\n\n\n             | Pipe / omprog\n\n\n\n\n     /usr/local/bin/auth_warnings.sh\n\n\n            Append Timestamp\n\n\n\n\n        /var/log/auth_warning.log\n\n#### Page 5\n\nCréez un fichier de script nommé\n/usr/local/bin/auth_warnings.sh :\n\n\n #!/bin/bash\n while read -r line; do\n        echo \"$(date '+%Y-%m-%d %H:%M:%S') $line\" >> /var/log/auth_warning.log\n Done\n\n\nRendez-le exécutable :\n\n\n sudo chmod +x /usr/local/bin/auth_warnings.sh\n\n\nModifiez le fichier /etc/rsyslog.conf :\n\n\n auth.warning | /usr/local/bin/auth_warnings.sh\n\n\nOu\n\n\n if ($syslogfacility-text == 'auth' and $msg contains\n 'warning') then | /usr/local/bin/auth_warnings.sh\n\n\nOu\n\n\n if ($syslogfacility-text == 'auth' and $syslogseverity <= 4) then {\n      action(type=\"omprog\" binary=\"/usr/local/bin/auth_warnings.sh\")\n      stop\n        }\n\n\n\n\nThis exercise demonstrates advanced log processing by filtering specific messages and passing\nthem to a custom script for specialized handling, rather than just writing them to a file.\n\nDetailed Explanation:\n\n  1. Objective: Intercept all log messages from the auth / authorization facility (which handles\n     login, sudo, ssh, etc.) that have a severity of warning or higher (i.e., more severe: err , crit ,\n     alert , emerg ). These filtered messages are then streamed to a custom Bash script for\n     formatting and output.\n  2. Understanding Facilities and Severities: Rsyslog messages have two key properties:",
+              "excerpt": "## Page 1 Exercise 4 - Configure rsyslog to send logs to a remote server Question: Exercice 4 - Configurer rsyslog pour envoyer des journaux à un serveur distant Configurer un serveur Unix pour envoyer tous les messages de journal à un serveur distant ayant l’adresse IP 192.168.1"
+            },
+            {
+              "sourceId": "base-files-14-td-fri-1-md-8a8ebd67",
+              "title": "14_td-fri-1_中文翻译",
+              "path": "base-files/14_td-fri-1_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 答案\n\n在客户端打开 `/etc/rsyslog.conf`，加入下面这行，将日志发送到远程服务器：\n\n```conf\n*.* @192.168.1.100:514\n```\n\n如果你想使用 **TCP**（比 UDP 更可靠，因为 UDP 不保证消息一定送达），把 `@` 改成 `@@`：\n\n```conf\n*.* @@192.168.1.100:514\n```\n\n---\n\n本练习关注的是**集中式日志管理**：通过配置 Unix/Linux 系统（客户端），把它产生的所有日志消息转发到专门的远程日志服务器。集中式日志对于**安全分析、审计、以及统一排查多台机器问题**都非常重要。\n\n#### 1. 目标\n\n核心目标是**重定向本机的日志流**。也就是说，系统不仅可以像平时一样把日志写到本地文件（例如 `/var/log/syslog`），还会让 `rsyslog` 守护进程把每一条日志通过网络发送到 IP 为 `192.168.1.100` 的远程服务器。\n\n#### 2. 配置文件\n\n`rsyslog` 的主要配置文件通常是：\n\n```bash\n/etc/rsyslog.conf\n```\n\n这个文件里定义了各种规则，用来说明：\n\n- 哪些日志消息会被匹配\n- 按照什么条件匹配（facility 与 severity）\n- 匹配后要发送到哪里（文件、控制台、远程主机等）\n\n#### 3. 转发规则语法\n\n这一行：\n\n```conf\n*.* @192.168.1.100:514\n```\n\n就是一条**日志转发规则**。\n\n- `*.*`\n  - 第一个 `*` 表示 **facility（日志来源子系统）**\n    - 如 `auth`、`kern`、`mail`\n  - 第二个 `*` 表示 **severity / priority（严重级别）**\n    - 如 `emerg`、`alert`、`crit`、`err`、`warning`、`notice`、`info`、`debug`\n  - 所以 `*.*` 的意思就是：**所有 facility 的所有级别日志**\n\n- `@`\n  - 单个 `@` 表示使用 **UDP** 协议发送\n\n- `192.168.1.100:514`\n  - 目标服务器地址与端口\n  - `192.168.1.100` 是远程日志服务器 IP\n  - `514` 是 syslog 协议默认端口\n\n#### 编辑客户端配置文件\n\n```bash\nsudo nano /etc/rsyslog.conf\n```",
+              "excerpt": "# 练习 4 - 配置 rsyslog 将日志发送到远程服务器 ## 题目 配置一台 Unix 服务器，将**所有日志消息**发送到一个远程服务器，目标地址为 **192.168.1.100**，使用 **UDP 514** 端口。 ## 答案 在客户端打开 `/etc/rsyslog.conf`，加入下面这行，将日志发送到远程服务器： ```conf *.* @192.168.1.100:514 ``` 如果你想使用 **TCP**（比 UDP 更可靠，因为 UDP 不保证消息一定送达），把 `@` 改成 `@@`： ```conf *.* @@192"
+            },
+            {
+              "sourceId": "base-files-16-td7-td8-pdf-46a44a7f",
+              "title": "16_TD7-TD8",
+              "path": "base-files/16_TD7-TD8.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 2\n\nArrêter et démarrer des services\nPour identifiez les services qui démarrent automatiquement sur votre système Unix :\n                                    systemctl list-unit-files --type=service | grep enabled\n                                                               Ou\n                                                        chkconfig –list\n\nDésactiver un service pour qu’il ne démarre plus automatiquement.\n                                                  systemctl disable apache2\n                                                              Ou\n                                                 update-rc.d apache2 disable\n\nDéterminez le niveau d’exécution actuel de votre système.\n                                                            Runlevel\n\nChangez le niveau d’exécution pour passer à un mode d’utilisation minimal (mode mono-utilisateur).\n                                                            init 1\n\nMaîtriser les commandes pour éteindre et redémarrer un système Unix\n                                                          reboot\n                                                     shutdown -h now\n\nPlanifiez un arrêt du système dans 15 minutes.\n                                                      shutdown -h +15\nPour annuler l’arrêt programmé\n                                                        shutdown -c\n\n#### Page 3\n\nExercice 1 – Programmer une tâche pour redémarrer automatiquement un service chaque nuit à 3h00.\n\n\n1. Configurez une tâche cron pour redémarrer un service (par exemple, apache2).\n2. Vérifiez que la tâche est correctement ajoutée.\n\n\n\n\nSolution\n\nÉditez le crontab :                                  crontab -e\n\nAjoutez la ligne suivante :                          0 3 * * * sudo systemctl restart apache2\n\nVérifiez les tâches cron programmées :               crontab -l",
+              "excerpt": "## Page 1 TD 4.1 ## Page 2 Arrêter et démarrer des services Pour identifiez les services qui démarrent automatiquement sur votre système Unix : systemctl list-unit-files --type=service | grep enabled Ou chkconfig –list Désactiver un service pour qu’il ne démarre plus automatiquem"
+            },
+            {
+              "sourceId": "base-files-16-td7-td8-md-5308c3d1",
+              "title": "16_TD7-TD8_中文翻译",
+              "path": "base-files/16_TD7-TD8_中文翻译.md",
+              "kind": "note",
+              "language": "zh",
+              "content": "#### 自动识别系统中开机自启动的服务\n\n要识别你的 Unix 系统中会自动启动的服务：\n\n```bash\nsystemctl list-unit-files --type=service | grep enabled\n```\n\n或者：\n\n```bash\nchkconfig --list\n```\n\n禁用某个服务，使其不再自动启动：\n\n```bash\nsystemctl disable apache2\n```\n\n或者：\n\n```bash\nupdate-rc.d apache2 disable\n```\n\n确定系统当前的运行级别：\n\n```bash\nrunlevel\n```\n\n将运行级别切换到最小使用模式（单用户模式）：\n\n```bash\ninit 1\n```\n\n掌握关闭和重启 Unix 系统的命令：\n\n```bash\nreboot\nshutdown -h now\n```\n\n计划在 15 分钟后关闭系统：\n\n```bash\nshutdown -h +15\n```\n\n取消已计划的关机：\n\n```bash\nshutdown -c\n```\n\n停止和启动服务。\n\n---\n\n#### 练习 1 —— 安排一个任务，使服务每天夜里 3:00 自动重启\n\n1. 配置一个 cron 任务，用于重启某个服务（例如 apache2）。\n2. 检查该任务是否已正确添加。\n\n#### 参考答案\n\n编辑 crontab：\n\n```bash\ncrontab -e\n```\n\n添加如下行：\n\n```bash\n0 3 * * * sudo systemctl restart apache2\n```\n\n检查已计划的 cron 任务：\n\n```bash\ncrontab -l\n```\n\n---",
+              "excerpt": "## 自动识别系统中开机自启动的服务 要识别你的 Unix 系统中会自动启动的服务： ```bash systemctl list-unit-files --type=service | grep enabled ``` 或者： ```bash chkconfig --list ``` 禁用某个服务，使其不再自动启动： ```bash systemctl disable apache2 ``` 或者： ```bash update-rc.d apache2 disable ``` 确定系统当前的运行级别： ```bash runlevel ``` 将运行"
+            }
+          ]
+        },
+        {
+          "type": "sandbox-links",
+          "ids": [
+            "syslog-rule-matcher"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "appendix-sources",
+      "title": "补充原始资料",
+      "anchor": "appendix-sources",
+      "sourceIds": [
+        "base-files-13-td5-td6-pdf-139514b6",
+        "base-files-13-tds-31-et-32-avec-correction-pptx-e68c79e3"
+      ],
+      "glossaryIds": [],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。"
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "base-files-13-td5-td6-pdf-139514b6",
+              "title": "13_TD5-TD6",
+              "path": "base-files/13_TD5-TD6.pdf",
+              "kind": "pdf",
+              "language": "fr",
+              "content": "#### Page 1\n\nTD 3.1\n\n#### Page 2\n\nExercice 1\nExpliquez les lignes suivantes du syslog.conf :\n\n    mail.notice                      /var/log/mail\n    Les messages de priorité notice et supérieurs de la « facilité » mail sont envoyés dans le fichier mail\n\n    *.emerg                         @mothership.mydomain.org\n    Les messages de priorité emerg et supérieurs de toutes les « facilités » vers la machine mothership\n\n    mail,uucp.notice                     /var/log/mail\n    Les messages de priorité notice et supérieurs des « facilités » mail et uucp sont envoyés dans le fichier mail\n\n    mail,uucp.notice;uucp.!=alert        /var/log/mail\n    Les messages de priorité notice et supérieurs des « facilités » mail et uucp sauf de priorité alert pour uucp\n    sont envoyés dans le fichier mail\n\n    mail,uucp.notice;uucp.!alert         /var/log/mail\n    Les messages de priorité notice et supérieurs des « facilités » mail et uucp sauf de priorité alert et supérieure\n    pour uucp sont envoyés dans le fichier mail\n\n#### Page 3\n\nExercice 2 - Rotation des journaux\n1. Configurez la rotation automatique du fichier /var/log/warnings.log pour éviter qu’il devienne trop volumineux (utilisez\nlogrotate).\n2. Limitez la taille du fichier journal à 10 Mo et conservez les 5 derniers fichiers.\n\n#### Page 4\n\nExercice 2 - Rotation des journaux\n1. Configurez la rotation automatique du fichier /var/log/warnings.log pour éviter qu’il devienne trop volumineux (utilisez\n   logrotate).\n2. 2. Limitez la taille du fichier journal à 10 Mo et conservez les 5 derniers fichiers.\n\n\n                                             sudo nano /etc/logrotate.d/warnings\nAjouter\n                                                     /var/log/warnings.log {\n                                                             size 10M\n                                                              rotate 5\n                                                             compress\n                                                             missingok\n                                                            notifempty\n                                                       create 640 root root }\n\n\nPour tester\n                                              sudo logrotate -d /etc/logrotate.conf\n\nAppliquer la rotation\n                                              sudo logrotate /etc/logrotate.conf\n\n#### Page 5\n\nSyslog et Rsyslog\n\nsyslog et rsyslog sont deux systèmes de gestion et de traitement des journaux sous Unix/Linux. Ils partagent\ndes fonctionnalités de base, mais diffèrent par leurs capacités et leur utilisation.\n\nRsyslog\nrsyslog est une version améliorée et enrichie de syslog, introduite pour combler ses limitations et répondre aux\nbesoins modernes.\n\n   • Compatibilité ascendante : Peut utiliser les configurations de syslog (/etc/syslog.conf), mais utilise\n   généralement /etc/rsyslog.conf.\n   • Protocole avancé :\n       • Supporte les protocoles Syslog modernes comme RFC 5424 (plus robuste que RFC 3164).\n       • Utilise UDP, TCP, et TLS pour une communication sécurisée.\n   • Puissance et extensibilité :\n       • Capable de traiter de très grands volumes de journaux.\n       • Peut écrire les journaux dans des bases de données (MySQL, PostgreSQL) ou les envoyer à des\n       systèmes centralisés.\n   • Filtres avancés :\n       • Supporte des règles complexes basées sur des expressions régulières ou des conditions spécifiques.",
+              "excerpt": "## Page 1 TD 3.1 ## Page 2 Exercice 1 Expliquez les lignes suivantes du syslog.conf : mail.notice /var/log/mail Les messages de priorité notice et supérieurs de la « facilité » mail sont envoyés dans le fichier mail *.emerg @mothership.mydomain.org Les messages de priorité emerg "
+            },
+            {
+              "sourceId": "base-files-13-tds-31-et-32-avec-correction-pptx-e68c79e3",
+              "title": "13_TDs-31-et-32-Avec-Correction",
+              "path": "base-files/13_TDs-31-et-32-Avec-Correction.pptx",
+              "kind": "pptx",
+              "language": "fr",
+              "content": "#### Slide 1\n\nTD 3.1\n\n#### Slide 2\n\nExercice 3 -\nAlertes en temps réel pour des événements critiques\nConfigurer une alerte en temps réel pour tout événement critique (\ncrit\nou supérieur) sur le système, de manière à envoyer un email automatique à un administrateur avec le contenu du journal.\n1. Configurez\nrsyslog\npour détecter les événements critiques et exécuter un script personnalisé pour envoyer un email.\n2. Implémentez un script\nshell\npour générer l’email avec les informations pertinentes.\nDans\n/\netc\n/\nrsyslog.conf\n, ajoutez :\n*.\ncrit\n|/\nusr\n/local/bin/\nsend_alert.sh\nCréez un script\n/\nusr\n/local/bin/\nsend_alert.sh\n:\n#!/bin/\nbash\nwhile\nread\nline; do\necho\n\"$line\" |\nmailx\n-s \"Alerte critique détectée\"\nadmin@example.com\ndone\nRendez-le exécutable :\nchmod +x /\nusr\n/local/bin/\nsend_alert.sh\nRedémarrez\nrsyslog\npour appliquer la configuration :\nsudo\nsystemctl\nrestart\nrsyslog\nou\nsudo\nservice\nrsyslog\nrestart    \tou\nsudo\nkillall\nrsyslogd\n\n#### Slide 3\n\nTD 3.2\n\n#### Slide 4\n\nExercice 4 -\nConfigurer\nrsyslog\npour envoyer des journaux à un serveur distant\nConfigurer un serveur Unix pour envoyer tous les messages de journal à un serveur distant ayant l’adresse IP\n192.168.1.100\nsur le port UDP\n514\n.\n\n#### Slide 5\n\nExercice 4 -\nConfigurer\nrsyslog\npour envoyer des journaux à un serveur distant\nConfigurer un serveur Unix pour envoyer tous les messages de journal à un serveur distant ayant l’adresse IP\n192.168.1.100\nsur le port UDP\n514\n.\nOuvrez\n/\netc\n/\nrsyslog.conf\nsur le client et ajoutez la ligne suivante pour envoyer les journaux au serveur distant :\n*.* @192.168.1.100:514\nSi vous voulez utiliser TCP (plus fiable qu’UDP qui ne garanti pas la livraison des messages) pour plus de fiabilité, utilisez\n@@\nau lieu de\n@\n:\n*.* @@192.168.1.100:514",
+              "excerpt": "## Slide 1 TD 3.1 ## Slide 2 Exercice 3 - Alertes en temps réel pour des événements critiques Configurer une alerte en temps réel pour tout événement critique ( crit ou supérieur) sur le système, de manière à envoyer un email automatique à un administrateur avec le contenu du jou"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "review": {
+    "checklist": [
+      "syslog 用 facility 与 priority 描述日志来源和严重级别。",
+      "rsyslog 在兼容 syslog 的基础上扩展了模块、性能与集中式采集能力。",
+      "logrotate 用于控制日志的大小、保留、压缩与权限。"
+    ],
+    "pitfalls": [
+      "只记规则语法，不理解 facility / priority 匹配语义。"
+    ],
+    "diagramIdeas": [
+      "日志流：内核/服务 -> syslog/rsyslog -> 文件/远程服务器。"
+    ]
+  },
+  "previousSlug": "free-software",
+  "nextSlug": "filesystem-admin"
+}

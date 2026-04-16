@@ -1,0 +1,241 @@
+[
+  {
+    "id": "shell-flow",
+    "slug": "shell-flow",
+    "title": "Shell 命令流模拟",
+    "summary": "用一组常见命令组合模拟终端输入、命令执行和输出结果。",
+    "conceptTargets": [
+      "Shell",
+      "命令行",
+      "标准输入输出"
+    ],
+    "limitations": [
+      "不执行真实系统命令",
+      "仅覆盖课程示例中的常见指令"
+    ],
+    "initialState": {
+      "command": "ls -l | grep .txt",
+      "cwd": "/home/student"
+    },
+    "chapterSlugs": [
+      "linux-cli",
+      "shell-control"
+    ]
+  },
+  {
+    "id": "permissions-map",
+    "slug": "permissions-map",
+    "title": "文件树与权限可视化",
+    "summary": "在目录树和权限面板中理解八进制、符号权限与链接的区别。",
+    "conceptTargets": [
+      "文件系统",
+      "权限",
+      "硬链接",
+      "符号链接"
+    ],
+    "limitations": [
+      "不修改真实文件",
+      "仅模拟 owner/group/other 三组权限"
+    ],
+    "initialState": {
+      "octal": "754",
+      "selectedNode": "report.txt"
+    },
+    "chapterSlugs": [
+      "filesystem-permissions"
+    ]
+  },
+  {
+    "id": "redirection-lab",
+    "slug": "redirection-lab",
+    "title": "重定向与管道数据流",
+    "summary": "观察 stdin/stdout/stderr 如何在命令、文件和管道之间流动。",
+    "conceptTargets": [
+      "重定向",
+      "管道",
+      "错误输出"
+    ],
+    "limitations": [
+      "仅模拟文本流",
+      "不执行真实 Shell 语法解析"
+    ],
+    "initialState": {
+      "stdin": "error line\nok line",
+      "stdoutFile": "out.log"
+    },
+    "chapterSlugs": [
+      "shell-control"
+    ]
+  },
+  {
+    "id": "regex-playground",
+    "slug": "regex-playground",
+    "title": "Regex / awk Playground",
+    "summary": "用课程中的样本文本测试正则、grep 风格匹配和 awk 风格字段处理。",
+    "conceptTargets": [
+      "正则表达式",
+      "grep",
+      "sed",
+      "awk"
+    ],
+    "limitations": [
+      "awk 仅提供课程级别的字段和替换演示",
+      "不运行外部进程"
+    ],
+    "initialState": {
+      "pattern": "[A-Z][a-z]+",
+      "sample": "BoB EmpruntE TemporairemenT"
+    },
+    "chapterSlugs": [
+      "text-processing"
+    ]
+  },
+  {
+    "id": "syslog-rule-matcher",
+    "slug": "syslog-rule-matcher",
+    "title": "syslog 规则匹配器",
+    "summary": "输入 facility、priority 与规则，观察消息会落到哪里。",
+    "conceptTargets": [
+      "syslog",
+      "rsyslog",
+      "logrotate"
+    ],
+    "limitations": [
+      "不修改真实配置文件",
+      "规则语法覆盖课程里出现的主流写法"
+    ],
+    "initialState": {
+      "rule": "mail.notice /var/log/mail",
+      "facility": "mail",
+      "priority": "err"
+    },
+    "chapterSlugs": [
+      "logs-rsyslog"
+    ]
+  },
+  {
+    "id": "page-replacement",
+    "slug": "page-replacement",
+    "title": "页面置换算法模拟器",
+    "summary": "比较 FIFO、LRU、Clock 三种算法在同一访问序列下的缺页情况。",
+    "conceptTargets": [
+      "分页",
+      "虚拟内存",
+      "页面置换"
+    ],
+    "limitations": [
+      "仅关注离散访问序列",
+      "不模拟磁盘 I/O 延迟"
+    ],
+    "initialState": {
+      "reference": "1,5,2,5,1,4,1,5,3",
+      "frames": 3,
+      "algorithm": "FIFO"
+    },
+    "chapterSlugs": [
+      "memory-paging"
+    ]
+  },
+  {
+    "id": "scheduler-timeline",
+    "slug": "scheduler-timeline",
+    "title": "调度算法时间线模拟器",
+    "summary": "输入进程到达时间和 CPU burst，观察 FCFS、SJF、RR 的调度时间线。",
+    "conceptTargets": [
+      "进程调度",
+      "时间片",
+      "响应时间"
+    ],
+    "limitations": [
+      "暂不模拟 I/O burst",
+      "优先级调度采用课程简化模型"
+    ],
+    "initialState": {
+      "algorithm": "RR",
+      "quantum": 2,
+      "processes": [
+        {
+          "id": "P1",
+          "arrival": 0,
+          "burst": 5
+        },
+        {
+          "id": "P2",
+          "arrival": 1,
+          "burst": 3
+        },
+        {
+          "id": "P3",
+          "arrival": 2,
+          "burst": 4
+        }
+      ]
+    },
+    "chapterSlugs": [
+      "sync-deadlock-scheduling"
+    ]
+  },
+  {
+    "id": "resource-graph",
+    "slug": "resource-graph",
+    "title": "信号量 / 死锁资源图模拟器",
+    "summary": "通过资源分配图理解互斥、等待环与死锁检测。",
+    "conceptTargets": [
+      "信号量",
+      "临界区",
+      "死锁"
+    ],
+    "limitations": [
+      "只模拟课程中的单实例 / 多实例资源图",
+      "不执行真实并发线程"
+    ],
+    "initialState": {
+      "allocations": [
+        [
+          "P1",
+          "R1"
+        ],
+        [
+          "R2",
+          "P2"
+        ]
+      ],
+      "requests": [
+        [
+          "P2",
+          "R1"
+        ],
+        [
+          "P1",
+          "R2"
+        ]
+      ]
+    },
+    "chapterSlugs": [
+      "sync-deadlock-scheduling"
+    ]
+  },
+  {
+    "id": "syncfs-decision",
+    "slug": "syncfs-decision",
+    "title": "SyncFS 决策模拟器",
+    "summary": "基于 A/B/Journal 的状态推演课程项目同步器的动作选择。",
+    "conceptTargets": [
+      "文件同步",
+      "冲突处理",
+      "元数据比较"
+    ],
+    "limitations": [
+      "不真正复制文件",
+      "仅模拟课程项目中的判定规则"
+    ],
+    "initialState": {
+      "a": "journal",
+      "b": "modified",
+      "contentEqual": false
+    },
+    "chapterSlugs": [
+      "sync-deadlock-scheduling"
+    ]
+  }
+]

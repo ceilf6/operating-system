@@ -1,0 +1,520 @@
+# 3月30日与31日课程 —— Amir Hajjam（中文翻译）
+
+## 事件日志服务
+
+### 系统事件：syslog
+- UNIX 系统用于收集系统或应用程序产生事件的机制非常高效。
+- Unix 使用一种统一的 syslog 系统，这一系统开发于 20 世纪 80 年代。
+- 系统事件的记录由两个程序（守护进程）管理：
+  - `klogd`
+  - `syslogd`
+- `klogd` 仅负责监听来自内核的消息。
+- `syslogd` 负责大部分工作。启动时，它会读取 `/etc/syslog.conf` 文件，并据此决定每类消息应记录到哪个文件。
+- 可以根据消息来源和/或级别，将消息重定向到文件、控制台等，甚至发送到另一台机器的 Syslog。
+- 默认情况下，几乎所有消息都会被写入 `/var/log` 目录下的一组文件中。
+
+### syslog 规则格式
+`/etc/syslog.conf` 文件中的一行规则格式如下：
+
+```text
+facility.priority[,facility.priority,...] action
+```
+
+### 消息来源（facility）
+消息来源称为“facility”，包括：
+
+- `auth`：与安全或认证相关的消息
+- `authpriv`：与 `auth` 类似，但可能包含私密信息
+- `cron`：由 `cron` 或 `at` 任务调度器生成的消息
+- `daemon`：系统守护进程生成、但无特别分类的消息
+- `kern`：内核消息
+- `lpr`：打印子系统消息
+- `mail`：邮件子系统消息
+- `mark`：Syslog 产生的时间标记
+- `news`：USENET 管理子系统消息
+- `syslog`：Syslog 内部消息
+- `user`：普通用户消息
+- `uucp`：UUCP 子系统消息
+- `local0` 到 `local7`：供本地管理员自由使用的 facility
+
+### 优先级（priority）
+优先级按严重程度从低到高如下：
+
+- `debug`：调试信息
+- `info`：一般信息
+- `notice`：正常但值得注意的信息
+- `warning`：警告
+- `err`：错误情况
+- `crit`：严重情况
+- `alert`：需要立即处理
+- `emerg`：系统不可用
+
+补充说明：
+
+- 某个优先级也表示所有比它更严重的优先级，除非前面加上 `=`，此时只表示它本身。
+- `none` 表示忽略该 facility 的消息。
+- `*` 表示所有级别。
+- 在优先级前使用 `!` 表示不考虑该级别。
+
+### `syslog.conf` 示例
+
+```conf
+# 级别不是 debug 且不属于 mail、authpriv、cron 的消息收集到一个文件中
+*.info;mail.none;authpriv.none;cron.none /var/log/messages
+
+# 所有仅为 debug 级别的消息（authpriv 除外）写入专用文件
+*.=debug;authpriv.none /var/log/debug
+
+# 与安全相关的敏感信息
+authpriv.* /var/log/secure
+
+# 邮件子系统消息
+mail.info /var/log/maillog
+
+# 计划任务消息
+cron.* /var/log/cron
+
+# 所有已登录用户接收紧急消息
+*.emerg *
+
+# 所有消息发送到另一台机器的 Syslog
+*.* @supervision
+
+# 所有内核消息输出到控制台
+kern.* /dev/console
+```
+
+## 日志轮转：logrotate
+
+### logrotate 的作用
+- `logrotate` 工具可以自动、定期地（通常通过 `cron`）对 Syslog 或其他应用程序生成的日志做轮转。
+- 默认配置文件是 `/etc/logrotate.conf`。
+- 各个子系统还可以在 `/etc/logrotate.d` 目录中加入自己的配置文件。
+
+### 轮转示意
+课件中的图示展示了在“保留 3 次轮转”的情况下日志的变化过程：
+
+- 第 1 周：`messages`（当前活动日志）
+- 第 2 周：原日志变为 `messages.1`
+- 第 3 周：依次变为 `messages.1`、`messages.2`
+- 第 4 周：再向后推移，形成 `messages.1`、`messages.2`、`messages.3`
+- 第 5 周：最旧的一份被删除，只保留最近 3 份归档
+
+### `logrotate` 配置示例
+
+```conf
+/usr/application/log/*.log {
+    daily
+    rotate 3
+    size=1M
+    compress
+    dateext
+    missingok
+    notifempty
+}
+```
+
+各项含义如下：
+
+- `compress`：使用 `gzip` 压缩轮转后的日志
+- `create mode owner group`：指定新日志文件的权限和所有者
+- `daily` / `weekly` / `monthly`：按天 / 周 / 月轮转
+- `size size[G|M|k]`：如果日志大小超过指定值则轮转
+- `mail address`：将日志发送到指定邮箱
+- `olddir directory`：将旧日志移动到指定目录
+- `rotate count`：保留 `count` 个旧日志
+- `dateext`：旧日志使用日期而不是数字后缀，例如 `access_log-20090529.gz`
+- `notifempty`：如果文件为空则不轮转
+
+要为某个特定日志文件配置轮转，可以在 `/etc/logrotate.d/application` 中创建类似的配置文件。
+
+### `logrotate.conf` 示例
+
+```conf
+# /etc/logrotate.conf 配置示例
+
+compress
+daily
+ifempty
+rotate 366
+maxage 366
+maillast
+mail fhh@admin-linux.fr
+missingok
+dateext
+sharedscripts
+create 0640 root root
+olddir /var/log/archives
+
+/var/log/argus/argus.log {
+    olddir /var/log/archives/argus
+}
+
+include /etc/logrotate.d
+```
+
+说明：
+
+- `ifempty`：即使文件为空也执行轮转
+- `rotate 366`：保留 366 份轮转日志
+- `maxage 366`：超过 366 天的归档将被删除
+- `maillast`：即将过期的最后一份日志通过邮件发送
+- `sharedscripts`：多个日志一起轮转时，前后置脚本只执行一次
+- `create 0640 root root`：轮转后创建新日志文件，权限为 `0640`，属主和属组为 `root`
+- `olddir`：将归档日志放到指定目录
+- `include /etc/logrotate.d`：包含其他日志的独立配置文件
+
+## 示例讲解
+
+### 解释以下几行配置
+
+#### 1. `*.info;mail.none;authpriv.none /var/log/messages`
+- 所有 `info` 级别及以上的消息都会记录到 `/var/log/messages`
+- 但 `mail` 和 `authpriv` 这两个 facility 的消息被排除
+
+#### 2. `authpriv.* /var/log/secure`
+- 所有与私有认证相关的消息都会记录到 `/var/log/secure`
+
+#### 3. `cron.* /var/log/cron`
+- 所有由计划任务系统 `cron` 产生的消息都会记录到 `/var/log/cron`
+
+### `/var/log/secure` 中包含什么类型的消息？
+- 与安全和认证有关的消息
+- 例如：
+  - SSH 登录
+  - 密码错误
+  - 认证失败
+  - 权限相关事件
+
+### Apache 日志轮转配置示例
+
+```conf
+/var/log/apache2/*.log {
+    weekly
+    rotate 4
+    compress
+    missingok
+    notifempty
+}
+```
+
+含义：
+
+- `weekly`：每周轮转一次
+- `rotate 4`：保留最近 4 份日志
+- `compress`：归档日志压缩
+- `missingok`：日志缺失时不报错
+- `notifempty`：空日志不轮转
+
+如果 `/var/log/apache2` 中的日志超过 4 周，则最旧的归档会被删除，只保留最近 4 次轮转结果。
+
+### 服务器日志轮转示例
+
+如果有一个名为 `server` 的服务，它在 `/var/log/server` 目录下生成 `server.log`，则可以这样配置：
+
+```conf
+/var/log/server/server.log {
+    rotate 7
+    daily
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 660 UTSEUSuser UTSEUSuser
+}
+```
+
+这表示：
+
+- 每天轮转一次
+- 最多保留 7 个归档
+- 对旧日志进行压缩
+- `delaycompress`：最近一次轮转出的日志下一次再压缩
+- 文件不存在时不报错
+- 空文件不轮转
+- 创建的新日志文件权限为 `660`，属主和属组均为 `UTSEUSuser`
+
+---
+
+## 系统启动与关闭
+
+### 系统启动：boot 与内核加载
+- 在启动时，BIOS 会执行所选启动介质（硬盘、CD、U 盘等）第一个扇区中的 MBR（主引导记录，512 字节）。
+- MBR 的作用：
+  - 扫描磁盘以找到**可启动分区**（带启动标志）
+  - 启动该分区引导扇区中的 bootloader（引导加载程序）
+- bootloader 的作用：
+  - 将内核加载到内存并执行
+  - 将 `initrd.img`（最小系统镜像）加载到内存中
+- 常见的 bootloader：
+  - `LILO`（Linux Loader）
+  - `GRUB`（Grand Unified Bootloader）
+
+### `/bin/init`
+- 当内核加载完成后，它会启动第一个进程：`/bin/init`
+- `init` 是所有其他进程的父进程，后续进程都通过系统调用 `fork()` 派生
+- `init` 会读取 `/etc/inittab` 文件，以确定：
+  - 继续系统启动应执行哪个文件
+  - 默认运行级别（runlevel）是什么
+  - 在某个运行级别下应如何启动服务
+
+### `/etc/inittab` 的格式
+`/etc/inittab` 是一个文本文件，其中每一条目由四个以冒号分隔的字段组成：
+
+```text
+code:niveaux:action:processus
+```
+
+字段说明：
+
+- `code`：每条记录的唯一标识符，可以是数字，也可以是由字符和数字组成的关键字
+- `niveaux`：该条目适用的运行级别列表；若为空，表示适用于所有运行级别
+- `action`：进入指定运行级别时如何处理该进程
+- `processus`：要执行的进程
+
+修改完配置后，可以通过以下命令让 `init` 重新读取配置：
+
+```bash
+kill -HUP 1
+# 或
+kill -s HUP 1
+```
+
+## `/etc/inittab` 示例
+
+```conf
+# 默认运行级别
+id:2:initdefault:
+
+# 系统初始化
+si::sysinit:/etc/rc.d/rc.sysinit
+
+# 各运行级别
+l0:0:wait:/etc/rc.d/rc 0
+l1:1:wait:/etc/rc.d/rc 1
+l2:2:wait:/etc/rc.d/rc 2
+l3:3:wait:/etc/rc.d/rc 3
+l4:4:wait:/etc/rc.d/rc 4
+l5:5:wait:/etc/rc.d/rc 5
+l6:6:wait:/etc/rc.d/rc 6
+
+# 捕获 Ctrl+Alt+Del
+ca::ctrlaltdel:/sbin/shutdown -t3 -r now
+```
+
+其他示例：
+
+```conf
+# 在图形模式下启动 xdm/kdm
+x:5:respawn:/opt/kde/bin/kdm -nodaemon
+
+# 电源故障后 2 分钟关机
+pf::powerfail:/sbin/shutdown -f -h +2 "Power Failure; System Shutting Down"
+
+# 电力恢复时取消关机
+pr:12345:powerokwait:/sbin/shutdown -c "Power Restored; Shutdown Cancelled"
+
+# 创建多个终端控制台（Ctrl+Alt+F1 到 F6）
+1:2345:respawn:/sbin/mingetty tty1
+2:2345:respawn:/sbin/mingetty tty2
+3:2345:respawn:/sbin/mingetty tty3
+4:2345:respawn:/sbin/mingetty tty4
+5:2345:respawn:/sbin/mingetty tty5
+6:2345:respawn:/sbin/mingetty tty6
+```
+
+### 常见 action 含义
+- `respawn`：进程每次结束后都会被重新启动
+- `wait`：启动进程，并等待它结束后再处理下一项
+- `boot`：系统启动时执行一次
+- `initdefault`：指定系统正常运行后的默认运行级别
+- `sysinit`：系统启动初期执行，优先于 `boot` 和 `bootwait`
+- `ctrlaltdel`：当 `init` 收到 `SIGINT`（通常由 `Ctrl+Alt+Del` 触发）时执行
+
+## 启动脚本阶段
+启动脚本会完成以下任务：
+
+- 设置主机名
+- 设置时区
+- 自动检查文件系统完整性（`fsck`）
+- 挂载文件系统
+- 启用交换分区（swap）
+- 清理文件系统（如删除临时目录中的文件）、检查磁盘配额
+- 配置网络接口
+- 启动本地守护进程
+- 启动网络守护进程，并视情况挂载 NFS 分区
+- 启动 `getty` 进程，让用户能够登录系统
+
+### 守护进程示例
+- `kswapd`：交换内存与磁盘
+- `kflushd`：执行数据的物理写入
+- `nfsd`：NFS 文件服务器
+- `portmap`：TCP/IP 端口号与 RPC 进程映射
+- `xinetd`：网络服务超级服务器
+- `ftpd`：FTP 文件传输服务
+- `httpd`：HTTP 服务
+
+守护进程可以实现：
+
+- 内核服务（如 `kswapd`）
+- 网络服务（如 `httpd`）
+
+## 运行级别（Runlevels）
+
+### 运行级别的含义
+系统有多个运行级别，但任意时刻只能有一个处于活动状态。
+
+常见运行级别如下：
+
+- `0`：关机
+- `1`：单用户模式 / 维护模式
+- `2` 到 `5`：依赖于具体操作系统
+- `6`：重启
+
+通常：
+
+- 级别 `2`：多用户模式，但不启动应用服务器
+- 级别 `3`：多用户模式，并启动应用服务器
+- 级别 `4` 或 `5`：有时用于图形环境
+- `0`、`1`、`6` 的含义通常固定不变
+
+### 如何切换运行级别
+可以通过以下方式进入特定运行级别：
+
+- 在 bootloader 中将其作为内核参数传递
+- 系统启动后使用 `init` 或 `telinit`
+- 在 `/etc/inittab` 中设置 `initdefault` 作为默认运行级别
+- 使用 `shutdown` 命令，由其向 `init` 发送信号
+
+在使用 `GRUB` 时，默认内核启动参数位于：
+
+```text
+/boot/grub/grub.conf
+```
+
+在 GRUB 启动阶段按 `e` 可以临时修改内核参数。
+
+## 系统关闭
+
+### 为什么要规范关机
+内存缓冲区（buffers）中的更改不会立刻写入磁盘，这称为**异步写入**。  
+这样做可以显著提高 I/O 性能，但如果系统异常断电，就可能丢失数据（现代日志型文件系统对此问题有所改善）。
+
+### 相关命令
+在 `/etc/inittab` 中，`Ctrl+Alt+Del` 可以配置为调用：
+
+```conf
+ca::ctrlaltdel:/sbin/shutdown -r -t 4 now
+```
+
+以下命令本质上是 `shutdown` 的快捷方式：
+
+- `reboot`：相当于 `shutdown -r now`
+- `halt`：相当于 `shutdown -h now`
+- `fasthalt`：相当于 `shutdown -f now`
+
+参数说明：
+
+- `-r`：关机后重启
+- `-h`：关机后停机
+- `-f`：重启时不执行 `fsck`
+
+## 启动时启用或禁用服务
+
+在某个运行级别中启用的服务，是那些在如下目录中存在符号链接的服务：
+
+```text
+/etc/rc.d/rcX.d/SNNservice -> /etc/rc.d/init.d/service
+```
+
+其中：
+
+- `X`：目标运行级别
+- `NN`：决定服务启动顺序的编号
+- `service`：`/etc/rc.d/init.d/` 中的脚本名
+
+停止服务时，链接命名类似：
+
+```text
+/etc/rc.d/rcX.d/KNNservice
+```
+
+命名规则为：
+
+```text
+[S|K]XX<脚本名>
+```
+
+- `S`：以 `start` 参数启动服务
+- `K`：以 `stop` 参数停止服务
+- `XX`：决定脚本执行顺序
+
+这些链接可以通过以下方式管理：
+
+- 手工使用 `ln -s` 和 `rm`
+- 使用命令行工具 `chkconfig`（或 Debian 的 `update-rc.d`）
+- 使用控制台程序 `ntsysv`
+- 使用图形工具，如 Webmin 或 RedHat 的服务管理工具
+
+## 启动和停止服务
+
+可以使用 `service` 命令管理服务：
+
+```bash
+service 服务名 动作
+```
+
+其中动作可以是：
+
+- `stop`：停止服务
+- `start`：启动服务
+- `reload`：让服务重新读取配置
+- `status`：查看服务状态
+
+也可以直接使用：
+
+```bash
+/etc/init.d/服务名 动作
+```
+
+## 课件最后给出的常用命令
+
+### 查看哪些服务会随系统自动启动
+```bash
+systemctl list-unit-files --type=service | grep enabled
+# 或
+chkconfig --list
+```
+
+### 禁止某服务自动启动
+```bash
+sudo systemctl disable apache2
+# 或
+sudo update-rc.d apache2 disable
+```
+
+### 查看当前运行级别
+```bash
+runlevel
+```
+
+### 切换到最小使用模式（单用户模式）
+```bash
+sudo init 1
+```
+
+### 重启或关机
+```bash
+sudo reboot
+sudo shutdown -h now
+```
+
+### 计划 15 分钟后关机
+```bash
+sudo shutdown -h +15
+```
+
+### 取消已计划的关机
+```bash
+sudo shutdown -c
+```

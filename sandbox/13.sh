@@ -85,6 +85,8 @@ awk '{
         print "<" $1 "> <" $2 "> <" login ">"
     }
 }' "$p" | tr 'A-Z' 'a-z' > tmp
+# todo: 这里的 tr 会导致全部变小写，
+# 最好还是在 awk 内部通过 printf 筛选后管道化处理
 mv tmp "$p"
 
 curUID=1000

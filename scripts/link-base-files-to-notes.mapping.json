@@ -1,0 +1,142 @@
+[
+  {
+    "base": "base-files/16_TD7-TD8_中文翻译.md",
+    "notes": "notes/16.md",
+    "score": 0.9954693585565535,
+    "method": "exact-course",
+    "selected_for_apply": true
+  },
+  {
+    "base": "base-files/10_TD1-TD2_中文翻译.md",
+    "notes": "notes/10.md",
+    "score": 0.9952263374485597,
+    "method": "exact-course",
+    "selected_for_apply": true
+  },
+  {
+    "base": "base-files/15_LO03_SE_2025_2026_中文翻译.md",
+    "notes": "notes/15.md",
+    "score": 0.9855017650025214,
+    "method": "exact-course",
+    "selected_for_apply": true
+  },
+  {
+    "base": "base-files/12-02_Cours_6_et_7_avril_Amir_Hajjam_中文翻译.md",
+    "notes": "notes/12-02.md",
+    "score": 0.9842058562555457,
+    "method": "exact-range",
+    "selected_for_apply": true
+  },
+  {
+    "base": "base-files/17_LO03-TD_SE_2026_中文翻译.md",
+    "notes": "notes/17.md",
+    "score": 0.9637721547207669,
+    "method": "exact-course",
+    "selected_for_apply": true
+  },
+  {
+    "base": "base-files/12-01_Cours_30_et_31_mars_Amir_Hajjam_中文翻译.md",
+    "notes": "notes/12-01.md",
+    "score": 0.9575538348499406,
+    "method": "exact-range",
+    "selected_for_apply": true
+  },
+  {
+    "base": "base-files/11_Cours-Mars-2026-2_中文翻译.md",
+    "notes": "notes/11.md",
+    "score": 0.9337149398969662,
+    "method": "exact-course",
+    "selected_for_apply": true
+  },
+  {
+    "base": "base-files/07_LO03_Linux_2026_Cours4_中文翻译.md",
+    "notes": "notes/07-awk.md",
+    "score": 0.8942455822383326,
+    "method": "prefix-course",
+    "selected_for_apply": true
+  },
+  {
+    "base": "base-files/14_td-fri-1_中文翻译.md",
+    "notes": "notes/13-TD6.md",
+    "score": 0.8419862737182076,
+    "method": "fuzzy-all",
+    "selected_for_apply": false
+  },
+  {
+    "base": "base-files/13_TD5-TD6_中文翻译.md",
+    "notes": "notes/13-TD6.md",
+    "score": 0.49315628192032684,
+    "method": "exact-td",
+    "selected_for_apply": false
+  },
+  {
+    "base": "base-files/13_TDs-31-et-32-Avec-Correction_中文翻译.md",
+    "notes": "notes/13-TD6.md",
+    "score": 0.4836335955341284,
+    "method": "prefix-course",
+    "selected_for_apply": false
+  },
+  {
+    "base": "base-files/02_TD1.md",
+    "notes": "notes/02-TD1.md",
+    "score": 0.05755721731248584,
+    "method": "exact-td",
+    "selected_for_apply": false
+  },
+  {
+    "base": "base-files/project/项目.md",
+    "notes": "notes/01-02-发行版.md",
+    "score": 0.041692987997473153,
+    "method": "fuzzy-all",
+    "selected_for_apply": false
+  },
+  {
+    "base": "base-files/08_LO03_TD3_Linux_中文翻译.md",
+    "notes": "notes/08-TD3.md",
+    "score": 0.039412997903563944,
+    "method": "exact-td",
+    "selected_for_apply": false
+  },
+  {
+    "base": "base-files/01_LO03_Linux_2026_Cours1&2.md",
+    "notes": "notes/01-03-Shell与命令行.md",
+    "score": 0.038451679056652144,
+    "method": "prefix-course",
+    "selected_for_apply": false
+  },
+  {
+    "base": "base-files/13_LO03_TD5_Linux_中文翻译.md",
+    "notes": "notes/13-TD5.md",
+    "score": 0.03690036900369004,
+    "method": "exact-td",
+    "selected_for_apply": false
+  },
+  {
+    "base": "base-files/04_LO03_Linux_TD2_中文翻译.md",
+    "notes": "notes/04-TD2.md",
+    "score": 0.03644158628081458,
+    "method": "exact-td",
+    "selected_for_apply": false
+  },
+  {
+    "base": "base-files/project/README_syncfs.md",
+    "notes": "notes/08-TD3.md",
+    "score": 0.03293038766152564,
+    "method": "fuzzy-all",
+    "selected_for_apply": false
+  },
+  {
+    "base": "base-files/09_LO03_TD4_Linux_第一部分_中文翻译.md",
+    "notes": "notes/09-TD4.md",
+    "score": 0.03268765133171913,
+    "method": "exact-td",
+    "selected_for_apply": false
+  },
+  {
+    "base": "base-files/09_LO03_TD4_Linux_第二部分_中文翻译.md",
+    "notes": "notes/09-TD4.md",
+    "score": 0.02249899558055444,
+    "method": "exact-td",
+    "selected_for_apply": false
+  }
+]

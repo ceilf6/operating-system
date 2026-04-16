@@ -3,13 +3,14 @@
     "id": "course-overview",
     "route": "/course/course-overview",
     "title": "课程导论与学习路径",
-    "excerpt": "说明资料来源、学习顺序，以及 Linux 实操线与操作系统理论线如何配合。",
+    "excerpt": "先搭实操基础，再补理论框架，最后用复习与项目把整门课串成一条稳定学习路径。",
     "chapterSlug": "course-overview",
     "kind": "section",
     "keywords": [
       "课程导论",
       "学习路径",
-      "资料关系",
+      "实操线",
+      "理论线",
       "操作系统课程",
       "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
       "base-files-01-linux-docx-a571b321",
@@ -41,16 +42,17 @@
     ]
   },
   {
-    "id": "course-overview::material-map",
-    "route": "/course/course-overview#material-map",
-    "title": "课程导论与学习路径 / 资料结构与学习顺序",
-    "excerpt": "先读 保证完整性，再用 进行中文学习化消化，最后用 把概念跑起来。课程项目与教师补充媒体被单独挂到综合实践章节。",
+    "id": "course-overview::study-route",
+    "route": "/course/course-overview#study-route",
+    "title": "课程导论与学习路径 / 这门课怎么学",
+    "excerpt": "第一遍建议顺着章节走，先把命令行、文件系统、文本处理和系统管理的手感建立起来；第二遍再集中推演进程、内存、同步、死锁与调度；最后回到项目和复习页做综合巩固。",
     "chapterSlug": "course-overview",
     "kind": "section",
     "keywords": [
       "课程导论",
       "学习路径",
-      "资料关系",
+      "实操线",
+      "理论线",
       "操作系统课程",
       "readme-md-8ec9a00b",
       "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
@@ -61,40 +63,6 @@
       "base-files-15-lo03-se-2025-2026-md-3784dfdd",
       "kernel",
       "shell"
-    ]
-  },
-  {
-    "id": "course-overview::appendix-sources",
-    "route": "/course/course-overview#appendix-sources",
-    "title": "课程导论与学习路径 / 补充原始资料",
-    "excerpt": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。",
-    "chapterSlug": "course-overview",
-    "kind": "section",
-    "keywords": [
-      "课程导论",
-      "学习路径",
-      "资料关系",
-      "操作系统课程",
-      "sandbox-test-files-02-dir1-dir2-debut-txt-b085733b",
-      "sandbox-test-files-02-dir1-dir2-file-link-txt-7d33c805",
-      "sandbox-test-files-02-dir1-dir2-file-moved-txt-a90963ec",
-      "sandbox-test-files-02-dir1-dir2-file1-txt-4166cab0",
-      "sandbox-test-files-02-dir1-dir2-fin-txt-121adea3",
-      "sandbox-test-files-09-2-03-txt-f01f7025",
-      "sandbox-test-files-09-2-05-txt-a246920a",
-      "sandbox-test-files-09-2-06-txt-9b3049dc",
-      "sandbox-test-files-09-2-txt-34d28d9f",
-      "sandbox-test-files-13-txt-67da07d3",
-      "sandbox-test-files-fichiernote-txt-05fdd343",
-      "sandbox-test-files-mock-summary-alpha-report-txt-7c48fd63",
-      "sandbox-test-files-mock-summary-alpha-todo-md-e878c7e3",
-      "sandbox-test-files-mock-summary-beta-images-diagram-txt-3d793952",
-      "sandbox-test-files-mock-summary-beta-summary-txt-c943c0c6",
-      "sandbox-test-files-palindrometestfile-txt-0031d49a",
-      "sandbox-test-files-script-sh-35508212",
-      "sandbox-test-files-words-txt-2ed1388e",
-      "sandbox-sh-642d1d46",
-      "sandbox-sh-2731f376"
     ]
   },
   {
@@ -357,8 +325,8 @@
   {
     "id": "logs-rsyslog::appendix-sources",
     "route": "/course/logs-rsyslog#appendix-sources",
-    "title": "日志、轮转、服务启动与 rsyslog / 补充原始资料",
-    "excerpt": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。",
+    "title": "日志、轮转、服务启动与 rsyslog / 课后延伸与原题材料",
+    "excerpt": "如果你想回看老师原始题目、补充例子或更完整的讲义表达，可以在这里继续往下钻。",
     "chapterSlug": "logs-rsyslog",
     "kind": "section",
     "keywords": [
@@ -542,8 +510,8 @@
   {
     "id": "shell-control::appendix-sources",
     "route": "/course/shell-control#appendix-sources",
-    "title": "重定向、管道、脚本与流程控制 / 补充原始资料",
-    "excerpt": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。",
+    "title": "重定向、管道、脚本与流程控制 / 课后延伸与原题材料",
+    "excerpt": "如果你想回看老师原始题目、补充例子或更完整的讲义表达，可以在这里继续往下钻。",
     "chapterSlug": "shell-control",
     "kind": "section",
     "keywords": [
@@ -719,8 +687,8 @@
   {
     "id": "text-processing::appendix-sources",
     "route": "/course/text-processing#appendix-sources",
-    "title": "文本处理与 Shell 题解 / 补充原始资料",
-    "excerpt": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。",
+    "title": "文本处理与 Shell 题解 / 课后延伸与原题材料",
+    "excerpt": "如果你想回看老师原始题目、补充例子或更完整的讲义表达，可以在这里继续往下钻。",
     "chapterSlug": "text-processing",
     "kind": "section",
     "keywords": [

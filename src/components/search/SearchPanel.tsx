@@ -10,6 +10,19 @@ interface SearchPanelProps {
 
 const filters: Array<SearchRecord["kind"] | "all"> = ["all", "section", "glossary", "sandbox"];
 
+function filterLabel(item: SearchRecord["kind"] | "all") {
+  switch (item) {
+    case "section":
+      return "章节";
+    case "glossary":
+      return "术语";
+    case "sandbox":
+      return "沙箱";
+    default:
+      return "全部";
+  }
+}
+
 export function SearchPanel({
   query,
   onQueryChange,
@@ -18,7 +31,7 @@ export function SearchPanel({
 }: SearchPanelProps) {
   return (
     <div className="glass-card rounded-[28px] p-5">
-      <div className="eyebrow">Index Search</div>
+      <div className="eyebrow">Quick Jump</div>
       <h2 className="page-title mt-4 text-3xl text-[color:var(--ink-1)]">站内搜索</h2>
       <div className="mt-5 space-y-4">
         <label className="block">
@@ -45,7 +58,7 @@ export function SearchPanel({
                     : "border border-[rgba(15,31,49,0.1)] bg-white/70 text-[color:var(--ink-2)] hover:bg-white",
                 )}
               >
-                {item === "all" ? "全部" : item}
+                {filterLabel(item)}
               </button>
             ))}
           </div>

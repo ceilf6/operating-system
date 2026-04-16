@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { glossaryEntries } from "../lib/content";
+import { chapters, glossaryEntries } from "../lib/content";
 
 export function GlossaryPage() {
   const [query, setQuery] = useState("");
@@ -32,7 +32,9 @@ export function GlossaryPage() {
       <div className="grid gap-4 md:grid-cols-2">
         {filtered.map((entry) => (
           <article key={entry.id} className="glass-card rounded-[28px] p-5">
-            <div className="eyebrow">{entry.chapterSlug}</div>
+            <div className="eyebrow">
+              {chapters.find((chapter) => chapter.slug === entry.chapterSlug)?.title ?? entry.chapterSlug}
+            </div>
             <h2 className="page-title mt-4 text-3xl text-[color:var(--ink-1)]">{entry.term}</h2>
             <p className="mt-4 text-sm leading-8 text-[color:var(--ink-2)]">{entry.definition}</p>
           </article>

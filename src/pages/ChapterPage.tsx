@@ -31,7 +31,9 @@ export function ChapterPage() {
             <div className="rounded-[28px] border border-[rgba(15,31,49,0.1)] bg-white/70 px-5 py-4 text-sm leading-7 text-[color:var(--ink-2)]">
               <p>{chapter.summary}</p>
               <p className="mt-2">
-                {chapter.sections.length} 个主题段落 / {chapter.sourceIds.length} 份资料来源
+                {chapter.sandboxIds.length > 0
+                  ? `本章包含 ${chapter.sections.length} 个主题段落，并配有 ${chapter.sandboxIds.length} 个相关实验。`
+                  : `本章包含 ${chapter.sections.length} 个主题段落，适合先顺着概念主线读完再做题。`}
               </p>
             </div>
           </div>

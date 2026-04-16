@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { sandboxSpecs } from "../lib/content";
+import { chapters, sandboxSpecs } from "../lib/content";
 
 export function PracticeHubPage() {
   return (
@@ -29,7 +29,7 @@ export function PracticeHubPage() {
                   key={slug}
                   className="rounded-full border border-[rgba(15,31,49,0.1)] bg-white/75 px-3 py-1 text-xs tracking-[0.18em] text-[color:var(--ink-2)]"
                 >
-                  {slug}
+                  {chapters.find((chapter) => chapter.slug === slug)?.number ?? slug}
                 </span>
               ))}
             </div>

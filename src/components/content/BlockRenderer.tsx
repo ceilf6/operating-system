@@ -12,7 +12,7 @@ export function BlockRenderer({ block }: BlockRendererProps) {
     case "overview":
       return (
         <div className="section-frame rounded-[28px] px-5 py-5 text-[color:var(--ink-1)]">
-          <div className="eyebrow">Section Overview</div>
+          <div className="eyebrow">本节先看</div>
           <p className="mt-4 text-[1.02rem] leading-8">{block.content}</p>
         </div>
       );
@@ -23,7 +23,7 @@ export function BlockRenderer({ block }: BlockRendererProps) {
             <article key={item} className="glass-card rounded-[24px] p-5">
               <div className="flex items-center gap-3 text-sm text-[color:var(--signal-blue)]">
                 <Pointer className="h-4 w-4" />
-                Key Point {index + 1}
+                核心点 {index + 1}
               </div>
               <p className="mt-4 text-[0.98rem] leading-8 text-[color:var(--ink-1)]">{item}</p>
             </article>
@@ -45,7 +45,7 @@ export function BlockRenderer({ block }: BlockRendererProps) {
         <div className="glass-card rounded-[28px] p-5">
           <div className="flex items-center gap-3 text-sm text-[color:var(--signal-green)]">
             <DraftingCompass className="h-4 w-4" />
-            图解建议
+            图解线索
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {block.items.map((item) => (
@@ -73,7 +73,7 @@ export function BlockRenderer({ block }: BlockRendererProps) {
                 className="rounded-[22px] border border-[rgba(192,109,44,0.16)] bg-[rgba(255,245,236,0.82)] px-4 py-4"
               >
                 <div className="text-xs uppercase tracking-[0.2em] text-[color:var(--signal-orange)]">
-                  Prompt {index + 1}
+                  练习 {index + 1}
                 </div>
                 <p className="mt-2 text-[0.98rem] leading-8 text-[color:var(--ink-1)]">{item.prompt}</p>
               </div>
@@ -83,10 +83,19 @@ export function BlockRenderer({ block }: BlockRendererProps) {
       );
     case "source-pack":
       return (
-        <div className="space-y-4">
-          {block.items.map((item) => (
-            <SourceDrawer key={item.sourceId} item={item} />
-          ))}
+        <div className="glass-card rounded-[28px] p-5">
+          <div className="flex items-center gap-3 text-sm text-[color:var(--signal-blue)]">
+            <LibraryBig className="h-4 w-4" />
+            原讲义节选与题目材料
+          </div>
+          <p className="mt-3 text-sm leading-7 text-[color:var(--ink-2)]">
+            如果你想对照老师原始表述、回看题目设置或核对例子，再展开下面的材料。
+          </p>
+          <div className="mt-4 space-y-4">
+            {block.items.map((item) => (
+              <SourceDrawer key={item.sourceId} item={item} />
+            ))}
+          </div>
         </div>
       );
     case "sandbox-links":

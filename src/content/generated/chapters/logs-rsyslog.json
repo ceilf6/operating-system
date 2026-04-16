@@ -201,7 +201,7 @@
     },
     {
       "id": "appendix-sources",
-      "title": "补充原始资料",
+      "title": "课后延伸与原题材料",
       "anchor": "appendix-sources",
       "sourceIds": [
         "base-files-13-td5-td6-pdf-139514b6",
@@ -211,7 +211,7 @@
       "blocks": [
         {
           "type": "overview",
-          "content": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。"
+          "content": "如果你想回看老师原始题目、补充例子或更完整的讲义表达，可以在这里继续往下钻。"
         },
         {
           "type": "source-pack",

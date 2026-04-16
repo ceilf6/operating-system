@@ -18,6 +18,14 @@ GLOSSARY_PATH = GENERATED_DIR / "glossary.json"
 SANDBOXES_PATH = GENERATED_DIR / "sandboxes.json"
 COVERAGE_PATH = GENERATED_DIR / "coverage-links.json"
 
+HIDDEN_SOURCE_PATTERNS = [
+    "README.md",
+    "sandbox/.DS_Store",
+    "sandbox/test-files/*",
+    "sandbox/智能提示自动补全而不是展示.sh",
+    "sandbox/配置交互智能提示.sh",
+]
+
 
 def load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -92,7 +100,7 @@ def render_source_card(asset: dict[str, Any], keywords: list[str]) -> dict[str, 
     for chunk in chunks:
         markdown.append(f"#### {chunk['title']}\n\n{chunk['body'].strip()}")
     if not markdown:
-        markdown.append(f"#### {asset['displayName']}\n\n该资料暂时没有可提取正文，但已纳入课程映射。")
+        markdown.append(f"#### {asset['displayName']}\n\n这份材料暂时没有可直接展示的正文，适合回到原讲义或原题继续查阅。")
 
     return {
         "sourceId": asset["id"],
@@ -114,6 +122,10 @@ def match_assets(manifest: list[dict[str, Any]], patterns: list[str]) -> list[di
                 matched.append(asset)
                 seen.add(asset["id"])
     return matched
+
+
+def is_student_visible_source(path: str) -> bool:
+    return not any(fnmatch.fnmatch(path, pattern) for pattern in HIDDEN_SOURCE_PATTERNS)
 
 
 SANDBOX_SPECS = [
@@ -253,23 +265,23 @@ CHAPTER_DEFS = [
         "number": "01",
         "track": "总览",
         "title": "课程导论与学习路径",
-        "summary": "说明资料来源、学习顺序，以及 Linux 实操线与操作系统理论线如何配合。",
-        "searchKeywords": ["课程导论", "学习路径", "资料关系", "操作系统课程"],
+        "summary": "先搭实操基础，再补理论框架，最后用复习与项目把整门课串成一条稳定学习路径。",
+        "searchKeywords": ["课程导论", "学习路径", "实操线", "理论线", "操作系统课程"],
         "sections": [
             {
-                "id": "material-map",
-                "title": "资料结构与学习顺序",
-                "overview": "先读 `base-files/` 保证完整性，再用 `notes/` 进行中文学习化消化，最后用 `sandbox/` 把概念跑起来。课程项目与教师补充媒体被单独挂到综合实践章节。",
+                "id": "study-route",
+                "title": "这门课怎么学",
+                "overview": "第一遍建议顺着章节走，先把命令行、文件系统、文本处理和系统管理的手感建立起来；第二遍再集中推演进程、内存、同步、死锁与调度；最后回到项目和复习页做综合巩固。",
                 "keyPoints": [
-                    "完整性以 `base-files/` 为主，`notes/` 负责提炼表达，`sandbox/` 负责动手练习。",
-                    "学习建议先走 Linux/Unix 实操线，再进入操作系统理论线，最后回到课程项目闭环。",
-                    "中文站点只保留教学化表达，原始法语资料通过来源抽屉追溯。",
+                    "第 1-9 章是 Linux/Unix 实操线，重点是把命令、脚本、日志与系统管理跑通。",
+                    "第 10-12 章是操作系统理论线，重点是把进程、内存、同步、死锁和调度连成完整框架。",
+                    "每学完一章就用沙箱推演输入、状态变化和算法决策，再回到复习页巩固高频概念。",
                 ],
-                "pitfalls": ["把 `notes/` 当成全部课程内容会漏掉原始课件与 project。"],
-                "diagramIdeas": ["资料流转图：base-files -> notes -> sandbox -> 章节页 / 沙箱页。"],
-                "exercisePrompts": ["尝试说明为什么同一知识点会同时出现在课件、笔记与脚本中。"],
+                "pitfalls": ["一开始就陷进原讲义细节里，会打断整门课的主线节奏。"],
+                "diagramIdeas": ["课程推进图：实操基础 -> 系统管理 -> OS 理论 -> 项目综合。"],
+                "exercisePrompts": ["给自己制定一轮 12 章学习顺序，并说明哪些章节适合先看概念、哪些适合先动手。"],
                 "sourcePatterns": ["README.md", "base-files/01_*", "base-files/15_*"],
-                "keywords": ["资料", "目录", "课程计划", "导论", "Linux", "操作系统"],
+                "keywords": ["学习路径", "课程计划", "导论", "Linux", "操作系统", "复习"],
                 "sandboxIds": ["shell-flow"],
                 "glossaryIds": ["kernel", "shell"],
             }
@@ -663,7 +675,19 @@ def build_chapters(manifest: list[dict[str, Any]]) -> tuple[list[dict[str, Any]]
                     }
                 )
 
-            source_pack = [render_source_card(asset, section_def["keywords"]) for asset in matched_assets]
+            visible_assets = [asset for asset in matched_assets if is_student_visible_source(asset["path"])]
+            source_pack = [render_source_card(asset, section_def["keywords"]) for asset in visible_assets]
+
+            blocks: list[dict[str, Any]] = [
+                {"type": "overview", "content": section_def["overview"]},
+                {"type": "key-points", "items": section_def["keyPoints"]},
+                {"type": "callout", "variant": "warning", "title": "易错点", "content": "；".join(section_def["pitfalls"])},
+                {"type": "diagram-list", "items": section_def["diagramIdeas"]},
+                {"type": "exercise-list", "items": [{"id": f"{section_def['id']}-exercise-{i}", "prompt": prompt, "answer": "", "difficulty": "medium"} for i, prompt in enumerate(section_def["exercisePrompts"], start=1)]},
+            ]
+            if source_pack:
+                blocks.append({"type": "source-pack", "items": source_pack})
+            blocks.append({"type": "sandbox-links", "ids": section_def["sandboxIds"]})
 
             sections.append(
                 {
@@ -672,15 +696,7 @@ def build_chapters(manifest: list[dict[str, Any]]) -> tuple[list[dict[str, Any]]
                     "anchor": section_def["id"],
                     "sourceIds": source_ids,
                     "glossaryIds": section_def["glossaryIds"],
-                    "blocks": [
-                        {"type": "overview", "content": section_def["overview"]},
-                        {"type": "key-points", "items": section_def["keyPoints"]},
-                        {"type": "callout", "variant": "warning", "title": "易错点", "content": "；".join(section_def["pitfalls"])},
-                        {"type": "diagram-list", "items": section_def["diagramIdeas"]},
-                        {"type": "exercise-list", "items": [{"id": f"{section_def['id']}-exercise-{i}", "prompt": prompt, "answer": "", "difficulty": "medium"} for i, prompt in enumerate(section_def["exercisePrompts"], start=1)]},
-                        {"type": "source-pack", "items": source_pack},
-                        {"type": "sandbox-links", "ids": section_def["sandboxIds"]},
-                    ],
+                    "blocks": blocks,
                 }
             )
 
@@ -717,29 +733,27 @@ def build_chapters(manifest: list[dict[str, Any]]) -> tuple[list[dict[str, Any]]
             continue
         appendix_section_id = "appendix-sources"
         chapter = chapter_map[slug]
+        visible_assets = [asset for asset in assets if is_student_visible_source(asset["path"])]
         section = next((item for item in chapter["sections"] if item["id"] == appendix_section_id), None)
-        if section is None:
+        if section is None and visible_assets:
             section = {
                 "id": appendix_section_id,
-                "title": "补充原始资料",
+                "title": "课后延伸与原题材料",
                 "anchor": appendix_section_id,
                 "sourceIds": [],
                 "glossaryIds": [],
                 "blocks": [
                     {
                         "type": "overview",
-                        "content": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。",
+                        "content": "如果你想回看老师原始题目、补充例子或更完整的讲义表达，可以在这里继续往下钻。",
                     },
                     {"type": "source-pack", "items": []},
                 ],
             }
             chapter["sections"].append(section)
 
-        source_pack = next(block for block in section["blocks"] if block["type"] == "source-pack")
         for asset in assets:
-            section["sourceIds"].append(asset["id"])
             chapter["sourceIds"].append(asset["id"])
-            source_pack["items"].append(render_source_card(asset, []))
             coverage_links.append(
                 {
                     "sourceId": asset["id"],
@@ -748,6 +762,10 @@ def build_chapters(manifest: list[dict[str, Any]]) -> tuple[list[dict[str, Any]]
                     "usage": "supporting",
                 }
             )
+            if section is not None and is_student_visible_source(asset["path"]):
+                section["sourceIds"].append(asset["id"])
+                source_pack = next(block for block in section["blocks"] if block["type"] == "source-pack")
+                source_pack["items"].append(render_source_card(asset, []))
 
     for chapter in chapters:
         chapter["sourceIds"] = sorted(set(chapter["sourceIds"]))

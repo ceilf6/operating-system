@@ -1,7 +1,6 @@
 import { ArrowRight, Compass, Layers3, MonitorCog, Route, Sigma } from "lucide-react";
 import { Link } from "react-router-dom";
 import { chapters, getStats, sandboxSpecs } from "../lib/content";
-import { getCoverageSummary } from "../lib/sourceCoverage";
 
 const trackDescriptions = [
   {
@@ -18,7 +17,6 @@ const trackDescriptions = [
 
 export function HomePage() {
   const stats = getStats();
-  const coverage = getCoverageSummary();
   const featuredSandboxes = sandboxSpecs.slice(0, 4);
 
   return (
@@ -26,12 +24,12 @@ export function HomePage() {
       <section className="glass-card overflow-hidden rounded-[40px] p-6 md:p-8 xl:p-10">
         <div className="grid gap-10 xl:grid-cols-[1.2fr_0.8fr]">
           <div>
-            <div className="eyebrow">Machine Room Blueprint × Archive Atlas</div>
+            <div className="eyebrow">Machine Room Blueprint × Study Atlas</div>
             <h1 className="page-title mt-6 max-w-4xl text-5xl leading-tight text-[color:var(--ink-1)] md:text-6xl">
-              用一座中文教学网站，把散落的操作系统资料重组为可学习的课程地图。
+              给正在学操作系统的你，一张能一路学到项目实战的中文课程地图。
             </h1>
             <p className="mt-6 max-w-3xl text-[1.06rem] leading-9 text-[color:var(--ink-2)]">
-              这里不是资料归档页，而是把 `base-files/`、`notes/`、`sandbox/`、课程项目和教师补充素材压成一条能连续学习、连续复习、连续实践的学习路径。
+              内容按章节、练习、术语和沙箱组织。先把 Linux 命令、文件系统和系统管理跑通，再进入进程、内存、同步与调度，最后回到 SyncFS 综合实践闭环。
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -53,16 +51,16 @@ export function HomePage() {
             <article className="rounded-[28px] border border-[rgba(15,31,49,0.1)] bg-white/80 p-5">
               <div className="flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-[color:var(--signal-blue)]">
                 <Layers3 className="h-4 w-4" />
-                内容规模
+                学习地图
               </div>
               <div className="mt-5 grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-3xl font-semibold text-[color:var(--ink-0)]">{stats.chapterCount}</p>
-                  <p className="text-sm text-[color:var(--ink-2)]">章节</p>
+                  <p className="text-sm text-[color:var(--ink-2)]">课程章节</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-semibold text-[color:var(--ink-0)]">{stats.sourceCount}</p>
-                  <p className="text-sm text-[color:var(--ink-2)]">资料源</p>
+                  <p className="text-3xl font-semibold text-[color:var(--ink-0)]">2</p>
+                  <p className="text-sm text-[color:var(--ink-2)]">学习主线</p>
                 </div>
                 <div>
                   <p className="text-3xl font-semibold text-[color:var(--ink-0)]">{stats.sandboxCount}</p>
@@ -77,14 +75,13 @@ export function HomePage() {
             <article className="rounded-[28px] border border-[rgba(46,125,91,0.14)] bg-[rgba(46,125,91,0.08)] p-5">
               <div className="flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-[color:var(--signal-green)]">
                 <Compass className="h-4 w-4" />
-                覆盖状态
+                推荐节奏
               </div>
-              <p className="mt-4 text-4xl font-semibold text-[color:var(--signal-green)]">
-                {coverage.coveredPercent}%
-              </p>
-              <p className="mt-2 text-sm leading-7 text-[color:var(--ink-1)]">
-                {coverage.coveredCount} 份资料已进入课程映射，剩余 {coverage.pendingCount} 份等待补充。
-              </p>
+              <div className="mt-4 space-y-3 text-sm leading-7 text-[color:var(--ink-1)]">
+                <p>第 1-9 章先把命令行、文本处理、日志和系统管理的手感建立起来。</p>
+                <p>第 10-12 章再进入进程、分页、同步、死锁和调度，会更容易把抽象概念落地。</p>
+                <p>做完一章就去沙箱推演，考前回到复习页快速扫核心点和易错点。</p>
+              </div>
             </article>
           </div>
         </div>
@@ -131,7 +128,10 @@ export function HomePage() {
               <p className="mt-4 text-[0.98rem] leading-8 text-[color:var(--ink-2)]">{chapter.summary}</p>
               <div className="mt-4 flex items-center gap-2 text-sm text-[color:var(--ink-2)]">
                 <Route className="h-4 w-4" />
-                {chapter.sections.length} 个主题段落 / {chapter.sourceIds.length} 份来源
+                {chapter.sections.length} 个主题段落
+                {chapter.sandboxIds.length > 0
+                  ? ` / ${chapter.sandboxIds.length} 个相关实验`
+                  : " / 适合先通读再做题"}
               </div>
             </Link>
           ))}

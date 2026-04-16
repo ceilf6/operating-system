@@ -3,11 +3,12 @@
   "number": "01",
   "track": "总览",
   "title": "课程导论与学习路径",
-  "summary": "说明资料来源、学习顺序，以及 Linux 实操线与操作系统理论线如何配合。",
+  "summary": "先搭实操基础，再补理论框架，最后用复习与项目把整门课串成一条稳定学习路径。",
   "searchKeywords": [
     "课程导论",
     "学习路径",
-    "资料关系",
+    "实操线",
+    "理论线",
     "操作系统课程"
   ],
   "sourceIds": [
@@ -44,9 +45,9 @@
   ],
   "sections": [
     {
-      "id": "material-map",
-      "title": "资料结构与学习顺序",
-      "anchor": "material-map",
+      "id": "study-route",
+      "title": "这门课怎么学",
+      "anchor": "study-route",
       "sourceIds": [
         "readme-md-8ec9a00b",
         "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
@@ -63,34 +64,34 @@
       "blocks": [
         {
           "type": "overview",
-          "content": "先读 `base-files/` 保证完整性，再用 `notes/` 进行中文学习化消化，最后用 `sandbox/` 把概念跑起来。课程项目与教师补充媒体被单独挂到综合实践章节。"
+          "content": "第一遍建议顺着章节走，先把命令行、文件系统、文本处理和系统管理的手感建立起来；第二遍再集中推演进程、内存、同步、死锁与调度；最后回到项目和复习页做综合巩固。"
         },
         {
           "type": "key-points",
           "items": [
-            "完整性以 `base-files/` 为主，`notes/` 负责提炼表达，`sandbox/` 负责动手练习。",
-            "学习建议先走 Linux/Unix 实操线，再进入操作系统理论线，最后回到课程项目闭环。",
-            "中文站点只保留教学化表达，原始法语资料通过来源抽屉追溯。"
+            "第 1-9 章是 Linux/Unix 实操线，重点是把命令、脚本、日志与系统管理跑通。",
+            "第 10-12 章是操作系统理论线，重点是把进程、内存、同步、死锁和调度连成完整框架。",
+            "每学完一章就用沙箱推演输入、状态变化和算法决策，再回到复习页巩固高频概念。"
           ]
         },
         {
           "type": "callout",
           "variant": "warning",
           "title": "易错点",
-          "content": "把 `notes/` 当成全部课程内容会漏掉原始课件与 project。"
+          "content": "一开始就陷进原讲义细节里，会打断整门课的主线节奏。"
         },
         {
           "type": "diagram-list",
           "items": [
-            "资料流转图：base-files -> notes -> sandbox -> 章节页 / 沙箱页。"
+            "课程推进图：实操基础 -> 系统管理 -> OS 理论 -> 项目综合。"
           ]
         },
         {
           "type": "exercise-list",
           "items": [
             {
-              "id": "material-map-exercise-1",
-              "prompt": "尝试说明为什么同一知识点会同时出现在课件、笔记与脚本中。",
+              "id": "study-route-exercise-1",
+              "prompt": "给自己制定一轮 12 章学习顺序，并说明哪些章节适合先看概念、哪些适合先动手。",
               "answer": "",
               "difficulty": "medium"
             }
@@ -100,21 +101,12 @@
           "type": "source-pack",
           "items": [
             {
-              "sourceId": "readme-md-8ec9a00b",
-              "title": "README",
-              "path": "README.md",
-              "kind": "note",
-              "language": "zh",
-              "content": "#### 通知栏\n\n- 目录\n  - [base-files](./base-files)下是课件等资料及翻译\n  - [sandbox](./sandbox)下存放了各个课件以及TD中有代表性的脚本，其中由于部分题目答案不是很满意，于是进行了重构\n  - [notes](./notes)下是个人笔记\n  > 三个目录下面在不同课时通过前缀区分进行一一对应，这里的前缀取值是根据老师发文件的batch批次，没有实际意义、仅用于区分 \n  \n  > base-files 中的部分中文翻译和 notes 内容重合较高，我用 symlink 优化了，这部分文件根据展示的 link 路径去 notes 中找对应文件即可\n\n- [CN-LO03_Silde_Cours_3&4](./base-files/06_CN-LO03_Silde_Cours_3&4.pdf) 只翻了 课3 ，课4 可以看 [Cours4_中文翻译](./base-files/07_LO03_Linux_2026_Cours4_中文翻译.md)\n\n#### 链接\n\n> 来自 [Lab](https://github.com/ceilf6/Lab) 的指针记录，方便及时回溯\n\n- [通过递归实现 Shell tree 命令 - local 存储传下的缩进数等、防止污染; basename 拿到文件名; \"\"防止空白折叠](https://github.com/ceilf6/Lab/commit/31e33f331961345ca1f075dfedd0916954578be8)\n\n- [通过位运算(八进制)管理权限](https://github.com/ceilf6/Lab/commit/258cba2a8a663461c5f94014e41dd09291139d70)\n- [Shell 脚本 目录文件摘要函数 日志错误统计 重要目录磁盘使用情况](https://github.com/ceilf6/Lab/commit/110ad351aa68f809cdc0dbc19f4cc16ead5a9cef)\n- [Shell 添加最后修改时间到文件开头 通过系统目录树中 /tmp 存储临时文件实现添加开头 通过 ls -l 拿到最后修改时间](https://github.com/ceilf6/Lab/commit/88e2b975b61159d51b7b3ea1c66c3c968aa6be57)\n- [Shell 通过 while do done 逐行读取文件; IFS划分 - 通过 set 分割一个个参数然后用 # 获取参数个数 或 read存储到数组中用 #arr[@]](https://github.com/ceilf6/Lab/commit/7e5b6c9f7fb119ac03943832a57c87500125697c)",
-              "excerpt": "# 通知栏 - 目录 - [base-files](./base-files)下是课件等资料及翻译 - [sandbox](./sandbox)下存放了各个课件以及TD中有代表性的脚本，其中由于部分题目答案不是很满意，于是进行了重构 - [notes](./notes)下是个人笔记 > 三个目录下面在不同课时通过前缀区分进行一一对应，这里的前缀取值是根据老师发文件的batch批次，没有实际意义、仅用于区分 > base-files 中的部分中文翻译和 notes 内容重合较高，我用 symlink 优化了，这部分文件根据展示的 link 路径去 note"
-            },
-            {
               "sourceId": "base-files-01-cn-lo03-silde-cours-1-2-pdf-81dfd1c8",
               "title": "01_CN-LO03_Silde_Cours_1&2",
               "path": "base-files/01_CN-LO03_Silde_Cours_1&2.pdf",
               "kind": "pdf",
               "language": "mixed",
-              "content": "#### Page 1\n\n目录\n\n\n第一章 引言                   5\n\n第二章 Linux 的哲学与发行版        7\n\n第三章 Shell 与命令行基础         9\n\n第四章 Linux 文件系统           17\n\n第五章 重定向、管道与错误处理          29\n\n第六章 Shell 脚本与参数          35\n\n第七章 流程控制与条件测试            47\n\n第八章 算术扩展、函数与数组           57\n\n\n\n\n                    1\n\n#### Page 2\n\n2   目录\n\n#### Page 3\n\n第一章 引言\n\n  本书后续章节大致按照「系统背景 → Shell 入门 → 文件系统 → 权限与链接 → 重定向与管道 → 脚本与控制结\n构 → 高级特性」的顺序展开，便于课堂教学与自学。\n\nsilde 1\n\n\n                              Introduction au système Linux\n   ◦ Système d’exploitation multi-utilisateurs (connexion simultanée de plusieurs utilisateurs) et multi-tâches\n     (décomposition d’une application en plusieurs tâches qui s’exécutent simultanément).\n   ◦ L’environnement standard de programmation est le C et plus récemment le C++.\n   ◦ L’environnement réseau est construit sur les protocoles TCP/IP.\n\n\n\n\n                                           Linux 系统导论\n   ◦ 这是一款多用户与多任务操作系统。\n   ◦ 多用户特性：支持多个用户同时连接登录系统；多任务特性：可将单个应用程序拆解为多个任务，这些任务\n     能够同时并发执行。\n   ◦ 标准编程环境为 C 语言，近年来 C++ 也纳入其核心标准编程体系；其网络环境基于 TCP/IP 协议栈构建。\n\n\n\n\n                                                      3\n\n#### Page 5\n\n第二章                 Linux 的哲学与发行版\n\n  在本章中，我们从宏观视角理解 Linux：它为何被设计成「一切皆文件」的世界，又为何会出现众多发行版。阅读\n本章时，可以思考三个问题：\n\n • Linux 与传统的单机操作系统（如早期的 MS-DOS）相比，设计目标有何不同？\n •「一切皆文件」这一抽象思想，如何帮助我们统一地看待设备、进程和配置？\n • 面对 Ubuntu、Fedora、openSUSE 等不同发行版，应该从哪些维度（目标用户、更新策略、稳定性等）来做选择？\n\n\nRemark 从教学实践来看，很多同学在学习 Linux 时，会把「发行版」等同于「操作系统本身」\n                                                。实际上，大多数\n发行版共享同一个 Linux 内核，只是在软件选择、默认配置和图形界面上有所差异。在阅读接下来的几页 silde\n时，可以有意识地区分：哪些内容是 Linux 内核的共性，哪些是发行版的个性。\n\n\nsilde 2\n\n\n                                       Philosophie de Linux\n   ◦ Un ensemble de règles assurent le fonctionnement et le succès de Linux. Le fameux paradigme « tout\n     est fichier ». Toutes les fonctionnalités du système d’exploitation sont accessibles via de simples fichiers :\n     périphériques, processus, mémoire, etc.\n   ◦ Fini le développement seul dans son coin, la moindre petite ébauche de votre projet doit être soumise à la\n     communauté afin d’avertir un maximum de personnes pouvant intervenir de différente manière au niveau du\n     développement, soit en soulevant les bugs que vous vous attacherez à corriger le plus rapidement possible.\n\n\n\n\n                                            Linux 设计理念\n   ◦ 一系列准则保障了 Linux 的运行与成功。其中最著名的范式便是 「一切皆文件」。操作系统的所有功能均可\n     通过普通文件进行访问：外设、进程、内存等。\n   ◦ 摒弃闭门造车式的独立开发，你的项目哪怕只是最微小的雏形，也必须提交至社区，让尽可能多的相关人员\n     能够以不同方式参与开发工作，例如指出程序漏洞，而你需尽快着手修复这些问题。\n\n\nsilde 3\n\n\n                                       La création de Linux\n   ◦ En 1991, un étudiant finlandais nommé Linus Torvalds décide de créer un nouveau noyau basé sur Minix\n     (un dérivé d’UNIX) afin de contourner ses limitations et celles de MS-DOS. Ce nouveau noyau est distribué\n     gratuitement sur Internet en août 1991 dès sa version 0.1 sous le nom de «Linux».\n   ◦ Actuellement, le noyau de Linux est à la révision 6.12.71 (12/02/2026) et est librement téléchargeable.\n\n\n\n\n                                                        5\n\n#### Page 6\n\n6                                                                                      第二章      LINUX 的哲学与发行版\n\n\n                                                   Linux 的诞生\n       ◦ 1991 年，芬兰大学生林纳斯 �\n                         托瓦兹（Linus Torvalds）决定基于 Minix（一种 UNIX 衍生系统）开发一款\n         全新内核，以突破 Minix 与 MS-DOS 自身的局限。这款新内核于 1991 年 8 月以 0.1 版本在互联网上免费\n         发布，并定名为「Linux」。\n       ◦ 目前，Linux 内核版本为 6.12.71（2026 年 2 月 12 日），可自由下载使用。\n\n    silde 4\n\n\n                                   Les systèmes Linux du marché\n       ◦ Ubuntu C’est une distribution commerciale orientée vers le grand public distribué gratuitement par Canon-\n         ical, qui édite des versions stables tous les six mois (maintenues 9 mois).\n       ◦ Fedora est une distribution communautaire supervisée par Red Hat, basée sur le système de gestion de\n         paquetages logiciels RPM C’est une distribution qui met l’accent sur la nouveauté, ce qui signifie que ses\n         logiciels sont très fréquemment mis à jour.\n       ◦ openSUSE est une distribution communautaire destinée tant à un usage grand public qu’à un usage profes-\n         sionnel. C’est une distribution indépendante réputée pour ses outils de configurations et sa stabilité.\n\n\n\n\n                                             市面上的 Linux 系统\n       ◦ Ubuntu：它是由 Canonical 公司免费发行、面向普通大众的商业发行版，该公司每六个月推出一个稳定版本\n        （版本维护周期为 9 个月）\n                     。\n       ◦ Fedora：它是由红帽（Red Hat）公司监管的社区发行版，基于 RPM 软件包管理系统。该发行版主打新技\n         术、新特性，这意味着其内置软件会得到非常频繁的更新。\n       ◦ openSUSE：它是同时面向普通用户与专业用途的社区发行版，作为一款独立发行版，它以配置工具完善和\n         系统运行稳定而闻名。\n\n    silde 5\n\n\n                                       Linux sur votre ordinateur\n       ◦ Installer Linux sur une partition de votre disque. Double boot Windows-Linux\n       ◦ Utiliser une clé usb bootable Linux.\n       ◦ Virtualiser Linux sur votre PC avec Virtuabox par exemple. Possibilité d’avoir Linux, windows et Mac OS\n         en même temps.\n       ◦ WSL (Windows Subsystem Linux) : Sous-système Windows pour Linux\n       ◦ Sous MacOs:Zsh disponible directement.\n\n\n\n\n                                            在计算机中使用 Linux\n       ◦ 在硬盘的一个分区上安装 Linux，实现 Windows 与 Linux 双系统启动。\n       ◦ 使用 Linux 可启动 U 盘运行系统。\n       ◦ 在电脑上通过 VirtualBox 等工具对 Linux 进行虚拟化，可同时运行 Linux、Windows 与 Mac OS 系统。\n       ◦ WSL（Windows Subsystem for Linux）\n                                        ：Windows Linux 子系统。\n       ◦ 在 macOS 系统下：可直接使用 Zsh。",
+              "content": "#### Page 1\n\n目录\n\n\n第一章 引言                   5\n\n第二章 Linux 的哲学与发行版        7\n\n第三章 Shell 与命令行基础         9\n\n第四章 Linux 文件系统           17\n\n第五章 重定向、管道与错误处理          29\n\n第六章 Shell 脚本与参数          35\n\n第七章 流程控制与条件测试            47\n\n第八章 算术扩展、函数与数组           57\n\n\n\n\n                    1\n\n#### Page 3\n\n第一章 引言\n\n  本书后续章节大致按照「系统背景 → Shell 入门 → 文件系统 → 权限与链接 → 重定向与管道 → 脚本与控制结\n构 → 高级特性」的顺序展开，便于课堂教学与自学。\n\nsilde 1\n\n\n                              Introduction au système Linux\n   ◦ Système d’exploitation multi-utilisateurs (connexion simultanée de plusieurs utilisateurs) et multi-tâches\n     (décomposition d’une application en plusieurs tâches qui s’exécutent simultanément).\n   ◦ L’environnement standard de programmation est le C et plus récemment le C++.\n   ◦ L’environnement réseau est construit sur les protocoles TCP/IP.\n\n\n\n\n                                           Linux 系统导论\n   ◦ 这是一款多用户与多任务操作系统。\n   ◦ 多用户特性：支持多个用户同时连接登录系统；多任务特性：可将单个应用程序拆解为多个任务，这些任务\n     能够同时并发执行。\n   ◦ 标准编程环境为 C 语言，近年来 C++ 也纳入其核心标准编程体系；其网络环境基于 TCP/IP 协议栈构建。\n\n\n\n\n                                                      3\n\n#### Page 5\n\n第二章                 Linux 的哲学与发行版\n\n  在本章中，我们从宏观视角理解 Linux：它为何被设计成「一切皆文件」的世界，又为何会出现众多发行版。阅读\n本章时，可以思考三个问题：\n\n • Linux 与传统的单机操作系统（如早期的 MS-DOS）相比，设计目标有何不同？\n •「一切皆文件」这一抽象思想，如何帮助我们统一地看待设备、进程和配置？\n • 面对 Ubuntu、Fedora、openSUSE 等不同发行版，应该从哪些维度（目标用户、更新策略、稳定性等）来做选择？\n\n\nRemark 从教学实践来看，很多同学在学习 Linux 时，会把「发行版」等同于「操作系统本身」\n                                                。实际上，大多数\n发行版共享同一个 Linux 内核，只是在软件选择、默认配置和图形界面上有所差异。在阅读接下来的几页 silde\n时，可以有意识地区分：哪些内容是 Linux 内核的共性，哪些是发行版的个性。\n\n\nsilde 2\n\n\n                                       Philosophie de Linux\n   ◦ Un ensemble de règles assurent le fonctionnement et le succès de Linux. Le fameux paradigme « tout\n     est fichier ». Toutes les fonctionnalités du système d’exploitation sont accessibles via de simples fichiers :\n     périphériques, processus, mémoire, etc.\n   ◦ Fini le développement seul dans son coin, la moindre petite ébauche de votre projet doit être soumise à la\n     communauté afin d’avertir un maximum de personnes pouvant intervenir de différente manière au niveau du\n     développement, soit en soulevant les bugs que vous vous attacherez à corriger le plus rapidement possible.\n\n\n\n\n                                            Linux 设计理念\n   ◦ 一系列准则保障了 Linux 的运行与成功。其中最著名的范式便是 「一切皆文件」。操作系统的所有功能均可\n     通过普通文件进行访问：外设、进程、内存等。\n   ◦ 摒弃闭门造车式的独立开发，你的项目哪怕只是最微小的雏形，也必须提交至社区，让尽可能多的相关人员\n     能够以不同方式参与开发工作，例如指出程序漏洞，而你需尽快着手修复这些问题。\n\n\nsilde 3\n\n\n                                       La création de Linux\n   ◦ En 1991, un étudiant finlandais nommé Linus Torvalds décide de créer un nouveau noyau basé sur Minix\n     (un dérivé d’UNIX) afin de contourner ses limitations et celles de MS-DOS. Ce nouveau noyau est distribué\n     gratuitement sur Internet en août 1991 dès sa version 0.1 sous le nom de «Linux».\n   ◦ Actuellement, le noyau de Linux est à la révision 6.12.71 (12/02/2026) et est librement téléchargeable.\n\n\n\n\n                                                        5\n\n#### Page 6\n\n6                                                                                      第二章      LINUX 的哲学与发行版\n\n\n                                                   Linux 的诞生\n       ◦ 1991 年，芬兰大学生林纳斯 �\n                         托瓦兹（Linus Torvalds）决定基于 Minix（一种 UNIX 衍生系统）开发一款\n         全新内核，以突破 Minix 与 MS-DOS 自身的局限。这款新内核于 1991 年 8 月以 0.1 版本在互联网上免费\n         发布，并定名为「Linux」。\n       ◦ 目前，Linux 内核版本为 6.12.71（2026 年 2 月 12 日），可自由下载使用。\n\n    silde 4\n\n\n                                   Les systèmes Linux du marché\n       ◦ Ubuntu C’est une distribution commerciale orientée vers le grand public distribué gratuitement par Canon-\n         ical, qui édite des versions stables tous les six mois (maintenues 9 mois).\n       ◦ Fedora est une distribution communautaire supervisée par Red Hat, basée sur le système de gestion de\n         paquetages logiciels RPM C’est une distribution qui met l’accent sur la nouveauté, ce qui signifie que ses\n         logiciels sont très fréquemment mis à jour.\n       ◦ openSUSE est une distribution communautaire destinée tant à un usage grand public qu’à un usage profes-\n         sionnel. C’est une distribution indépendante réputée pour ses outils de configurations et sa stabilité.\n\n\n\n\n                                             市面上的 Linux 系统\n       ◦ Ubuntu：它是由 Canonical 公司免费发行、面向普通大众的商业发行版，该公司每六个月推出一个稳定版本\n        （版本维护周期为 9 个月）\n                     。\n       ◦ Fedora：它是由红帽（Red Hat）公司监管的社区发行版，基于 RPM 软件包管理系统。该发行版主打新技\n         术、新特性，这意味着其内置软件会得到非常频繁的更新。\n       ◦ openSUSE：它是同时面向普通用户与专业用途的社区发行版，作为一款独立发行版，它以配置工具完善和\n         系统运行稳定而闻名。\n\n    silde 5\n\n\n                                       Linux sur votre ordinateur\n       ◦ Installer Linux sur une partition de votre disque. Double boot Windows-Linux\n       ◦ Utiliser une clé usb bootable Linux.\n       ◦ Virtualiser Linux sur votre PC avec Virtuabox par exemple. Possibilité d’avoir Linux, windows et Mac OS\n         en même temps.\n       ◦ WSL (Windows Subsystem Linux) : Sous-système Windows pour Linux\n       ◦ Sous MacOs:Zsh disponible directement.\n\n\n\n\n                                            在计算机中使用 Linux\n       ◦ 在硬盘的一个分区上安装 Linux，实现 Windows 与 Linux 双系统启动。\n       ◦ 使用 Linux 可启动 U 盘运行系统。\n       ◦ 在电脑上通过 VirtualBox 等工具对 Linux 进行虚拟化，可同时运行 Linux、Windows 与 Mac OS 系统。\n       ◦ WSL（Windows Subsystem for Linux）\n                                        ：Windows Linux 子系统。\n       ◦ 在 macOS 系统下：可直接使用 Zsh。\n\n#### Page 7\n\n第三章                 Shell 与命令行基础\n\n   有了对 Linux 系统背景和主要发行版的认识，本章开始聚焦于「如何与 Linux 交互」。在多数教学和实际运维场\n景中，命令行 Shell 比图形界面更高效、更可组合。本章将围绕以下主线展开：\n\n • 认识 Shell 的角色：既是命令解释器，也是脚本语言；\n • 掌握基本命令（ls、pwd、cal、date 等）以及 man、whatis、apropos 等文档工具；\n • 理解命令行的基本语法：命令、选项、参数的组合方式，以及提示符 PS1 的含义。\n\n\nRemark 建议在学习本章内容时，同步打开一个真实的终端环境（Linux、WSL 或远程服务器均可）。每出现一\n个新命令，都亲自在终端输入并观察输出差异，例如对比 ls 与 ls -l，感受选项对输出格式的影响。只有「边学\n边敲」，Shell 的语法和习惯用法才会真正内化为自己的技能。\n\n\n silde 6\n\n\n                                                    Le Shell\n    ◦ Sous Linux, on appelle Shell l’interpréteur de commandes qui fait oﬀice d’interface entre l’utilisateur et le\n      système d’exploitation. Les shells sont des interpréteurs : cela signifie que chaque commande saisie par l’\n      utilisateur (ou lue à partir d’un fichier) est syntaxiquement vérifiée puis exécutée.\n    ◦ Il existe plusieurs interpréteurs Shell sous Linux : Bourne again shell (bash), Cshell, Korn shell, Z shell etc\n      …\n    ◦ Enconnaître un, permet d’accéder aisément aux autres.\n    ◦ Tous les Shells peuvent cohabiter à l’intérieur d’un même système Linux. L’administrateur fixe le Shell\n      initial de chaque utilisateur dans le fichier de définition des utilisateurs : /etc/passwd\n    ◦ Un shell possède un environnement de travail et un langage de programmation.\n\n\n\n\n                                            命令行终端（Shell）\n    ◦ 在 Linux 系统中，Shell 是指命令解释器，它充当用户与操作系统之间的交互接口。Shell 属于解释器：即用\n      户输入的每一条命令（或从文件中读取的命令），都会先经过语法检查，随后被执行。\n    ◦ Linux 系统中存在多种 Shell 解释器：Bourne again shell（bash）、C shell、Korn shell、Z shell 等。\n    ◦ 掌握其中一种，即可轻松上手其他各类 Shell。\n    ◦ 所有 Shell 均可在同一 Linux 系统中共存。管理员会在用户配置文件 /etc/passwd 中，为每个用户设定默认\n      初始 Shell。\n    ◦ 每个 Shell 都拥有独立的工作环境与编程语言。\n\n\n silde 7\n\n                          Unix Shell / Windows PowerShell 对比\n\n                                                          7",
               "excerpt": "## Page 1 目录 第一章 引言 5 第二章 Linux 的哲学与发行版 7 第三章 Shell 与命令行基础 9 第四章 Linux 文件系统 17 第五章 重定向、管道与错误处理 29 第六章 Shell 脚本与参数 35 第七章 流程控制与条件测试 47 第八章 算术扩展、函数与数组 57 1 ## Page 2 2 目录 ## Page 3 第一章 引言 本书后续章节大致按照「系统背景 → Shell 入门 → 文件系统 → 权限与链接 → 重定向与管道 → 脚本与控制结 构 → 高级特性」的顺序展开，便于课堂教学与自学。 silde 1 "
             },
             {
@@ -171,238 +163,19 @@
           ]
         }
       ]
-    },
-    {
-      "id": "appendix-sources",
-      "title": "补充原始资料",
-      "anchor": "appendix-sources",
-      "sourceIds": [
-        "sandbox-test-files-02-dir1-dir2-debut-txt-b085733b",
-        "sandbox-test-files-02-dir1-dir2-file-link-txt-7d33c805",
-        "sandbox-test-files-02-dir1-dir2-file-moved-txt-a90963ec",
-        "sandbox-test-files-02-dir1-dir2-file1-txt-4166cab0",
-        "sandbox-test-files-02-dir1-dir2-fin-txt-121adea3",
-        "sandbox-test-files-09-2-03-txt-f01f7025",
-        "sandbox-test-files-09-2-05-txt-a246920a",
-        "sandbox-test-files-09-2-06-txt-9b3049dc",
-        "sandbox-test-files-09-2-txt-34d28d9f",
-        "sandbox-test-files-13-txt-67da07d3",
-        "sandbox-test-files-fichiernote-txt-05fdd343",
-        "sandbox-test-files-mock-summary-alpha-report-txt-7c48fd63",
-        "sandbox-test-files-mock-summary-alpha-todo-md-e878c7e3",
-        "sandbox-test-files-mock-summary-beta-images-diagram-txt-3d793952",
-        "sandbox-test-files-mock-summary-beta-summary-txt-c943c0c6",
-        "sandbox-test-files-palindrometestfile-txt-0031d49a",
-        "sandbox-test-files-script-sh-35508212",
-        "sandbox-test-files-words-txt-2ed1388e",
-        "sandbox-sh-642d1d46",
-        "sandbox-sh-2731f376"
-      ],
-      "glossaryIds": [],
-      "blocks": [
-        {
-          "type": "overview",
-          "content": "这些资料没有进入上方主讲节奏，但为了保证课程覆盖率，仍在本章做来源归档与追溯。"
-        },
-        {
-          "type": "source-pack",
-          "items": [
-            {
-              "sourceId": "sandbox-test-files-02-dir1-dir2-debut-txt-b085733b",
-              "title": "debut",
-              "path": "sandbox/test-files/02/dir1/dir2/debut.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### debut\n\n1\n2",
-              "excerpt": "1 2"
-            },
-            {
-              "sourceId": "sandbox-test-files-02-dir1-dir2-file-link-txt-7d33c805",
-              "title": "file-link",
-              "path": "sandbox/test-files/02/dir1/dir2/file-link.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### file-link\n\n1\n2\n3\n\n1\n2\n3\n4\n5\n\n1\n2\n3\n4\n5\n6\n\n1\n2\n3\n4\n5",
-              "excerpt": "1 2 3 1 2 3 4 5 1 2 3 4 5 6 1 2 3 4 5"
-            },
-            {
-              "sourceId": "sandbox-test-files-02-dir1-dir2-file-moved-txt-a90963ec",
-              "title": "file-moved",
-              "path": "sandbox/test-files/02/dir1/dir2/file-moved.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### file-moved\n\n1\n2\n3\n\n1\n2\n3\n4\n5\n\n1\n2\n3\n4\n5\n6",
-              "excerpt": "1 2 3 1 2 3 4 5 1 2 3 4 5 6"
-            },
-            {
-              "sourceId": "sandbox-test-files-02-dir1-dir2-file1-txt-4166cab0",
-              "title": "file1",
-              "path": "sandbox/test-files/02/dir1/dir2/file1.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### file1\n\n1\n2\n3\n\n1\n2\n3\n4\n5\n\n1\n2\n3\n4\n5\n6\n\n1\n2\n3\n4\n5",
-              "excerpt": "1 2 3 1 2 3 4 5 1 2 3 4 5 6 1 2 3 4 5"
-            },
-            {
-              "sourceId": "sandbox-test-files-02-dir1-dir2-fin-txt-121adea3",
-              "title": "fin",
-              "path": "sandbox/test-files/02/dir1/dir2/fin.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### fin\n\n3\n4\n5",
-              "excerpt": "3 4 5"
-            },
-            {
-              "sourceId": "sandbox-test-files-09-2-03-txt-f01f7025",
-              "title": "09_2-03",
-              "path": "sandbox/test-files/09_2-03.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### 09_2-03\n\n1\n1\nAsasa\nb\n1c\nb\nc",
-              "excerpt": "1 1 Asasa b 1c b c"
-            },
-            {
-              "sourceId": "sandbox-test-files-09-2-05-txt-a246920a",
-              "title": "09_2-05",
-              "path": "sandbox/test-files/09_2-05.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### 09_2-05\n\nBoB EmpruntE TemporairemenT A RogeR SeS\nSoulierS\nTesT",
-              "excerpt": "BoB EmpruntE TemporairemenT A RogeR SeS SoulierS TesT"
-            },
-            {
-              "sourceId": "sandbox-test-files-09-2-06-txt-9b3049dc",
-              "title": "09_2-06",
-              "path": "sandbox/test-files/09_2-06.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### 09_2-06\n\nPaul Dupont \nTel : 0144567799 \nEmail : dupont@club.fr\nJulie Dalbanot\nTel : 0469857468\nEmail : julie@wanadoo.fr\nGeorge Martin \nTel : 0569874587\nEmail : martin@free.fr",
-              "excerpt": "Paul Dupont Tel : 0144567799 Email : dupont@club.fr Julie Dalbanot Tel : 0469857468 Email : julie@wanadoo.fr George Martin Tel : 0569874587 Email : martin@free.fr"
-            },
-            {
-              "sourceId": "sandbox-test-files-09-2-txt-34d28d9f",
-              "title": "09_2",
-              "path": "sandbox/test-files/09_2.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### 09_2\n\nasterix ;\n20 tintin / haddock ;\n20 tif / tondu ;\n30 theodore poussin ;\n40 spirit ;\n30\naaabbb\n111\n222\nasasadsadasdasdas999\n\naeiousasawasa\nsasawaddsouiea\n_____aieuo\n\n1 2 3\na b club\nsawa csdad vfdfd\n\nsasasawasasawasawa\n\nclub club club",
-              "excerpt": "asterix ; 20 tintin / haddock ; 20 tif / tondu ; 30 theodore poussin ; 40 spirit ; 30 aaabbb 111 222 asasadsadasdasdas999 aeiousasawasa sasawaddsouiea _____aieuo 1 2 3 a b club sawa csdad vfdfd sasasawasasawasawa club club club"
-            },
-            {
-              "sourceId": "sandbox-test-files-13-txt-67da07d3",
-              "title": "13",
-              "path": "sandbox/test-files/13.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### 13\n\n<dupont> <charles> <duch>\n<martin> <paul> <mapa>\n<retraint> <florent> <refl>",
-              "excerpt": "<dupont> <charles> <duch> <martin> <paul> <mapa> <retraint> <florent> <refl>"
-            },
-            {
-              "sourceId": "sandbox-test-files-fichiernote-txt-05fdd343",
-              "title": "FichierNote",
-              "path": "sandbox/test-files/FichierNote.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### FichierNote\n\nApr 14 17:30\nApr 14 16:46\nDupont François 12\nDurand Françoise 8\nDujardin Nicole 14",
-              "excerpt": "Apr 14 17:30 Apr 14 16:46 Dupont François 12 Durand Françoise 8 Dujardin Nicole 14"
-            },
-            {
-              "sourceId": "sandbox-test-files-mock-summary-alpha-report-txt-7c48fd63",
-              "title": "report",
-              "path": "sandbox/test-files/mock-summary/alpha/report.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### report\n\nalpha report",
-              "excerpt": "alpha report"
-            },
-            {
-              "sourceId": "sandbox-test-files-mock-summary-alpha-todo-md-e878c7e3",
-              "title": "todo",
-              "path": "sandbox/test-files/mock-summary/alpha/todo.md",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### todo\n\n- check logs\n- archive traces",
-              "excerpt": "- check logs - archive traces"
-            },
-            {
-              "sourceId": "sandbox-test-files-mock-summary-beta-images-diagram-txt-3d793952",
-              "title": "diagram",
-              "path": "sandbox/test-files/mock-summary/beta/images/diagram.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### diagram\n\ndisk usage diagram placeholder",
-              "excerpt": "disk usage diagram placeholder"
-            },
-            {
-              "sourceId": "sandbox-test-files-mock-summary-beta-summary-txt-c943c0c6",
-              "title": "summary",
-              "path": "sandbox/test-files/mock-summary/beta/summary.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### summary\n\nbeta summary",
-              "excerpt": "beta summary"
-            },
-            {
-              "sourceId": "sandbox-test-files-palindrometestfile-txt-0031d49a",
-              "title": "palindromeTestFile",
-              "path": "sandbox/test-files/palindromeTestFile.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### palindromeTestFile\n\naba\n\naboba\n\nabbba\n\nabccba\n\nabbbca\n\nacbba",
-              "excerpt": "aba aboba abbba abccba abbbca acbba"
-            },
-            {
-              "sourceId": "sandbox-test-files-script-sh-35508212",
-              "title": "script",
-              "path": "sandbox/test-files/script.sh",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### script\n\nApr 14 17:30\nApr 13 19:55\necho $PATH",
-              "excerpt": "Apr 14 17:30 Apr 13 19:55 echo $PATH"
-            },
-            {
-              "sourceId": "sandbox-test-files-words-txt-2ed1388e",
-              "title": "words",
-              "path": "sandbox/test-files/words.txt",
-              "kind": "sandbox",
-              "language": "fr",
-              "content": "#### words\n\nlinux sxxccs\ndigue sasaw\nlieux sas\nminus\nsinus\nvirus\n\nlinuxs\nasasa\nsaswd\nxadccs\nwdssxs",
-              "excerpt": "linux sxxccs digue sasaw lieux sas minus sinus virus linuxs asasa saswd xadccs wdssxs"
-            },
-            {
-              "sourceId": "sandbox-sh-642d1d46",
-              "title": "智能提示自动补全而不是展示",
-              "path": "sandbox/智能提示自动补全而不是展示.sh",
-              "kind": "sandbox",
-              "language": "mixed",
-              "content": "#### 智能提示自动补全而不是展示\n\npython3 - <<'PY'\nfrom pathlib import Path\np = Path.home() / \".zshrc\"\ntext = p.read_text() if p.exists() else \"\"\n\nlines = text.splitlines()\nfiltered = []\nskip = False\n\nfor line in lines:\n    s = line.strip()\n\n    # 去掉旧的简单绑定\n    if s in {\n        \"bindkey '^I' autosuggest-accept\",\n        'bindkey \"^I\" autosuggest-accept',\n        \"# Tab 优先接受 zsh-autosuggestions 的灰色建议\",\n    }:\n        continue\n\n    # 去掉旧的自定义 widget（如果之前加过）\n    if s.startswith(\"_tab_accept_or_complete() {\"):\n        skip = True\n        continue\n    if skip:\n        if s == \"}\":\n            skip = False\n        continue\n\n    # 去掉旧的 widget 注册\n    if s in {\n        \"zle -N _tab_accept_or_complete\",\n        \"bindkey '^I' _tab_accept_or_complete\",\n        'bindkey \"^I\" _tab_accept_or_complete',\n        \"# Tab: 有灰色建议时接受建议；否则走正常补全\",\n    }:\n        continue\n\n    filtered.append(line)\n\nappend = r'''\n\n#### Tab: 有灰色建议时接受建议；否则走正常补全\n\n_tab_accept_or_complete() {\n  if [[ -n \"$POSTDISPLAY\" ]]; then\n    zle autosuggest-accept\n  else\n    zle expand-or-complete\n  fi\n}\nzle -N _tab_accept_or_complete\nbindkey '^I' _tab_accept_or_complete\n'''.strip()\n\nnew_text = \"\\n\".join(filtered).rstrip() + \"\\n\\n\" + append + \"\\n\"\np.write_text(new_text)\nprint(\"Updated ~/.zshrc\")\nPY\n\nsource ~/.zshrc",
-              "excerpt": "python3 - <<'PY' from pathlib import Path p = Path.home() / \".zshrc\" text = p.read_text() if p.exists() else \"\" lines = text.splitlines() filtered = [] skip = False for line in lines: s = line.strip() # 去掉旧的简单绑定 if s in { \"bindkey '^I' autosuggest-accept\", 'bindkey \"^I\" autosugge"
-            },
-            {
-              "sourceId": "sandbox-sh-2731f376",
-              "title": "配置交互智能提示",
-              "path": "sandbox/配置交互智能提示.sh",
-              "kind": "sandbox",
-              "language": "mixed",
-              "content": "#### 工具\n\nbrew install fzf zsh-autosuggestions zsh-syntax-highlighting\n\nbrew install thefuck\nbrew install autojump\n\n#### 追加入 ~/ .zshrc\n\ncat >> ~/.zshrc <<'EOF'\n\n#### 启用 zsh 补全系统\n\nautoload -Uz compinit\ncompinit\n\n#### 补全体验增强\n\nzstyle ':completion:*' menu select\nzstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'\nzstyle ':completion:*' list-colors \"${(s.:.)LS_COLORS}\"\n\n#### 让补全更灵敏\n\nsetopt AUTO_MENU\nsetopt COMPLETE_IN_WORD\nsetopt ALWAYS_TO_END",
-              "excerpt": "# 工具 brew install fzf zsh-autosuggestions zsh-syntax-highlighting brew install thefuck brew install autojump # 追加入 ~/ .zshrc cat >> ~/.zshrc <<'EOF' # 启用 zsh 补全系统 autoload -Uz compinit compinit # 补全体验增强 zstyle ':completion:*' menu select zstyle ':completion:*' matcher-list 'm:{a-"
-            }
-          ]
-        }
-      ]
     }
   ],
   "review": {
     "checklist": [
-      "完整性以 `base-files/` 为主，`notes/` 负责提炼表达，`sandbox/` 负责动手练习。",
-      "学习建议先走 Linux/Unix 实操线，再进入操作系统理论线，最后回到课程项目闭环。",
-      "中文站点只保留教学化表达，原始法语资料通过来源抽屉追溯。"
+      "第 1-9 章是 Linux/Unix 实操线，重点是把命令、脚本、日志与系统管理跑通。",
+      "第 10-12 章是操作系统理论线，重点是把进程、内存、同步、死锁和调度连成完整框架。",
+      "每学完一章就用沙箱推演输入、状态变化和算法决策，再回到复习页巩固高频概念。"
     ],
     "pitfalls": [
-      "把 `notes/` 当成全部课程内容会漏掉原始课件与 project。"
+      "一开始就陷进原讲义细节里，会打断整门课的主线节奏。"
     ],
     "diagramIdeas": [
-      "资料流转图：base-files -> notes -> sandbox -> 章节页 / 沙箱页。"
+      "课程推进图：实操基础 -> 系统管理 -> OS 理论 -> 项目综合。"
     ]
   },
   "previousSlug": null,

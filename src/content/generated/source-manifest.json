@@ -161,7 +161,7 @@
     "language": "zh",
     "extractedTextPath": "src/content/generated/extracted/notes-10-md-8b87c73f.md",
     "coverageStatus": "covered",
-    "excerpt": "## TD 1.1 ### 练习 1：什么是 GPL 许可证？ **答案：** GPL（GNU 通用公共许可证）是由自由软件基金会（Free Software Foundation）创建的一种自由软件许可证。它保障： 1. 为任何用途使用软件的自由。 2. 研究软件源代码并对其进行修改的自由。 3. 重新分发软件副本的自由，无论这些副本是否经过修改。 4. 必须在相同许可证下发布修改版本的义务（即 copyleft 原则）。 --- ### 练习 2：自由软件和开源软件有什么区别？ **答案：** 尽管这两个术语经常被混用，但它们之间仍有细微差别： - ",
+    "excerpt": "## TD 1.1 ### 练习 1：什么是 GPL 许可证？ **答案：** GPL（GNU 通用公共许可证）是由自由软件基金会（Free Software Foundation）创建的一种自由软件许可证。它保障： 1. 为任何用途使用软件的自由。 2. 研究软件源代码并对其进行修改的自由。 3. 重新分发软件副本的自由，无论这些副本是否经过修改。 4. 必须在相同许可证下发布修改版本的义务（即 **copyleft** 原则）。 --- ### 练习 2：自由软件和开源软件有什么区别？ **答案：** 尽管这两个术语经常被混用，但它们之间仍有细微差别",
     "publicPath": null
   },
   {
@@ -183,7 +183,7 @@
     "language": "zh",
     "extractedTextPath": "src/content/generated/extracted/notes-12-01-md-81ea98db.md",
     "coverageStatus": "covered",
-    "excerpt": "## 事件日志服务 ### 系统事件：syslog - UNIX 系统用于收集系统或应用程序产生事件的机制非常高效。 - Unix 使用一种统一的 syslog 系统，这一系统开发于 20 世纪 80 年代。 - 系统事件的记录由两个程序（**守护进程**）管理： - `klogd` - `syslogd` - `klogd` **仅**负责监听来自**内核**的消息。 - `syslogd` 负责大部分工作。启动时，它会读取 `/etc/syslog.conf` 文件，并据此决定每类消息应记录到哪个文件。 conf 配置文件 - 可以根据消息来源和/或",
+    "excerpt": "## 事件日志服务 ### 系统事件：syslog - UNIX 系统用于收集系统或应用程序产生事件的机制非常高效。 - Unix 使用一种统一的 syslog 系统，这一系统开发于 20 世纪 80 年代。 - 系统事件的记录由两个程序（**守护进程**）管理： - **`klogd`** - **`syslogd`** - `klogd` **仅**负责监听来自**内核**的消息。 - `syslogd` 负责大部分工作。启动时，它会读取 `/etc/syslog.conf` 文件，并据此决定每类消息应记录到哪个文件。 conf 配置文件 - 可以根",
     "publicPath": null
   },
   {
@@ -1247,12 +1247,12 @@
     "publicPath": null
   },
   {
-    "id": "base-files-project-chat-4cc1e6ba",
-    "displayName": "chat",
-    "path": "base-files/project/chat",
+    "id": "base-files-project-log-md-e3f323d7",
+    "displayName": "log",
+    "path": "base-files/project/log.md",
     "kind": "project",
     "language": "mixed",
-    "extractedTextPath": "src/content/generated/extracted/base-files-project-chat-4cc1e6ba.md",
+    "extractedTextPath": "src/content/generated/extracted/base-files-project-log-md-e3f323d7.md",
     "coverageStatus": "covered",
     "excerpt": "我已经按这份 PDF 的要求做了一个 Bash 文件同步器实现，覆盖了： • 基础同步规则：比较 A / B 和上次同步日志，决定复制方向或报告冲突。 ￼ • 增强版内容比较：当双方都改过时，先比较文件内容；内容相同则尽量只同步元数据，避免误报冲突。 ￼ • 同机两目录树同步、递归遍历、日志重写。 ￼ 文件在这里： • syncfs.sh￼ • README_syncfs.md￼ 用法示例： chmod +x syncfs.sh ./syncfs.sh A B ./syncfs.sh -l journal.tsv A B ./syncfs.sh --dr",
     "publicPath": null
@@ -1265,7 +1265,7 @@
     "language": "fr",
     "extractedTextPath": "src/content/generated/extracted/base-files-project-syncfs-sh-21b9c7aa.md",
     "coverageStatus": "covered",
-    "excerpt": "#!/usr/bin/env bash set -euo pipefail # File system synchronizer for two directory trees. # Implements the project algorithm with content comparison for ordinary files. # Assumptions: # - Paths do not contain tabs or newlines in the journal file. # - Synchronization happens on on",
+    "excerpt": "#!/usr/bin/env bash set -euo pipefail # File system synchronizer for two directory trees. # Implements the project algorithm with content comparison and deletion handling. usage() { cat <<'USAGE' Usage: syncfs.sh [options] DIR_A DIR_B Options: -l, --log FILE Journal file (default",
     "publicPath": null
   },
   {

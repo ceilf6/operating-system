@@ -46,13 +46,18 @@ python3 scripts/build_search_index.py
 
 ### 当前显式排除
 
+- `base-files/project/**`
+- `base-files/true/**`
 - `base-files/from-teacher/`
 - `sandbox/test-files/**`
 - dotfiles
 - symlink
 - 不存在的路径
 
-排除 `sandbox/test-files/**` 是故意的。这些文件是练习运行产物，不是教学正文，里面还可能含绝对路径 symlink。
+说明：
+
+- `base-files/project/**` 和 `base-files/true/**` 被视为本地私有资料，不参与共享仓库的内容生成，避免本地生成结果和 CI 结果不一致。
+- `sandbox/test-files/**` 是练习运行产物，不是教学正文，里面还可能含绝对路径 symlink。
 
 ### 输出
 

@@ -32,6 +32,8 @@ SUPPORTED_SUFFIXES = {
 }
 
 EXCLUDED_GLOBS = (
+    "base-files/project/**",
+    "base-files/true/**",
     "sandbox/test-files/**",
 )
 

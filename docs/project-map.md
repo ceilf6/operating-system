@@ -107,6 +107,20 @@ base-files/ + notes/ + sandbox/
 
 派生产物不要手改。要改内容，回到脚本或原始资料。
 
+## 私有目录约定
+
+以下目录虽然可能存在于本地工作区，但默认不参与共享构建：
+
+- `base-files/project/`
+- `base-files/true/`
+- `base-files/from-teacher/`
+
+原因：
+
+- 这些目录可能存放私有、临时或不希望公开到远端仓库的资料
+- CI 环境不会拥有它们
+- 如果把它们混入生成链路，会导致本地和远端的 generated JSON 不一致
+
 ## 已知历史遗留
 
 - [scripts/link-base-files-to-notes.py](../scripts/link-base-files-to-notes.py) 和对应的 [scripts/link-base-files-to-notes.mapping.json](../scripts/link-base-files-to-notes.mapping.json) 是历史一次性辅助工具，不在当前构建链路里运行。

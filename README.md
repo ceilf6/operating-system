@@ -1,4 +1,5 @@
 # 通知栏
+- LRU 缓存可以看 [146 双向链表LRU缓存](https://www.notion.so/146-LRU-3130f8d8d1fd8005b82ec34f5fdea2cc?pvs=21)
 - 目录
   - [base-files](./base-files)下是课件等资料及翻译
   - [sandbox](./sandbox)下存放了各个课件以及TD中有代表性的脚本，其中由于部分题目答案不是很满意，于是进行了重构

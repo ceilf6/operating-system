@@ -1,0 +1,66 @@
+name: Sync Generated Content
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - README.md
+      - notes/**
+      - base-files/**
+      - sandbox/**
+      - scripts/extract_sources.py
+      - scripts/normalize_content.py
+      - scripts/build_search_index.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-generated-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install document extraction tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc poppler-utils tesseract-ocr
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate course content
+        run: npm run generate
+
+      - name: Commit generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content/generated
+
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: sync generated content [skip ci]"
+          git push

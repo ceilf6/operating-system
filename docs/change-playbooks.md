@@ -16,6 +16,9 @@
 4. 检查 `src/content/generated/notes.json` 和对应章节 JSON 是否更新
 5. 运行 `npm run build`
 
+如果你直接 push 而没有手动更新 generated 文件，`sync-generated.yml` 也会在远端自动补交 `src/content/generated/**`。
+代价是远端 `main` 会多一个 bot commit，本地下次继续 push 前最好先 `git pull --rebase`。
+
 如果页面里没出现预期变化，通常不是构建问题，而是该笔记没有被 `NOTE_RELATION_RULES` 正确挂到页面结构里。
 
 ## 2. 新增一份笔记并让网站出现独立页面

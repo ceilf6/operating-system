@@ -38,6 +38,7 @@ npm run preview
 工作流文件：
 
 - [.github/workflows/deploy.yml](../.github/workflows/deploy.yml)
+- [.github/workflows/sync-generated.yml](../.github/workflows/sync-generated.yml)
 
 当前部署目标：
 
@@ -53,6 +54,24 @@ npm run preview
 6. `npm run build`
 7. 上传 `dist/`
 8. 部署到 GitHub Pages
+
+### generated 文件自动回写
+
+额外还有一个 workflow：
+
+- `sync-generated.yml`
+
+它会在 `main` 分支收到资料类变更后：
+
+1. 重新执行 `npm run generate`
+2. 检查 `src/content/generated/**` 是否变化
+3. 如果有变化，自动提交回 `main`
+
+注意：
+
+- 这意味着你本地只改 `notes/`、`base-files/`、`sandbox/` 或生成脚本后，直接 push 也可以，远端仓库里的 generated JSON 会由 bot 补交。
+- 这个 bot 提交只改 `src/content/generated/**`，`deploy.yml` 已经配置为忽略“仅 generated 文件”的 push，避免重复部署。
+- push 之后远端 `main` 可能会比你本地多一个 bot 提交。继续开发前建议先 `git pull --rebase`。
 
 ## GitHub Pages 相关关键文件
 

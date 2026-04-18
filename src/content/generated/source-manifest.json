@@ -7,7 +7,7 @@
     "language": "zh",
     "extractedTextPath": "src/content/generated/extracted/readme-md-8ec9a00b.md",
     "coverageStatus": "covered",
-    "excerpt": "# 通知栏 - 目录 - [base-files](./base-files)下是课件等资料及翻译 - [sandbox](./sandbox)下存放了各个课件以及TD中有代表性的脚本，其中由于部分题目答案不是很满意，于是进行了重构 - [notes](./notes)下是个人笔记 > 三个目录下面在不同课时通过前缀区分进行一一对应，这里的前缀取值是根据老师发文件的batch批次，没有实际意义、仅用于区分 > base-files 中的部分中文翻译和 notes 内容重合较高，我用 symlink 优化了，这部分文件根据展示的 link 路径去 note",
+    "excerpt": "# 通知栏 - LRU 缓存可以看 [146 双向链表LRU缓存](https://www.notion.so/146-LRU-3130f8d8d1fd8005b82ec34f5fdea2cc?pvs=21) - 目录 - [base-files](./base-files)下是课件等资料及翻译 - [sandbox](./sandbox)下存放了各个课件以及TD中有代表性的脚本，其中由于部分题目答案不是很满意，于是进行了重构 - [notes](./notes)下是个人笔记 > 三个目录下面在不同课时通过前缀区分进行一一对应，这里的前缀取值是根据老师发",
     "publicPath": null
   },
   {
@@ -1234,86 +1234,5 @@
     "publicPath": null,
     "pageCount": 2,
     "ocrPages": []
-  },
-  {
-    "id": "base-files-project-readme-syncfs-md-62e30e35",
-    "displayName": "README_syncfs",
-    "path": "base-files/project/README_syncfs.md",
-    "kind": "project",
-    "language": "mixed",
-    "extractedTextPath": "src/content/generated/extracted/base-files-project-readme-syncfs-md-62e30e35.md",
-    "coverageStatus": "covered",
-    "excerpt": "# Bash 文件同步器实现说明 这个实现对应题目里给出的两级要求： - **基础同步器**：比较 A、B 与上次同步日志，决定复制方向或报告冲突。 - **增强同步器**：当双方都改过时，额外比较内容；如果内容相同，则尽量只同步元数据，而不是误报冲突。 ## 文件 - `syncfs.sh`：主程序 - `README_syncfs.md`：使用说明 ## 支持的行为 1. **递归遍历两个目录树**，不依赖文件在目录中的出现顺序。 2. 比较以下元数据： - 类型 - 权限(mode) - 大小(size) - 最后修改时间(mtime) 3. 使用",
-    "publicPath": null
-  },
-  {
-    "id": "base-files-project-log-md-e3f323d7",
-    "displayName": "log",
-    "path": "base-files/project/log.md",
-    "kind": "project",
-    "language": "mixed",
-    "extractedTextPath": "src/content/generated/extracted/base-files-project-log-md-e3f323d7.md",
-    "coverageStatus": "covered",
-    "excerpt": "我已经按这份 PDF 的要求做了一个 Bash 文件同步器实现，覆盖了： • 基础同步规则：比较 A / B 和上次同步日志，决定复制方向或报告冲突。 ￼ • 增强版内容比较：当双方都改过时，先比较文件内容；内容相同则尽量只同步元数据，避免误报冲突。 ￼ • 同机两目录树同步、递归遍历、日志重写。 ￼ 文件在这里： • syncfs.sh￼ • README_syncfs.md￼ 用法示例： chmod +x syncfs.sh ./syncfs.sh A B ./syncfs.sh -l journal.tsv A B ./syncfs.sh --dr",
-    "publicPath": null
-  },
-  {
-    "id": "base-files-project-syncfs-sh-21b9c7aa",
-    "displayName": "syncfs",
-    "path": "base-files/project/syncfs.sh",
-    "kind": "project",
-    "language": "fr",
-    "extractedTextPath": "src/content/generated/extracted/base-files-project-syncfs-sh-21b9c7aa.md",
-    "coverageStatus": "covered",
-    "excerpt": "#!/usr/bin/env bash set -euo pipefail # File system synchronizer for two directory trees. # Implements the project algorithm with content comparison and deletion handling. usage() { cat <<'USAGE' Usage: syncfs.sh [options] DIR_A DIR_B Options: -l, --log FILE Journal file (default",
-    "publicPath": null
-  },
-  {
-    "id": "base-files-project-md-b0688767",
-    "displayName": "项目",
-    "path": "base-files/project/项目.md",
-    "kind": "project",
-    "language": "mixed",
-    "extractedTextPath": "src/content/generated/extracted/base-files-project-md-b0688767.md",
-    "coverageStatus": "covered",
-    "excerpt": "这个 PDF 主要是在说明一个 2026 年课程项目：用 Bash 实现一个文件系统同步器。 ￼ 核心内容是： 1. 项目目标 要做一个程序，用来同步两个目录树 A 和 B，让它们尽量保持一致，适合“同一批文件分散在不同机器/位置上修改”的场景。文档强调不仅要同步文件内容，还要同步元数据，包括： • 文件类型 • 权限 • 大小 • 最后修改时间 ￼ 2. 基本同步思路 程序除了比较 A 和 B，还要读取一个上次成功同步的日志文件。 这个日志记录每个已成功同步文件的路径和元数据。同步时通过“当前文件是否和日志一致”来判断： • 哪一边没有改动 • 哪一边",
-    "publicPath": null
-  },
-  {
-    "id": "base-files-project-pdf-b570ea5e",
-    "displayName": "项目",
-    "path": "base-files/project/项目.pdf",
-    "kind": "project",
-    "language": "fr",
-    "extractedTextPath": "src/content/generated/extracted/base-files-project-pdf-b570ea5e.md",
-    "coverageStatus": "covered",
-    "excerpt": "## Page 1 LO03 PROJET 2026 SYNCHRONISEUR DE SYSTEMES DE FICHIERS 1.2 Synchroniseur simple Ce projet a pour objectif de créer un synchroniseur de systèmes de fichiers. Le synchroniseur parcourt les deux arbres A et B en parallèle. Pour tout fichier p, il effectue les actions suiva",
-    "publicPath": null,
-    "pageCount": 2,
-    "ocrPages": []
-  },
-  {
-    "id": "base-files-true-exemple-exam-paper-lo03-pdf-a899c416",
-    "displayName": "EXEMPLE Exam_Paper_LO03",
-    "path": "base-files/true/EXEMPLE Exam_Paper_LO03.pdf",
-    "kind": "pdf",
-    "language": "fr",
-    "extractedTextPath": "src/content/generated/extracted/base-files-true-exemple-exam-paper-lo03-pdf-a899c416.md",
-    "coverageStatus": "covered",
-    "excerpt": "## Page 1 EXEMPLE D’EXAMEN FINAL Exercice 1 On dispose d’une machine composée de plusieurs processeurs. On désire lancer 9 tâches sur ces processeurs. La dépendance entre les tâches est définie par le graphe de précédence présenté ci-dessous. Chacune des tâches a une durée d’exéc",
-    "publicPath": null,
-    "pageCount": 2,
-    "ocrPages": []
-  },
-  {
-    "id": "base-files-true-lo03-md-92171c12",
-    "displayName": "LO03_考试样卷_中文翻译",
-    "path": "base-files/true/LO03_考试样卷_中文翻译.md",
-    "kind": "note",
-    "language": "zh",
-    "extractedTextPath": "src/content/generated/extracted/base-files-true-lo03-md-92171c12.md",
-    "coverageStatus": "covered",
-    "excerpt": "# LO03 考试样卷（中文翻译） ## 练习 1 现有一台由多个处理器组成的机器。希望在这些处理器上运行 9 个任务。 任务之间的依赖关系由下方的前驱关系图（precedence graph）定义。 每个任务的执行时间未知，并且要求每个处理器一旦可以使用就必须立即投入使用。 请借助**信号量（semaphores）**，将这 9 个任务分配到处理器上执行。 --- ## 练习 2 某系统使用多个执行队列。 这些队列由一个**轮转调度器（Round Robin）**管理，时间片（quantum）的值为 **3 个时间单位**。 每个进程（记为 T1 到 ",
-    "publicPath": null
   }
 ]

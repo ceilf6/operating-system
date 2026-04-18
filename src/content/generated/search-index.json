@@ -17,8 +17,6 @@
       "base-files-01-lo03-linux-2026-cours1-2-md-8e4df8da",
       "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
       "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
-      "base-files-true-exemple-exam-paper-lo03-pdf-a899c416",
-      "base-files-true-lo03-md-92171c12",
       "readme-md-8ec9a00b",
       "sandbox-sh-2731f376",
       "sandbox-sh-642d1d46"
@@ -45,23 +43,6 @@
       "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
       "kernel",
       "shell"
-    ]
-  },
-  {
-    "id": "course-overview::appendix-sources",
-    "route": "/course/course-overview#appendix-sources",
-    "title": "课程导论与学习路径 / 课后延伸与原题材料",
-    "excerpt": "如果你想回看老师原始题目、补充例子或更完整的讲义表达，可以在这里继续往下钻。",
-    "chapterSlug": "course-overview",
-    "kind": "section",
-    "keywords": [
-      "课程导论",
-      "学习路径",
-      "实操线",
-      "理论线",
-      "操作系统课程",
-      "base-files-true-exemple-exam-paper-lo03-pdf-a899c416",
-      "base-files-true-lo03-md-92171c12"
     ]
   },
   {
@@ -518,11 +499,6 @@
       "银行家算法",
       "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
       "base-files-17-lo03-td-se-2026-pdf-225fdd66",
-      "base-files-project-log-md-e3f323d7",
-      "base-files-project-md-b0688767",
-      "base-files-project-pdf-b570ea5e",
-      "base-files-project-readme-syncfs-md-62e30e35",
-      "base-files-project-syncfs-sh-21b9c7aa",
       "notes-15-md-615702dd",
       "notes-17-md-23ec2de9"
     ]
@@ -544,11 +520,6 @@
       "notes-17-md-23ec2de9",
       "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
       "base-files-17-lo03-td-se-2026-pdf-225fdd66",
-      "base-files-project-readme-syncfs-md-62e30e35",
-      "base-files-project-log-md-e3f323d7",
-      "base-files-project-syncfs-sh-21b9c7aa",
-      "base-files-project-md-b0688767",
-      "base-files-project-pdf-b570ea5e",
       "semaphore",
       "deadlock",
       "banker"

@@ -696,36 +696,6 @@
     "usage": "primary"
   },
   {
-    "sourceId": "base-files-project-readme-syncfs-md-62e30e35",
-    "chapterSlug": "sync-deadlock-scheduling",
-    "sectionId": "concurrency-and-scheduling",
-    "usage": "primary"
-  },
-  {
-    "sourceId": "base-files-project-log-md-e3f323d7",
-    "chapterSlug": "sync-deadlock-scheduling",
-    "sectionId": "concurrency-and-scheduling",
-    "usage": "primary"
-  },
-  {
-    "sourceId": "base-files-project-syncfs-sh-21b9c7aa",
-    "chapterSlug": "sync-deadlock-scheduling",
-    "sectionId": "concurrency-and-scheduling",
-    "usage": "primary"
-  },
-  {
-    "sourceId": "base-files-project-md-b0688767",
-    "chapterSlug": "sync-deadlock-scheduling",
-    "sectionId": "concurrency-and-scheduling",
-    "usage": "primary"
-  },
-  {
-    "sourceId": "base-files-project-pdf-b570ea5e",
-    "chapterSlug": "sync-deadlock-scheduling",
-    "sectionId": "concurrency-and-scheduling",
-    "usage": "primary"
-  },
-  {
     "sourceId": "notes-04-td2-md-d030a92e",
     "chapterSlug": "shell-control",
     "sectionId": "appendix-sources",
@@ -739,18 +709,6 @@
   },
   {
     "sourceId": "sandbox-sh-2731f376",
-    "chapterSlug": "course-overview",
-    "sectionId": "appendix-sources",
-    "usage": "supporting"
-  },
-  {
-    "sourceId": "base-files-true-exemple-exam-paper-lo03-pdf-a899c416",
-    "chapterSlug": "course-overview",
-    "sectionId": "appendix-sources",
-    "usage": "supporting"
-  },
-  {
-    "sourceId": "base-files-true-lo03-md-92171c12",
     "chapterSlug": "course-overview",
     "sectionId": "appendix-sources",
     "usage": "supporting"

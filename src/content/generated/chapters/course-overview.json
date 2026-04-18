@@ -17,8 +17,6 @@
     "base-files-01-lo03-linux-2026-cours1-2-md-8e4df8da",
     "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
     "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
-    "base-files-true-exemple-exam-paper-lo03-pdf-a899c416",
-    "base-files-true-lo03-md-92171c12",
     "readme-md-8ec9a00b",
     "sandbox-sh-2731f376",
     "sandbox-sh-642d1d46"
@@ -133,45 +131,6 @@
           "type": "sandbox-links",
           "ids": [
             "shell-flow"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "appendix-sources",
-      "title": "课后延伸与原题材料",
-      "anchor": "appendix-sources",
-      "sourceIds": [
-        "base-files-true-exemple-exam-paper-lo03-pdf-a899c416",
-        "base-files-true-lo03-md-92171c12"
-      ],
-      "glossaryIds": [],
-      "blocks": [
-        {
-          "type": "overview",
-          "content": "如果你想回看老师原始题目、补充例子或更完整的讲义表达，可以在这里继续往下钻。"
-        },
-        {
-          "type": "source-pack",
-          "items": [
-            {
-              "sourceId": "base-files-true-exemple-exam-paper-lo03-pdf-a899c416",
-              "title": "EXEMPLE Exam_Paper_LO03",
-              "path": "base-files/true/EXEMPLE Exam_Paper_LO03.pdf",
-              "kind": "pdf",
-              "language": "fr",
-              "content": "#### Page 1\n\nEXEMPLE D’EXAMEN FINAL\n\n\nExercice 1\n\nOn dispose d’une machine composée de plusieurs processeurs. On désire lancer 9 tâches sur\nces processeurs. La dépendance entre les tâches est définie par le graphe de précédence présenté\nci-dessous. Chacune des tâches a une durée d’exécution inconnue et chaque processeur doit être\nutilisé dès qu’on le peut. Distribuer l’ensemble des 9 tâches sur les processeurs à l’aide de\nsémaphores.\n\n             T1                                T2\n                            T3\n\n\n                  T4\n                                     T7\n                                                    T5\n                  T6\n\n\n                          T8\n        T9\n\nExercice 2\n\nUn système utilise plusieurs files d’exécution. Les files sont gérées par un tourniquet avec une\nvaleur du quantum égale à 3 unités de temps. La priorité initiale de chaque processus (noté\nde T1 à T5) est définie dans le tableau ci-dessous.\nLe système est doté d’une pagination suivant l’algorithme LRU. A chacune de ses exécutions,\nune tâche accède à plusieurs pages numérotées de 1 à 5 (voir le tableau ci-dessous). Le\nsystème alloue en permanence un espace fixe de trois cases en mémoire physique. Tous\nles 2 quanta, la priorité des processus est incrémentée du nombre de défauts de pages\nqu’il a effectué.\n\n   Processus                                     T              Priorité     Pages\n                      (unité de temps)    (unité de temps)       initiale\n   T1             5                       0                  1              1 et 5\n   T2             1                                        2              2 et 5\n   T3             4                                        1              5\n   T4             3                       5                  3              4\n   T5             2                       6                  1              1 et 3\n\nAvec T le début de la première exécution du processus et  la durée d’exécution du processus.\n\n- Donner l’ordre d’exécution des processus.\n- Calculer le temps de séjour moyen des processus.\n- Calculer le temps d’attente moyen des processus\n\n#### Page 2\n\nExercice 3\n\nUn programme a besoin de 6 pages virtuelles numérotées 0 à 5. Au cours de son déroulement,\nil utilise les pages dans l'ordre suivant : 0 1 2 3 4 5 0 5 4 3 2 1 0 1 2 3 4 0\nS'il y a 3 cases libres en mémoire attribuées au programme, indiquer la séquence des défauts de\npage, sachant que l'algorithme de remplacement des pages est l’algorithme de l’horloge (la\ndeuxième chance).\n\n\nExercice 4\n\nOn considère un fichier de caractères comportant un texte composé de lettres majuscules, de\nlettres minuscules et d'espaces. Ecrire un script en Bash qui affiche un message indiquant si ce\ntexte est un \"grobalogramme\", c'est-à-dire si chaque mot du texte commence et se termine par\nla même lettre majuscule et n’a pas de lettres majuscules entre les deux lettres majuscules du\ndébut et de la fin du mot. Par exemple, le texte suivant est un \"grobalogramme\" :\n\nBoB EmpruntE TemporairemenT A RogeR SeS SoulierS\n\n\n\nExercice 5\n\n   1. Que fait la commande suivante : sed -e '4,6s/\\([^a-z][^a-z]*\\)/to\\1to/' fichier\n   2. Donner deux méthodes permettant de passer du mode rwxr-x—x au mode rwx—x---.\n   3. Comment créer un lien symbolique ?\n\n\nExercice 6\n\nRéaliser un script Bash appelé sauvegarde qui permet de déplacer une liste de fichiers en les\nrecopiant dans un répertoire de sauvegarde appelé sauve et en leur donnant la date courante.\nLes fichiers qui ont une taille nulle et qui sont depuis plus de 7 jours dans le répertoire sauve\nseront supprimés.",
-              "excerpt": "## Page 1 EXEMPLE D’EXAMEN FINAL Exercice 1 On dispose d’une machine composée de plusieurs processeurs. On désire lancer 9 tâches sur ces processeurs. La dépendance entre les tâches est définie par le graphe de précédence présenté ci-dessous. Chacune des tâches a une durée d’exéc"
-            },
-            {
-              "sourceId": "base-files-true-lo03-md-92171c12",
-              "title": "LO03_考试样卷_中文翻译",
-              "path": "base-files/true/LO03_考试样卷_中文翻译.md",
-              "kind": "note",
-              "language": "zh",
-              "content": "#### 练习 1\n\n现有一台由多个处理器组成的机器。希望在这些处理器上运行 9 个任务。  \n任务之间的依赖关系由下方的前驱关系图（precedence graph）定义。  \n每个任务的执行时间未知，并且要求每个处理器一旦可以使用就必须立即投入使用。  \n请借助**信号量（semaphores）**，将这 9 个任务分配到处理器上执行。\n\n---\n\n#### 练习 2\n\n某系统使用多个执行队列。  \n这些队列由一个**轮转调度器（Round Robin）**管理，时间片（quantum）的值为 **3 个时间单位**。  \n每个进程（记为 T1 到 T5）的初始优先级如下表所示。\n\n该系统采用基于 **LRU（最近最少使用）算法** 的分页管理。  \n每个任务在执行时会访问若干页，页号从 **1 到 5**（见下表）。  \n系统始终为其分配固定的 **3 个物理内存页框**。  \n**每经过 2 个时间片**，进程的优先级会增加，增加值等于该进程产生的**缺页次数**。\n\n| 进程 | τ（时间单位） | T（时间单位） | 初始优先级 | 访问页面 |\n|---|---:|---:|---:|---|\n| T1 | 5 | 0 | 1 | 1 和 5 |\n| T2 | 1 | 2 | 2 | 2 和 5 |\n| T3 | 4 | 4 | 1 | 5 |\n| T4 | 3 | 5 | 3 | 4 |\n| T5 | 2 | 6 | 1 | 1 和 3 |\n\n其中：\n\n- **T**：该进程第一次开始执行的时刻\n- **τ**：该进程的执行持续时间\n\n要求：\n\n1. 给出各进程的执行顺序。  \n2. 计算进程的**平均周转时间**。  \n3. 计算进程的**平均等待时间**。  \n\n---\n\n#### 练习 3\n\n某程序需要 **6 个虚拟页**，编号从 **0 到 5**。  \n在执行过程中，它按如下顺序访问页面：\n\n```text\n0 1 2 3 4 5 0 5 4 3 2 1 0 1 2 3 4 0\n```\n\n如果该程序在内存中被分配了 **3 个空闲页框**，请指出其**缺页序列**。  \n已知页面替换算法采用**时钟算法（Clock / Second Chance，第二次机会算法）**。\n\n---\n\n#### 练习 4\n\n考虑一个字符文件，其中文本由**大写字母、小写字母和空格**组成。  \n编写一个 Bash 脚本，输出一条消息，用来判断该文本是否是一个 **“grobalogramme”**。\n\n这里所谓的 **grobalogramme**，是指：\n\n- 文本中的每个单词都以**同一个大写字母开头和结尾**\n- 并且在这两个首尾大写字母之间，**不能再出现其他大写字母**\n\n例如，下列文本就是一个 **grobalogramme**：\n\n```text\nBoB EmpruntE TemporairemenT A RogeR SeS SoulierS\n```\n\n---\n\n#### 练习 5\n\n1. 下列命令的作用是什么？\n\n```bash\nsed -e '4,6s/\\([^a-z][^a-z]*\\)/to\\1to/' fichier\n```\n\n2. 给出两种方法，将权限从：\n\n```text\nrwxr-x--x\n```\n\n改为：\n\n```text\nrwx--x---\n```\n\n3. 如何创建一个**符号链接（symbolic link）**？\n\n---",
-              "excerpt": "# LO03 考试样卷（中文翻译） ## 练习 1 现有一台由多个处理器组成的机器。希望在这些处理器上运行 9 个任务。 任务之间的依赖关系由下方的前驱关系图（precedence graph）定义。 每个任务的执行时间未知，并且要求每个处理器一旦可以使用就必须立即投入使用。 请借助**信号量（semaphores）**，将这 9 个任务分配到处理器上执行。 --- ## 练习 2 某系统使用多个执行队列。 这些队列由一个**轮转调度器（Round Robin）**管理，时间片（quantum）的值为 **3 个时间单位**。 每个进程（记为 T1 到 "
-            }
           ]
         }
       ]

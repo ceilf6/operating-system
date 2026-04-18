@@ -1291,5 +1291,29 @@
     "publicPath": null,
     "pageCount": 2,
     "ocrPages": []
+  },
+  {
+    "id": "base-files-true-exemple-exam-paper-lo03-pdf-a899c416",
+    "displayName": "EXEMPLE Exam_Paper_LO03",
+    "path": "base-files/true/EXEMPLE Exam_Paper_LO03.pdf",
+    "kind": "pdf",
+    "language": "fr",
+    "extractedTextPath": "src/content/generated/extracted/base-files-true-exemple-exam-paper-lo03-pdf-a899c416.md",
+    "coverageStatus": "covered",
+    "excerpt": "## Page 1 EXEMPLE D’EXAMEN FINAL Exercice 1 On dispose d’une machine composée de plusieurs processeurs. On désire lancer 9 tâches sur ces processeurs. La dépendance entre les tâches est définie par le graphe de précédence présenté ci-dessous. Chacune des tâches a une durée d’exéc",
+    "publicPath": null,
+    "pageCount": 2,
+    "ocrPages": []
+  },
+  {
+    "id": "base-files-true-lo03-md-92171c12",
+    "displayName": "LO03_考试样卷_中文翻译",
+    "path": "base-files/true/LO03_考试样卷_中文翻译.md",
+    "kind": "note",
+    "language": "zh",
+    "extractedTextPath": "src/content/generated/extracted/base-files-true-lo03-md-92171c12.md",
+    "coverageStatus": "covered",
+    "excerpt": "# LO03 考试样卷（中文翻译） ## 练习 1 现有一台由多个处理器组成的机器。希望在这些处理器上运行 9 个任务。 任务之间的依赖关系由下方的前驱关系图（precedence graph）定义。 每个任务的执行时间未知，并且要求每个处理器一旦可以使用就必须立即投入使用。 请借助**信号量（semaphores）**，将这 9 个任务分配到处理器上执行。 --- ## 练习 2 某系统使用多个执行队列。 这些队列由一个**轮转调度器（Round Robin）**管理，时间片（quantum）的值为 **3 个时间单位**。 每个进程（记为 T1 到 ",
+    "publicPath": null
   }
 ]

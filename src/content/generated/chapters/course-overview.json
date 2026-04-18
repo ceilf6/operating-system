@@ -18,6 +18,7 @@
     "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
     "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
     "readme-md-8ec9a00b",
+    "sandbox-16-05-sh-8861c430",
     "sandbox-sh-2731f376",
     "sandbox-sh-642d1d46"
   ],
@@ -131,6 +132,35 @@
           "type": "sandbox-links",
           "ids": [
             "shell-flow"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "appendix-sources",
+      "title": "课后延伸与原题材料",
+      "anchor": "appendix-sources",
+      "sourceIds": [
+        "sandbox-16-05-sh-8861c430"
+      ],
+      "glossaryIds": [],
+      "blocks": [
+        {
+          "type": "overview",
+          "content": "如果你想回看老师原始题目、补充例子或更完整的讲义表达，可以在这里继续往下钻。"
+        },
+        {
+          "type": "source-pack",
+          "items": [
+            {
+              "sourceId": "sandbox-16-05-sh-8861c430",
+              "title": "16-05",
+              "path": "sandbox/16-05.sh",
+              "kind": "sandbox",
+              "language": "mixed",
+              "content": "#### 16-05\n\ncd test-files/\n\necho \"=== pre\"\nls -l\n\necho \"\n=== aft\"\ntouch original.txt                      # 创建文件 \"original.txt\"\necho \"test\" > original.txt\nln -s original.txt lien_sym.txt         # 创建符号链接 # 符号链接会因为被引用路径文件丢失而报错\nln original.txt lien_phys.txt           # 创建硬链接 # 但是由于文件数据仍然有，所以硬链接作为文件入口仍然有用\nrm original.txt                         # 删除原始文件\nls -l                                   # 观察结果",
+              "excerpt": "cd test-files/ echo \"=== pre\" ls -l echo \" === aft\" touch original.txt # 创建文件 \"original.txt\" echo \"test\" > original.txt ln -s original.txt lien_sym.txt # 创建符号链接 # 符号链接会因为被引用路径文件丢失而报错 ln original.txt lien_phys.txt # 创建硬链接 # 但是由于文件数据仍然有，所以硬链接作为文件入口仍然有用 rm original.txt # 删除原始文件 ls -"
+            }
           ]
         }
       ]

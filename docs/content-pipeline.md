@@ -137,6 +137,16 @@ python3 scripts/build_search_index.py
 
 这些通常要改 `NOTE_RELATION_RULES`。
 
+### 给笔记加图片
+
+推荐做法：
+
+1. 把图片直接放到 `public/assets/` 下，例如 `public/assets/notes/imgs/notes-17-10-01.jpg`
+2. 在笔记里写站点路径，例如 `![说明](/assets/notes/imgs/notes-17-10-01.jpg)`
+3. 运行 `npm run generate` 或 `npm run build`
+
+不要把笔记插图放在 `notes/` 目录里。`notes/` 是课程正文来源，`public/assets/` 才是站点静态资源目录。
+
 ### 新增题单页
 
 要改 `TD_DEFS`，仅新增 `base-files` 或 `notes` 文件不会自动多出题单页。

@@ -253,6 +253,39 @@
     "publicPath": null
   },
   {
+    "id": "notes-imgs-notes-17-06-png-42b86868",
+    "displayName": "notes-17-06",
+    "path": "notes/imgs/notes-17-06.png",
+    "kind": "note",
+    "language": "fr",
+    "extractedTextPath": null,
+    "coverageStatus": "covered",
+    "excerpt": "",
+    "publicPath": null
+  },
+  {
+    "id": "notes-imgs-notes-17-10-01-jpg-43e0c957",
+    "displayName": "notes-17-10-01",
+    "path": "notes/imgs/notes-17-10-01.jpg",
+    "kind": "note",
+    "language": "fr",
+    "extractedTextPath": null,
+    "coverageStatus": "covered",
+    "excerpt": "",
+    "publicPath": null
+  },
+  {
+    "id": "notes-imgs-notes-17-10-02-jpg-8dc9e758",
+    "displayName": "notes-17-10-02",
+    "path": "notes/imgs/notes-17-10-02.jpg",
+    "kind": "note",
+    "language": "fr",
+    "extractedTextPath": null,
+    "coverageStatus": "covered",
+    "excerpt": "",
+    "publicPath": null
+  },
+  {
     "id": "sandbox-01-03-sh-4bdbe395",
     "displayName": "01-03-修改命令提示符",
     "path": "sandbox/01-03-修改命令提示符.sh",

@@ -17,6 +17,9 @@
     "base-files-01-lo03-linux-2026-cours1-2-md-8e4df8da",
     "base-files-01-lo03-linux-2026-cours1-2-pdf-06446c71",
     "base-files-15-lo03-se-2025-2026-pdf-a1f349e1",
+    "notes-imgs-notes-17-06-png-42b86868",
+    "notes-imgs-notes-17-10-01-jpg-43e0c957",
+    "notes-imgs-notes-17-10-02-jpg-8dc9e758",
     "readme-md-8ec9a00b",
     "sandbox-16-05-sh-8861c430",
     "sandbox-sh-2731f376",
@@ -141,6 +144,9 @@
       "title": "课后延伸与原题材料",
       "anchor": "appendix-sources",
       "sourceIds": [
+        "notes-imgs-notes-17-06-png-42b86868",
+        "notes-imgs-notes-17-10-01-jpg-43e0c957",
+        "notes-imgs-notes-17-10-02-jpg-8dc9e758",
         "sandbox-16-05-sh-8861c430"
       ],
       "glossaryIds": [],
@@ -152,6 +158,33 @@
         {
           "type": "source-pack",
           "items": [
+            {
+              "sourceId": "notes-imgs-notes-17-06-png-42b86868",
+              "title": "notes-17-06",
+              "path": "notes/imgs/notes-17-06.png",
+              "kind": "note",
+              "language": "fr",
+              "content": "#### notes-17-06\n\n这份材料暂时没有可直接展示的正文，适合回到原讲义或原题继续查阅。",
+              "excerpt": ""
+            },
+            {
+              "sourceId": "notes-imgs-notes-17-10-01-jpg-43e0c957",
+              "title": "notes-17-10-01",
+              "path": "notes/imgs/notes-17-10-01.jpg",
+              "kind": "note",
+              "language": "fr",
+              "content": "#### notes-17-10-01\n\n这份材料暂时没有可直接展示的正文，适合回到原讲义或原题继续查阅。",
+              "excerpt": ""
+            },
+            {
+              "sourceId": "notes-imgs-notes-17-10-02-jpg-8dc9e758",
+              "title": "notes-17-10-02",
+              "path": "notes/imgs/notes-17-10-02.jpg",
+              "kind": "note",
+              "language": "fr",
+              "content": "#### notes-17-10-02\n\n这份材料暂时没有可直接展示的正文，适合回到原讲义或原题继续查阅。",
+              "excerpt": ""
+            },
             {
               "sourceId": "sandbox-16-05-sh-8861c430",
               "title": "16-05",

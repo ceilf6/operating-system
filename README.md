@@ -1,4 +1,5 @@
 # 通知栏
+- [https://github.com/ceilf6/operating-system/discussions/1](时钟轮转法命中时不需要移动指针)
 - LRU 缓存可以看 [146 双向链表LRU缓存](https://www.notion.so/146-LRU-3130f8d8d1fd8005b82ec34f5fdea2cc?pvs=21)
 - 目录
   - [base-files](./base-files)下是课件等资料及翻译

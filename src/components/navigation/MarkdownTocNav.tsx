@@ -77,6 +77,17 @@ export function MarkdownTocNav({
       setActiveId(candidates[0].id);
     };
 
+    const scrollToHeading = (id: string, behavior: ScrollBehavior = "auto") => {
+      const target = document.getElementById(id);
+      if (!target) {
+        return false;
+      }
+
+      const top = Math.max(target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET, 0);
+      window.scrollTo({ top, behavior });
+      return true;
+    };
+
     let frameId = 0;
     const scheduleSync = () => {
       if (frameId) {
@@ -90,16 +101,34 @@ export function MarkdownTocNav({
 
     const syncFromHash = () => {
       const nextId = decodeURIComponent(window.location.hash.replace(/^#/, ""));
-      if (nextId) {
-        setActiveId(nextId);
+      if (!nextId) {
         scheduleSync();
+        return;
       }
+
+      setActiveId(nextId);
+
+      let attempts = 0;
+      const tryScroll = () => {
+        if (scrollToHeading(nextId, attempts === 0 ? "auto" : "smooth")) {
+          scheduleSync();
+          return;
+        }
+
+        if (attempts < 6) {
+          attempts += 1;
+          window.requestAnimationFrame(tryScroll);
+        }
+      };
+
+      window.requestAnimationFrame(tryScroll);
     };
 
-    scheduleSync();
+    syncFromHash();
     window.addEventListener("scroll", scheduleSync, { passive: true });
     window.addEventListener("resize", scheduleSync);
     window.addEventListener("hashchange", syncFromHash);
+    window.addEventListener("load", syncFromHash);
 
     return () => {
       if (frameId) {
@@ -108,6 +137,7 @@ export function MarkdownTocNav({
       window.removeEventListener("scroll", scheduleSync);
       window.removeEventListener("resize", scheduleSync);
       window.removeEventListener("hashchange", syncFromHash);
+      window.removeEventListener("load", syncFromHash);
     };
   }, [allHeadings]);
 

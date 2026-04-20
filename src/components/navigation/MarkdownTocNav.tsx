@@ -164,7 +164,7 @@ export function MarkdownTocNav({
   return (
     <section
       ref={navRef}
-      className="glass-card sticky top-24 max-h-[calc(100vh-7rem)] overflow-auto rounded-[28px] p-5"
+      className="glass-card sticky top-24 z-20 max-h-[calc(100vh-7rem)] overflow-auto rounded-[28px] border-[rgba(52,106,144,0.18)] bg-[rgba(255,250,242,0.96)] p-5"
     >
       <div className="eyebrow">{eyebrow}</div>
       <h3 className="page-title mt-4 text-xl text-[color:var(--ink-1)]">{title}</h3>

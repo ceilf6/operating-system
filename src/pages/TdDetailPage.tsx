@@ -132,7 +132,7 @@ export function TdDetailPage() {
           </section>
         </div>
 
-        <aside className="space-y-4">
+        <aside className="sticky top-24 self-start space-y-4 overflow-auto pr-1 xl:max-h-[calc(100vh-7rem)]">
           <MarkdownTocNav eyebrow="本页目录" title="题单标题跳转" groups={tocGroups} />
         </aside>
       </div>

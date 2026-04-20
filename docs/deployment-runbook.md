@@ -44,6 +44,11 @@ npm run preview
 
 - `https://ceilf6.github.io/operating-system/`
 
+注意：
+
+- 站内公告、Discussion 链接和 Google Form 入口都来自 [src/content/site/community.ts](../src/content/site/community.ts)
+- GitHub Pages 本身没有后端；私密反馈是否真的可用，取决于你有没有把 Google Form 和 entry id 配好
+
 ### 工作流做了什么
 
 1. checkout 代码
@@ -125,6 +130,13 @@ npm run preview
 npm run build
 ```
 
+如果这次改了公告或反馈入口，再额外检查：
+
+1. [src/content/site/community.ts](../src/content/site/community.ts) 中的 Discussions URL 是否已替换成真实线程
+2. Google Form `baseUrl` 是否不再带 `REPLACE_WITH`
+3. `entryMap` 是否都填成了真实的 `entry.xxxxx`
+4. 如果还没配置完，前端里的“私密反馈”应保持禁用态，而不是指向无效地址
+
 建议再看一次产物：
 
 ```bash
@@ -148,3 +160,6 @@ sed -n '1,80p' dist/404.html
 3. 随便打开一个 `/course/...` 页面
 4. 在子路由上直接刷新，确认不 404
 5. 搜索页能返回结果
+6. 首页顶部公告条显示正常
+7. 首页“反馈与交流”卡片显示正常
+8. `/tds/td-se-2026` 与 `/notes/17` 的提示卡能正常打开外链

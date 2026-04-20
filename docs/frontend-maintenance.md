@@ -98,6 +98,9 @@ npm run dev
 - [src/components/layout/SiteShell.tsx](../src/components/layout/SiteShell.tsx)
 - [src/components/navigation/TopNav.tsx](../src/components/navigation/TopNav.tsx)
 - [src/components/navigation/AnchorNav.tsx](../src/components/navigation/AnchorNav.tsx)
+- [src/components/community/AnnouncementBar.tsx](../src/components/community/AnnouncementBar.tsx)
+- [src/components/community/CommunitySection.tsx](../src/components/community/CommunitySection.tsx)
+- [src/components/community/PageCallout.tsx](../src/components/community/PageCallout.tsx)
 
 ### 内容块
 
@@ -140,6 +143,28 @@ npm run dev
 - 继续保持“学生学习网站”视角
 - 避免把仓库目录名、内部 slug、覆盖率、生成状态暴露给学生
 - 页面文案优先使用“课堂笔记 / 题单 / 配套脚本 / 交互实验”这类学习语义
+
+## 公告与反馈
+
+站点级公告和反馈入口不走 `generate` 流水线，而是直接来自：
+
+- [src/content/site/community.ts](../src/content/site/community.ts)
+- [src/lib/community.ts](../src/lib/community.ts)
+
+这里负责三件事：
+
+1. 全站顶部公告条
+2. 首页“反馈与交流”卡片
+3. TD-SE 与 `notes/17` 的上下文提示卡
+
+维护规则：
+
+- 讨论区 URL、Google Form URL、entry id 都只改 `community.ts`
+- 路由匹配和表单预填只改 `src/content/site/community.ts` / `src/lib/community.ts`
+- 不要把公告文案塞回 `README.md` 或内容生成脚本
+- 公告关闭状态存储在 `localStorage` 的 `os-site:dismissed-announcements`
+
+如果你希望用户已经关闭的公告重新出现，直接提升对应公告的 `version`。
 
 ## 运行时内容接口
 

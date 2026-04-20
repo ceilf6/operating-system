@@ -1,8 +1,10 @@
 import { Link, useParams } from "react-router-dom";
+import { PageCallout } from "../components/community/PageCallout";
 import { MarkdownArticle } from "../components/content/MarkdownArticle";
 import { SourcePackSection } from "../components/content/SourcePackSection";
 import { MarkdownTocNav } from "../components/navigation/MarkdownTocNav";
 import { chapters, getTdPageBySlug, sandboxSpecs } from "../lib/content";
+import { getAnnouncementsForPlacement } from "../lib/community";
 
 export function TdDetailPage() {
   const { tdSlug } = useParams();
@@ -24,6 +26,11 @@ export function TdDetailPage() {
     title: note.title,
     items: note.headings,
   }));
+  const pageCallouts = getAnnouncementsForPlacement("page-callout", {
+    pathname: `/tds/${td.slug}`,
+    tdSlug: td.slug,
+    pageTitle: td.title,
+  });
 
   return (
     <div className="space-y-8">
@@ -45,6 +52,18 @@ export function TdDetailPage() {
           </Link>
         ) : null}
       </section>
+
+      {pageCallouts.map((announcement) => (
+        <PageCallout
+          key={announcement.id}
+          announcement={announcement}
+          context={{
+            pathname: `/tds/${td.slug}`,
+            tdSlug: td.slug,
+            pageTitle: td.title,
+          }}
+        />
+      ))}
 
       <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-8">

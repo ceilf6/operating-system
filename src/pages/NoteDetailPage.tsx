@@ -1,4 +1,5 @@
 import { Link, useParams } from "react-router-dom";
+import { PageCallout } from "../components/community/PageCallout";
 import { MarkdownArticle } from "../components/content/MarkdownArticle";
 import { SourcePackSection } from "../components/content/SourcePackSection";
 import { MarkdownTocNav } from "../components/navigation/MarkdownTocNav";
@@ -8,6 +9,7 @@ import {
   sandboxSpecs,
   tdPages,
 } from "../lib/content";
+import { getAnnouncementsForPlacement } from "../lib/community";
 
 export function NoteDetailPage() {
   const { noteSlug } = useParams();
@@ -26,6 +28,11 @@ export function NoteDetailPage() {
   const relatedTds = tdPages.filter((td) => note.relatedTdSlugs.includes(td.slug));
   const relatedSandboxes = sandboxSpecs.filter((sandbox) => note.relatedSandboxIds.includes(sandbox.id));
   const tocGroups = [{ id: note.slug, title: note.title, items: note.headings }];
+  const pageCallouts = getAnnouncementsForPlacement("page-callout", {
+    pathname: `/notes/${note.slug}`,
+    noteSlug: note.slug,
+    pageTitle: note.title,
+  });
 
   return (
     <div className="space-y-8">
@@ -43,6 +50,18 @@ export function NoteDetailPage() {
           <p className="max-w-2xl text-sm leading-7 text-[color:var(--ink-2)]">{note.summary}</p>
         </div>
       </section>
+
+      {pageCallouts.map((announcement) => (
+        <PageCallout
+          key={announcement.id}
+          announcement={announcement}
+          context={{
+            pathname: `/notes/${note.slug}`,
+            noteSlug: note.slug,
+            pageTitle: note.title,
+          }}
+        />
+      ))}
 
       <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-8">

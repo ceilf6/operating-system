@@ -56,10 +56,14 @@ base-files/ + notes/ + sandbox/
   顶层页面。
 - `src/components/`
   章节块、布局、导航、搜索、沙箱 UI。
+- `src/content/site/`
+  不进入内容生成链路的站点级手工配置，例如公告、讨论区与反馈入口。
 - `src/sandboxes/`
   沙箱背后的纯逻辑函数。
 - `src/lib/content.ts`
   运行时访问内容数据的唯一入口。
+- `src/lib/community.ts`
+  站点公告与反馈入口的匹配、预填和本地关闭状态逻辑。
 - `src/content/generated/`
   由脚本生成的 JSON，前端静态导入这里的内容。
 
@@ -82,6 +86,8 @@ base-files/ + notes/ + sandbox/
   定义全部站点路由，同时用 `basename={import.meta.env.BASE_URL}` 对齐 Pages 子路径。
 - [src/lib/content.ts](../src/lib/content.ts)
   把生成文件统一映射为 TypeScript 接口和查询函数。
+- [src/content/site/community.ts](../src/content/site/community.ts)
+  所有公告、Discussion 链接和 Google Form entry id 的集中配置点。
 - [index.html](../index.html)
   包含 GitHub Pages SPA 回跳脚本。
 - [public/404.html](../public/404.html)

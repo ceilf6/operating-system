@@ -1,6 +1,7 @@
 import { ArrowRight, BookOpenText, Compass, Layers3, MonitorCog, Route, Sigma } from "lucide-react";
 import { Link } from "react-router-dom";
 import { chapters, getStats, notePages, sandboxSpecs, tdPages } from "../lib/content";
+import { CommunitySection } from "../components/community/CommunitySection";
 
 const trackDescriptions = [
   {
@@ -155,6 +156,8 @@ export function HomePage() {
           </div>
         </Link>
       </section>
+
+      <CommunitySection />
 
       <section className="glass-card rounded-[40px] p-6 md:p-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">

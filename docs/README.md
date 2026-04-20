@@ -7,9 +7,10 @@
 1. [project-map.md](./project-map.md)
 2. [content-pipeline.md](./content-pipeline.md)
 3. [frontend-maintenance.md](./frontend-maintenance.md)
-4. [change-playbooks.md](./change-playbooks.md)
-5. [deployment-runbook.md](./deployment-runbook.md)
-6. [troubleshooting.md](./troubleshooting.md)
+4. [community-feedback.md](./community-feedback.md)
+5. [change-playbooks.md](./change-playbooks.md)
+6. [deployment-runbook.md](./deployment-runbook.md)
+7. [troubleshooting.md](./troubleshooting.md)
 
 ## 项目一句话
 

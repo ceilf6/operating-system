@@ -1,12 +1,27 @@
 import { BookOpenText, FolderGit2, ScrollText } from "lucide-react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { TopNav } from "../navigation/TopNav";
 import { chapters, sandboxSpecs } from "../../lib/content";
+import { AnnouncementBar } from "../community/AnnouncementBar";
+import { getAnnouncementsForPlacement } from "../../lib/community";
 
 export function SiteShell() {
+  const location = useLocation();
+  const bannerAnnouncements = getAnnouncementsForPlacement("global-banner", {
+    pathname: location.pathname,
+  });
+
   return (
     <div className="app-shell">
       <TopNav />
+      {bannerAnnouncements.length ? (
+        <div className="mx-auto w-full max-w-[1680px] px-4 pt-4 md:px-6 xl:px-8">
+          <AnnouncementBar
+            announcements={bannerAnnouncements}
+            context={{ pathname: location.pathname }}
+          />
+        </div>
+      ) : null}
       <div className="mx-auto flex w-full max-w-[1680px] gap-8 px-4 pb-16 pt-6 md:px-6 xl:px-8">
         <aside className="hidden w-64 shrink-0 xl:block">
           <div className="glass-card sticky top-24 rounded-[28px] p-5">

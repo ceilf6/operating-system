@@ -118,3 +118,18 @@ npm run build
 ```bash
 npm run check:coverage
 ```
+
+## 10. 发布或更新一条公告 / 反馈入口
+
+步骤：
+
+1. 打开 [src/content/site/community.ts](../src/content/site/community.ts)
+2. 找到要修改的 `announcement`
+3. 修改 `title`、`body`、`actions`
+4. 如果希望所有已关闭用户重新看到它，提升 `version`
+5. 如果换了讨论区或表单，顺手同步更新：
+   - `discussions`
+   - `feedbackForm`
+6. 运行 `npm run build`
+
+如果这次还涉及外部服务配置，再对照 [community-feedback.md](./community-feedback.md) 检查 Google Form 和 Apps Script。

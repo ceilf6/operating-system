@@ -6,7 +6,7 @@ echo "
 === awk"
 # 感觉用 awk 统计更自然
 awk '{
-    delete cnt
+    delete cnt # 如果想换行的话不 delete 重置就好
     for (i = 1; i <= NF; i++) {
         cnt[$i]++
         if (cnt[$i] == 3) {

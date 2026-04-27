@@ -9,7 +9,7 @@ p=$(pwd)/test-files/09_2.txt
 echo "=== 1 - grep"
 
 # grep '\(.\)\1\{2,\}' "$p"
-# 先拆为一个个单词
+# 先拆为一个个单词（包不包含下划线都行）
 grep -Eo '[[:alnum:]_]+' "$p" | grep '\(.\)\1\{2,\}'
 
 echo "

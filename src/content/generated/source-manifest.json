@@ -689,7 +689,7 @@
     "language": "mixed",
     "extractedTextPath": "src/content/generated/extracted/sandbox-09-2-02-sh-4f80be95.md",
     "coverageStatus": "covered",
-    "excerpt": "p=$(pwd)/test-files/09_2.txt # awk '{ # for(i=1;i<=NF;i++) # if ($i ~ /.*/(./)/1{2,}/) # print $i # }' \"$p\" # awk 要用 /i+/ 还不如 grep echo \"=== 1 - grep\" # grep '\\(.\\)\\1\\{2,\\}' \"$p\" # 先拆为一个个单词 grep -Eo '[[:alnum:]_]+' \"$p\" | grep '\\(.\\)\\1\\{2,\\}' echo \" === 1 - awk\" # 或者手动判断连续，但是本题应该",
+    "excerpt": "p=$(pwd)/test-files/09_2.txt # awk '{ # for(i=1;i<=NF;i++) # if ($i ~ /.*/(./)/1{2,}/) # print $i # }' \"$p\" # awk 要用 /i+/ 还不如 grep echo \"=== 1 - grep\" # grep '\\(.\\)\\1\\{2,\\}' \"$p\" # 先拆为一个个单词（包不包含下划线都行） grep -Eo '[[:alnum:]_]+' \"$p\" | grep '\\(.\\)\\1\\{2,\\}' echo \" === 1 - awk\" # 或者手动",
     "publicPath": null
   },
   {
@@ -711,7 +711,7 @@
     "language": "mixed",
     "extractedTextPath": "src/content/generated/extracted/sandbox-09-2-04-sh-bb102c52.md",
     "coverageStatus": "covered",
-    "excerpt": "# bash ./09_2-04.sh ./test-files/09_2.txt grep -E '\\<([[:alnum:]_]+)\\>.*\\<\\1\\>.*\\<\\1\\>' \"$1\" echo \" === awk\" # 感觉用 awk 统计更自然 awk '{ delete cnt for (i = 1; i <= NF; i++) { cnt[$i]++ if (cnt[$i] == 3) { print break } } }' \"$1\"",
+    "excerpt": "# bash ./09_2-04.sh ./test-files/09_2.txt grep -E '\\<([[:alnum:]_]+)\\>.*\\<\\1\\>.*\\<\\1\\>' \"$1\" echo \" === awk\" # 感觉用 awk 统计更自然 awk '{ delete cnt # 如果想换行的话不 delete 重置就好 for (i = 1; i <= NF; i++) { cnt[$i]++ if (cnt[$i] == 3) { print break } } }' \"$1\"",
     "publicPath": null
   },
   {

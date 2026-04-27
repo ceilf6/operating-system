@@ -371,8 +371,8 @@
               "path": "sandbox/09_2-02.sh",
               "kind": "sandbox",
               "language": "mixed",
-              "content": "#### awk 要用 /i+/ 还不如 grep\n\necho \"=== 1 - grep\"\n\n#### 先拆为一个个单词\n\ngrep -Eo '[[:alnum:]_]+' \"$p\" | grep '\\(.\\)\\1\\{2,\\}'\n\necho \"\n=== 1 - awk\"\n\n#### 或者手动判断连续，但是本题应该不是希望手动判断\n\nawk '{\n    for (i = 1; i <= NF; i++) {\n        word = $i\n        cnt = 1\n        found = 0\n\n        for (j = 2; j <= length(word); j++) {\n            if (substr(word, j, 1) == substr(word, j - 1, 1)) {\n                cnt++\n                if (cnt >= 3) {\n                    found = 1\n                    break\n                }\n            } else {\n                cnt = 1\n            }\n        }\n\n        if (found)\n            print word\n    }\n}' \"$p\"\n\n#### grep 配合 管道化\n\ngrep 'a' \"$p\" | grep 'e' | grep 'i' | grep 'o' | grep 'u'\n\nawk '/a/ && /e/ && /i/ && /o/ && /u/' \"$p\"\n\n#### }\" \"$p\"\n\ngrep '^.*\\b.*\\b.*$' \"$p\"",
-              "excerpt": "p=$(pwd)/test-files/09_2.txt # awk '{ # for(i=1;i<=NF;i++) # if ($i ~ /.*/(./)/1{2,}/) # print $i # }' \"$p\" # awk 要用 /i+/ 还不如 grep echo \"=== 1 - grep\" # grep '\\(.\\)\\1\\{2,\\}' \"$p\" # 先拆为一个个单词 grep -Eo '[[:alnum:]_]+' \"$p\" | grep '\\(.\\)\\1\\{2,\\}' echo \" === 1 - awk\" # 或者手动判断连续，但是本题应该"
+              "content": "#### awk 要用 /i+/ 还不如 grep\n\necho \"=== 1 - grep\"\n\n#### 先拆为一个个单词（包不包含下划线都行）\n\ngrep -Eo '[[:alnum:]_]+' \"$p\" | grep '\\(.\\)\\1\\{2,\\}'\n\necho \"\n=== 1 - awk\"\n\n#### 或者手动判断连续，但是本题应该不是希望手动判断\n\nawk '{\n    for (i = 1; i <= NF; i++) {\n        word = $i\n        cnt = 1\n        found = 0\n\n        for (j = 2; j <= length(word); j++) {\n            if (substr(word, j, 1) == substr(word, j - 1, 1)) {\n                cnt++\n                if (cnt >= 3) {\n                    found = 1\n                    break\n                }\n            } else {\n                cnt = 1\n            }\n        }\n\n        if (found)\n            print word\n    }\n}' \"$p\"\n\n#### grep 配合 管道化\n\ngrep 'a' \"$p\" | grep 'e' | grep 'i' | grep 'o' | grep 'u'\n\nawk '/a/ && /e/ && /i/ && /o/ && /u/' \"$p\"\n\n#### }\" \"$p\"\n\ngrep '^.*\\b.*\\b.*$' \"$p\"",
+              "excerpt": "p=$(pwd)/test-files/09_2.txt # awk '{ # for(i=1;i<=NF;i++) # if ($i ~ /.*/(./)/1{2,}/) # print $i # }' \"$p\" # awk 要用 /i+/ 还不如 grep echo \"=== 1 - grep\" # grep '\\(.\\)\\1\\{2,\\}' \"$p\" # 先拆为一个个单词（包不包含下划线都行） grep -Eo '[[:alnum:]_]+' \"$p\" | grep '\\(.\\)\\1\\{2,\\}' echo \" === 1 - awk\" # 或者手动"
             },
             {
               "sourceId": "sandbox-09-2-03-sh-a83ce872",
@@ -389,8 +389,8 @@
               "path": "sandbox/09_2-04.sh",
               "kind": "sandbox",
               "language": "mixed",
-              "content": "#### bash ./09 2 04.sh ./test files/09 2.txt\n\ngrep -E '\\<([[:alnum:]_]+)\\>.*\\<\\1\\>.*\\<\\1\\>' \"$1\"\n\necho \"\n=== awk\"\n\n#### 感觉用 awk 统计更自然\n\nawk '{\n    delete cnt\n    for (i = 1; i <= NF; i++) {\n        cnt[$i]++\n        if (cnt[$i] == 3) {\n            print\n            break\n        }\n    }\n}' \"$1\"",
-              "excerpt": "# bash ./09_2-04.sh ./test-files/09_2.txt grep -E '\\<([[:alnum:]_]+)\\>.*\\<\\1\\>.*\\<\\1\\>' \"$1\" echo \" === awk\" # 感觉用 awk 统计更自然 awk '{ delete cnt for (i = 1; i <= NF; i++) { cnt[$i]++ if (cnt[$i] == 3) { print break } } }' \"$1\""
+              "content": "#### bash ./09 2 04.sh ./test files/09 2.txt\n\ngrep -E '\\<([[:alnum:]_]+)\\>.*\\<\\1\\>.*\\<\\1\\>' \"$1\"\n\necho \"\n=== awk\"\n\n#### 感觉用 awk 统计更自然\n\nawk '{\n    delete cnt # 如果想换行的话不 delete 重置就好\n    for (i = 1; i <= NF; i++) {\n        cnt[$i]++\n        if (cnt[$i] == 3) {\n            print\n            break\n        }\n    }\n}' \"$1\"",
+              "excerpt": "# bash ./09_2-04.sh ./test-files/09_2.txt grep -E '\\<([[:alnum:]_]+)\\>.*\\<\\1\\>.*\\<\\1\\>' \"$1\" echo \" === awk\" # 感觉用 awk 统计更自然 awk '{ delete cnt # 如果想换行的话不 delete 重置就好 for (i = 1; i <= NF; i++) { cnt[$i]++ if (cnt[$i] == 3) { print break } } }' \"$1\""
             },
             {
               "sourceId": "sandbox-09-2-05-sh-16efd06d",
